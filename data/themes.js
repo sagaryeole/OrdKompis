@@ -102,4 +102,86 @@ window.ORDKOMPIS_THEMES = [
       { sv: "ett ombud", en: "representative; pickup point (e.g. postombud)", type: "substantiv", example: "Paketet ligger hos ditt lokala postombud." }
     ]
   }
+]
+  ,
+  {
+    id: "transport",
+    title: "Transport & Resa",
+    icon: "🚆",
+    description: "Kollektivtrafik, bil, flyg och resa",
+    words: [
+      { sv: "en biljett", en: "a ticket", type: "substantiv", example: "Kan jag köpa en enkelbiljett?" },
+      { sv: "ett periodkort", en: "travel card / season ticket", type: "substantiv", example: "Jag har månadskort på SL." },
+      { sv: "en buss", en: "bus", type: "substantiv", example: "Bussen går om fem minuter." },
+      { sv: "en tågbiljett", en: "train ticket", type: "substantiv", example: "Jag behöver boka en tågbiljett till Göteborg." },
+      { sv: "en plattform", en: "platform", type: "substantiv", example: "Tåget går från plattform 3." },
+      { sv: "att byta", en: "to change / transfer", type: "verb", example: "Jag måste byta till linje 4." },
+      { sv: "en flygplats", en: "airport", type: "substantiv", example: "Vi ska åka till Arlanda flygplats." },
+      { sv: "ett pass", en: "passport", type: "substantiv", example: "Glöm inte passet när du reser utomlands." },
+      { sv: "en biluthyrning", en: "car rental", type: "substantiv", example: "Vi bokade en bil via biluthyrning." },
+      { sv: "en parkeringsplats", en: "parking space", type: "substantiv", example: "Hittar du en ledig parkeringsplats?" },
+      { sv: "en taxa", en: "taxi fare / meter", type: "substantiv", example: "Hur mycket blir taxan till centrum?" },
+      { sv: "att resa", en: "to travel", type: "verb", example: "Jag älskar att resa och upptäcka nya platser." }
+    ]
+  },
+  {
+    id: "shopping",
+    title: "Shopping & Priser",
+    icon: "🛒",
+    description: "Handla mat, kläder och jämföra priser",
+    words: [
+      { sv: "en kassa", en: "cash register / checkout", type: "substantiv", example: "Ställ dig i kön till kassan." },
+      { sv: "att betala", en: "to pay", type: "verb", example: "Kan jag betala med kort?" },
+      { sv: "kontant", en: "cash", type: "adjektiv", example: "Tar ni kontant?" },
+      { sv: "kort", en: "card", type: "substantiv", example: "Jag betalar med kort." },
+      { sv: "en rea", en: "sale / clearance", type: "substantiv", example: "Det är rea i alla butiker just nu." },
+      { sv: "rabatt", en: "discount", type: "substantiv", example: "Får jag rabatt med studentkort?" },
+      { sv: "en kvitto", en: "receipt", type: "substantiv", example: "Kan jag få kvitto, tack?" },
+      { sv: "att prova", en: "to try on", type: "verb", example: "Får jag prova den här tröjan?" },
+      { sv: "storlek", en: "size", type: "substantiv", example: "Vilken storlek använder du?" },
+      { sv: "en påse", en: "bag", type: "substantiv", example: "Vill du ha en påse?" },
+      { sv: "billig", en: "cheap", type: "adjektiv", example: "Den här skjortan är billig." },
+      { sv: "dyr", en: "expensive", type: "adjektiv", example: "Den här jackan är ganska dyr." }
+    ]
+  },
+  {
+    id: "vader",
+    title: "Väder & Årstider",
+    icon: "🌦️",
+    description: "Prata om väder, årstider och kläder",
+    words: [
+      { sv: "det regnar", en: "it's raining", type: "fras", example: "Idag regnar det hela dagen." },
+      { sv: "det snöar", en: "it's snowing", type: "fras", example: "Det snöar första gången i år!" },
+      { sv: "soligt", en: "sunny", type: "adjektiv", example: "Imorgon blir det soligt och varmt." },
+      { sv: "mulet", en: "cloudy/overcast", type: "adjektiv", example: "Det är mulet idag." },
+      { sv: "blåst", en: "windy", type: "adjektiv", example: "Det är riktigt blåsigt ute." },
+      { sv: "en regnjacka", en: "rain jacket", type: "substantiv", example: "Ta med regnjacka." },
+      { sv: "vinter", en: "winter", type: "substantiv", example: "I Sverige är vintern lång och kall." },
+      { sv: "sommar", en: "summer", type: "substantiv", example: "Jag älskar den svenska sommaren!" },
+      { sv: "höst", en: "autumn/fall", type: "substantiv", example: "Hösten är fin med alla färger." },
+      { sv: "vår", en: "spring", type: "substantiv", example: "Våren kommer snart." },
+      { sv: "grader", en: "degrees", type: "substantiv", example: "Det är minus fem grader ute." },
+      { sv: "smhi", en: "Swedish Meteorological Institute", type: "substantiv", example: "Kolla SMHI för väderprognos." }
+    ]
+  },
+  {
+    id: "familj",
+    title: "Familj & Relationer",
+    icon: "👨‍👩‍👧‍👦",
+    description: "Familjemedlemmar, relationer och känslor",
+    words: [
+      { sv: "föräldrar", en: "parents", type: "substantiv", example: "Mina föräldrar bor utanför Stockholm." },
+      { sv: "syskon", en: "siblings", type: "substantiv", example: "Jag har två syskon." },
+      { sv: "make", en: "husband", type: "substantiv", example: "Min make jobbar på sjukhuset." },
+      { sv: "maka", en: "wife", type: "substantiv", example: "Min maka är lärare." },
+      { sv: "sambo", en: "cohabiting partner", type: "substantiv", example: "Vi har varit sambor i fem år." },
+      { sv: "barn", en: "child/children", type: "substantiv", example: "De har två små barn." },
+      { sv: "mor", en: "mother", type: "substantiv", example: "Min mor heter Anna." },
+      { sv: "far", en: "father", type: "substantiv", example: "Min far gillar att fiska." },
+      { sv: "gifta sig", en: "to get married", type: "verb", example: "De ska gifta sig nästa sommar." },
+      { sv: "skilja sig", en: "to get divorced", type: "verb", example: "De beslutade sig för att skilja sig." },
+      { sv: "älska", en: "to love", type: "verb", example: "Jag älskar min familj." },
+      { sv: "lycklig", en: "happy", type: "adjektiv", example: "Jag är så glad att träffa dig!" }
+    ]
+  }
 ];

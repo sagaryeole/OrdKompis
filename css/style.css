@@ -51,6 +51,31 @@
   text-decoration: underline;
   outline: none;
 }
+
+/* Next random button */
+.next-rand-btn {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--primary);
+  border-radius: var(--radius-full);
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 120ms ease;
+}
+
+.next-rand-btn:hover,
+.next-rand-btn:focus-visible {
+  background: var(--primary-light);
+  border-color: rgba(21, 94, 86, 0.4);
+  outline: none;
+}
+
+.next-rand-btn:active {
+  transform: scale(0.98);
+}
+
 .speak-btn {
   display: inline-flex;
   align-items: center;

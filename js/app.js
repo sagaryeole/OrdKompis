@@ -200,7 +200,7 @@
     var imperative = v[8] || "—", supine = v[9] || perf.replace(/^har\s+/, ""), group = v[10] || "—";
     var perfHtml = perf === "—"
       ? '<div class="value" style="color:var(--muted);font-weight:500;">rarely used</div><div class="desc">No common supine form for this modal verb.</div>'
-      : '<div class="value">' + esc(perf) + '</div><div class="desc">har + supine form</div>';
+      : '<div class="value">' + esc(perf) + ' ' + speakerButton(perf, "Lyssna på perfekt") + '</div><div class="desc">har + supine form</div>';
 
     resultBox.innerHTML =
       (notice ? '<div class="notice">' + notice + '</div>' : '') +
@@ -210,14 +210,17 @@
       '<h2 class="word-title">' + esc(name) + ' ' + speakerButton(name, "Lyssna på verbet") + '</h2>' +
       '<div class="word-meaning">' + esc(meaning) + '</div>' +
       '</div>' +
+      '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">' +
       '<span class="pill">' + esc(group) + '</span>' +
+      '<button type="button" id="nextRandomVerb" class="next-rand-btn">Nästa verb →</button>' +
+      '</div>' +
       '</div>' +
       '<div class="forms-grid">' +
       '<article class="form-box"><div class="label">1. Infinitiv · to…</div><div class="value">' + esc(inf) + ' ' + speakerButton(inf, "Lyssna på infinitiv") + '</div><div class="desc">' + (perf === "—" ? "Modal verb (before other verbs)" : "Used after <em>att</em>") + '</div></article>' +
       '<article class="form-box"><div class="label">2. Presens · now</div><div class="value">' + esc(pres) + ' ' + speakerButton(pres, "Lyssna på presens") + '</div><div class="desc">Same for I, you, we, they</div></article>' +
       '<article class="form-box"><div class="label">3. Preteritum · past</div><div class="value">' + esc(pret) + ' ' + speakerButton(pret, "Lyssna på preteritum") + '</div><div class="desc">Finished action in past</div></article>' +
       '<article class="form-box"><div class="label">4. Supinum</div><div class="value">' + esc(supine) + ' ' + speakerButton(supine, "Lyssna på supinum") + '</div><div class="desc">Used with <em>har</em> or <em>hade</em></div></article>' +
-      '<article class="form-box"><div class="label">5. Perfekt · has / have</div>' + perfHtml.replace('<div class="value">' + esc(perf) + '</div>', '<div class="value">' + esc(perf) + ' ' + speakerButton(perf, "Lyssna på perfekt") + '</div>') + '</article>' +
+      '<article class="form-box"><div class="label">5. Perfekt · has / have</div>' + perfHtml + '</article>' +
       '<article class="form-box"><div class="label">6. Imperativ · command</div><div class="value">' + esc(imperative) + ' ' + (imperative !== "—" ? speakerButton(imperative, "Lyssna på imperativ") : "") + '</div><div class="desc">A command or instruction</div></article>' +
       '<div class="grammar-note"><b>Verbgrupp:</b> ' + esc(group) + '</div>' +
       '</div>' +
@@ -243,7 +246,10 @@
       '<h2 class="word-title">' + esc(gender + " " + singIndef) + ' ' + speakerButton(singIndef, "Lyssna på substantiv") + '</h2>' +
       '<div class="word-meaning">' + esc(english) + '</div>' +
       '</div>' +
+      '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">' +
       '<span class="pill ' + esc(gender) + '">' + esc(gender.toUpperCase()) + '-ORD</span>' +
+      '<button type="button" id="nextRandomNoun" class="next-rand-btn">Nästa substantiv →</button>' +
+      '</div>' +
       '</div>' +
       '<div class="notice" style="margin-bottom:14px;"><b>Böjningsgrupp:</b> ' + esc(group) + '</div>' +
       '<div class="forms-grid">' +
@@ -358,10 +364,10 @@
       return (
         '<div class="vocab-card">' +
         '<div>' +
-        '<div class="vocab-sv">' + esc(w.sv) + '</div>' +
+        '<div class="vocab-sv">' + esc(w.sv) + ' ' + speakerButton(w.sv, "Lyssna") + '</div>' +
         '<div class="vocab-en">' + esc(w.en) + '</div>' +
         '</div>' +
-        '<div class="vocab-ex">“' + esc(w.example) + '”</div>' +
+        '<div class="vocab-ex">“' + esc(w.example) + '” ' + (w.example ? speakerButton(w.example, "Lyssna på exempel") : '') + '</div>' +
         '</div>'
       );
     }).join("");
@@ -379,8 +385,14 @@
   function renderLearningTable(headers, rows) {
     return '<div class="table-wrap"><table class="learning-table"><thead><tr>' +
       headers.map(function (cell) { return '<th>' + esc(cell) + '</th>'; }).join("") +
-      '</tr></thead><tbody>' + rows.map(function (row) {
-        return '<tr>' + row.map(function (cell) { return '<td>' + esc(cell) + '</td>'; }).join("") + '</tr>';
+      '</tr></thead><tbody>' + rows.map(function (row, ri) {
+        return '<tr>' + row.map(function (cell, ci) {
+          var c = esc(cell);
+          if (ci === 0 && row.length > 0) {
+            return '<td>' + c + ' ' + speakerButton(cell, "Lyssna") + '</td>';
+          }
+          return '<td>' + c + '</td>';
+        }).join("") + '</tr>';
       }).join("") + '</tbody></table></div>';
   }
 
@@ -850,6 +862,26 @@
       e.stopPropagation();
       var text = speakBtn.getAttribute("data-speak") || "";
       if (text) speakSwedish(text);
+      return;
+    }
+
+    // Next random verb
+    var nextVerb = e.target.closest("#nextRandomVerb");
+    if (nextVerb && verbs && verbs.length) {
+      e.preventDefault();
+      var rv = verbs[Math.floor(Math.random() * verbs.length)];
+      renderVerb(rv);
+      try { resultBox.scrollIntoView({ behavior: "smooth", block: "start" }); } catch (ex) {}
+      return;
+    }
+
+    // Next random noun
+    var nextNoun = e.target.closest("#nextRandomNoun");
+    if (nextNoun && nouns && nouns.length) {
+      e.preventDefault();
+      var rn = nouns[Math.floor(Math.random() * nouns.length)];
+      renderNoun(rn);
+      try { resultBox.scrollIntoView({ behavior: "smooth", block: "start" }); } catch (ex) {}
       return;
     }
 
