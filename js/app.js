@@ -169,14 +169,29 @@
     searchInput.setAttribute("aria-expanded", "true");
   }
 
-  function setActiveSuggestion(idx) {
-    var children = suggBox.children;
-    if (!children.length) return;
-    activeSuggIndex = (idx + children.length) % children.length;
-    for (var i = 0; i < children.length; i++) {
-      children[i].setAttribute("aria-selected", i === activeSuggIndex ? "true" : "false");
+  // --- PRONUNCIATION (Web Speech API) ---
+  function speakSwedish(text) {
+    if (!text || typeof window === "undefined") return;
+    if (!("speechSynthesis" in window)) return;
+    try {
+      window.speechSynthesis.cancel();
+      var utter = new SpeechSynthesisUtterance(text);
+      utter.lang = "sv-SE";
+      utter.rate = 0.9;
+      utter.pitch = 1.0;
+      window.speechSynthesis.speak(utter);
+    } catch (e) {
+      // Ignore speech errors silently
     }
-    searchInput.setAttribute("aria-activedescendant", "sugg-opt-" + activeSuggIndex);
+  }
+
+  function speakerButton(text, ariaLabel) {
+    if (!text || typeof window === "undefined" || !("speechSynthesis" in window)) {
+      return "";
+    }
+    var label = ariaLabel || "Lyssna på uttal";
+    var safe = esc(text).replace(/"/g, "&quot;");
+    return '<button type="button" class="speak-btn" data-speak="' + safe + '" aria-label="' + esc(label) + '" title="' + esc(label) + '"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg></button>';
   }
 
   // --- RENDERING ---
@@ -185,29 +200,32 @@
     var imperative = v[8] || "—", supine = v[9] || perf.replace(/^har\s+/, ""), group = v[10] || "—";
     var perfHtml = perf === "—"
       ? '<div class="value" style="color:var(--muted);font-weight:500;">rarely used</div><div class="desc">No common supine form for this modal verb.</div>'
-      : '<div class="value">' + esc(perf) + '</div><div class="desc">har + supine form</div>';
+      : '<div class="value">' + esc(perf) + ' ' + speakerButton(perf, "Lyssna på perfekt") + '</div><div class="desc">har + supine form</div>';
 
     resultBox.innerHTML =
       (notice ? '<div class="notice">' + notice + '</div>' : '') +
       '<div class="result-card-header">' +
       '<div>' +
       '<div class="eyebrow">Verbkompis</div>' +
-      '<h2 class="word-title">' + esc(name) + '</h2>' +
+      '<h2 class="word-title">' + esc(name) + ' ' + speakerButton(name, "Lyssna på verbet") + '</h2>' +
       '<div class="word-meaning">' + esc(meaning) + '</div>' +
       '</div>' +
+      '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">' +
       '<span class="pill">' + esc(group) + '</span>' +
+      '<button type="button" id="nextRandomVerb" class="next-rand-btn">Nästa verb →</button>' +
+      '</div>' +
       '</div>' +
       '<div class="forms-grid">' +
-      '<article class="form-box"><div class="label">1. Infinitiv · to…</div><div class="value">' + esc(inf) + '</div><div class="desc">' + (perf === "—" ? "Modal verb (before other verbs)" : "Used after <em>att</em>") + '</div></article>' +
-      '<article class="form-box"><div class="label">2. Presens · now</div><div class="value">' + esc(pres) + '</div><div class="desc">Same for I, you, we, they</div></article>' +
-      '<article class="form-box"><div class="label">3. Preteritum · past</div><div class="value">' + esc(pret) + '</div><div class="desc">Finished action in past</div></article>' +
-      '<article class="form-box"><div class="label">4. Supinum</div><div class="value">' + esc(supine) + '</div><div class="desc">Used with <em>har</em> or <em>hade</em></div></article>' +
+      '<article class="form-box"><div class="label">1. Infinitiv · to…</div><div class="value">' + esc(inf) + ' ' + speakerButton(inf, "Lyssna på infinitiv") + '</div><div class="desc">' + (perf === "—" ? "Modal verb (before other verbs)" : "Used after <em>att</em>") + '</div></article>' +
+      '<article class="form-box"><div class="label">2. Presens · now</div><div class="value">' + esc(pres) + ' ' + speakerButton(pres, "Lyssna på presens") + '</div><div class="desc">Same for I, you, we, they</div></article>' +
+      '<article class="form-box"><div class="label">3. Preteritum · past</div><div class="value">' + esc(pret) + ' ' + speakerButton(pret, "Lyssna på preteritum") + '</div><div class="desc">Finished action in past</div></article>' +
+      '<article class="form-box"><div class="label">4. Supinum</div><div class="value">' + esc(supine) + ' ' + speakerButton(supine, "Lyssna på supinum") + '</div><div class="desc">Used with <em>har</em> or <em>hade</em></div></article>' +
       '<article class="form-box"><div class="label">5. Perfekt · has / have</div>' + perfHtml + '</article>' +
-      '<article class="form-box"><div class="label">6. Imperativ · command</div><div class="value">' + esc(imperative) + '</div><div class="desc">A command or instruction</div></article>' +
+      '<article class="form-box"><div class="label">6. Imperativ · command</div><div class="value">' + esc(imperative) + ' ' + (imperative !== "—" ? speakerButton(imperative, "Lyssna på imperativ") : "") + '</div><div class="desc">A command or instruction</div></article>' +
       '<div class="grammar-note"><b>Verbgrupp:</b> ' + esc(group) + '</div>' +
       '</div>' +
       '<div class="panels-grid">' +
-      '<section class="panel"><h3>Exempel på svenska</h3><p class="sv-highlight">' + esc(v[6]) + '</p></section>' +
+      '<section class="panel"><h3>Exempel på svenska</h3><p class="sv-highlight">' + esc(v[6]) + ' ' + speakerButton(v[6], "Lyssna på exempel") + '</p></section>' +
       '<section class="panel"><h3>In English</h3><p>' + esc(v[7]) + '</p></section>' +
       '</div>';
   }
@@ -225,21 +243,24 @@
       '<div class="result-card-header">' +
       '<div>' +
       '<div class="eyebrow">Substantiv & Plural</div>' +
-      '<h2 class="word-title">' + esc(gender + " " + singIndef) + '</h2>' +
+      '<h2 class="word-title">' + esc(gender + " " + singIndef) + ' ' + speakerButton(singIndef, "Lyssna på substantiv") + '</h2>' +
       '<div class="word-meaning">' + esc(english) + '</div>' +
       '</div>' +
+      '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">' +
       '<span class="pill ' + esc(gender) + '">' + esc(gender.toUpperCase()) + '-ORD</span>' +
+      '<button type="button" id="nextRandomNoun" class="next-rand-btn">Nästa substantiv →</button>' +
+      '</div>' +
       '</div>' +
       '<div class="notice" style="margin-bottom:14px;"><b>Böjningsgrupp:</b> ' + esc(group) + '</div>' +
       '<div class="forms-grid">' +
-      '<article class="form-box"><div class="label">1. Singular Obestämd (a / an)</div><div class="value">' + esc(gender + " " + singIndef) + '</div><div class="desc">One item (general)</div></article>' +
-      '<article class="form-box"><div class="label">2. Singular Bestämd (the)</div><div class="value">' + esc(singDef) + '</div><div class="desc">The specific item</div></article>' +
-      '<article class="form-box"><div class="label">3. Plural Obestämd (multiple)</div><div class="value">' + esc(plurIndef) + '</div><div class="desc">Multiple items (general)</div></article>' +
-      '<article class="form-box"><div class="label">4. Plural Bestämd (the specific)</div><div class="value">' + esc(plurDef) + '</div><div class="desc">The specific items</div></article>' +
+      '<article class="form-box"><div class="label">1. Singular Obestämd (a / an)</div><div class="value">' + esc(gender + " " + singIndef) + ' ' + speakerButton(singIndef) + '</div><div class="desc">One item (general)</div></article>' +
+      '<article class="form-box"><div class="label">2. Singular Bestämd (the)</div><div class="value">' + esc(singDef) + ' ' + speakerButton(singDef) + '</div><div class="desc">A specific item</div></article>' +
+      '<article class="form-box"><div class="label">3. Plural Obestämd</div><div class="value">' + esc(plurIndef) + ' ' + speakerButton(plurIndef) + '</div><div class="desc">Several items (general)</div></article>' +
+      '<article class="form-box"><div class="label">4. Plural Bestämd (the)</div><div class="value">' + esc(plurDef) + ' ' + speakerButton(plurDef) + '</div><div class="desc">Specific items</div></article>' +
       '</div>' +
       '<div class="panels-grid">' +
-      '<section class="panel"><h3>Exempel på svenska</h3><p class="sv-highlight">' + esc(exSv) + '</p></section>' +
-      '<section class="panel"><h3>In English</h3><p>' + esc(exEn) + '</p></section>' +
+      '<section class="panel"><h3>Exempel på svenska</h3><p class="sv-highlight">' + esc(exSv) + ' ' + speakerButton(exSv, "Lyssna på exempel") + '</p></section>' +
+      '<section class="panel"><h3>Engelsk översättning</h3><p>' + esc(exEn) + '</p></section>' +
       '</div>';
   }
 
@@ -343,10 +364,10 @@
       return (
         '<div class="vocab-card">' +
         '<div>' +
-        '<div class="vocab-sv">' + esc(w.sv) + '</div>' +
+        '<div class="vocab-sv">' + esc(w.sv) + ' ' + speakerButton(w.sv, "Lyssna") + '</div>' +
         '<div class="vocab-en">' + esc(w.en) + '</div>' +
         '</div>' +
-        '<div class="vocab-ex">“' + esc(w.example) + '”</div>' +
+        '<div class="vocab-ex">“' + esc(w.example) + '” ' + (w.example ? speakerButton(w.example, "Lyssna på exempel") : '') + '</div>' +
         '</div>'
       );
     }).join("");
@@ -364,8 +385,14 @@
   function renderLearningTable(headers, rows) {
     return '<div class="table-wrap"><table class="learning-table"><thead><tr>' +
       headers.map(function (cell) { return '<th>' + esc(cell) + '</th>'; }).join("") +
-      '</tr></thead><tbody>' + rows.map(function (row) {
-        return '<tr>' + row.map(function (cell) { return '<td>' + esc(cell) + '</td>'; }).join("") + '</tr>';
+      '</tr></thead><tbody>' + rows.map(function (row, ri) {
+        return '<tr>' + row.map(function (cell, ci) {
+          var c = esc(cell);
+          if (ci === 0 && row.length > 0) {
+            return '<td>' + c + ' ' + speakerButton(cell, "Lyssna") + '</td>';
+          }
+          return '<td>' + c + '</td>';
+        }).join("") + '</tr>';
       }).join("") + '</tbody></table></div>';
   }
 
@@ -465,13 +492,35 @@
       '<section class="learning-section"><h3>' + esc(numbers.dateFormat.title) + '</h3>' + renderNotes(numbers.dateFormat.rules) + '</section>';
   }
 
+  function renderIdioms() {
+    var list = window.ORDKOMPIS_IDIOMS || [];
+    if (!learningContainer) return;
+    var html = '<div class="section-header"><h2>Idiom & Uttryck</h2><p>Vanliga svenska uttryck med betydelse och exempel.</p></div>';
+    if (list.length === 0) {
+      html += '<div class="notice">Inga uttryck tillagda ännu.</div>';
+    } else {
+      html += '<div class="lesson-grid">';
+      list.forEach(function (item) {
+        html += '<article class="lesson-card">' +
+          '<h3>' + esc(item.sv) + ' ' + speakerButton(item.sv, "Lyssna på uttrycket") + '</h3>' +
+          '<p style="margin:6px 0;color:var(--muted)"><b>Bokstavligt:</b> ' + esc(item.literal) + '</p>' +
+          '<p style="margin:6px 0"><b>Betydelse på engelska:</b> ' + esc(item.en) + '</p>' +
+          (item.exampleSv ? '<p style="margin:10px 0 4px"><b>Exempel:</b> ' + esc(item.exampleSv) + ' ' + speakerButton(item.exampleSv) + '</p>' : '') +
+          (item.exampleEn ? '<p style="margin:4px 0;color:var(--muted)">' + esc(item.exampleEn) + '</p>' : '') +
+          '</article>';
+      });
+      html += '</div>';
+    }
+    learningContainer.innerHTML = html;
+  }
+
   function renderPhrases() {
     if (!phrases) return;
     learningContainer.innerHTML = learningHeader(phrases.title, phrases.description) +
       phrases.categories.map(function (category) {
-        return '<section class="learning-section"><h3>' + esc(category.icon + " " + category.title) + '</h3><div class="learning-grid">' +
+        return '<section class="learning-section"><h3>' + esc((category.icon || "") + " " + category.title) + '</h3><div class="learning-grid">' +
           category.phrases.map(function (phrase) {
-            return '<article class="learning-card"><h4>' + esc(phrase.sv) + '</h4><p>' + esc(phrase.en) + '</p>' +
+            return '<article class="learning-card"><h4>' + esc(phrase.sv) + ' ' + speakerButton(phrase.sv, "Lyssna på fras") + '</h4><p>' + esc(phrase.en) + '</p>' +
               (phrase.note ? '<span>' + esc(phrase.note) + '</span>' : '') + '</article>';
           }).join("") + '</div></section>';
       }).join("");
@@ -484,52 +533,163 @@
       wordorder: renderWordOrder,
       pronouns: renderPronouns,
       numbers: renderNumbers,
-      phrases: renderPhrases
+      phrases: renderPhrases,
+      idioms: renderIdioms
     };
     if (renderers[tabId]) renderers[tabId]();
   }
 
-  // --- EN / ETT QUIZ FEATURE ---
+  // --- QUIZ FEATURE ---
   var currentQuizNoun = null;
+  var quizMode = "en-ett";
+  var quizStats = { correct: 0, total: 0 };
+
   function nextQuizQuestion() {
+    if (quizMode === "sv-en") {
+      renderQuizSvEn();
+      return;
+    }
+    if (quizMode === "en-sv") {
+      renderQuizEnSv();
+      return;
+    }
     if (!nouns.length) return;
     var randomIdx = Math.floor(Math.random() * nouns.length);
     currentQuizNoun = nouns[randomIdx];
 
     quizContainer.innerHTML =
+      '<div class="section-header"><h2>Quiz: En eller Ett?</h2><p>Gissa rätt artikel för substantivet.</p></div>' +
       '<div class="quiz-card">' +
       '<div class="quiz-question">En eller ett? · Välj rätt artikel:</div>' +
-      '<div class="quiz-word">' + esc(currentQuizNoun[0]) + '</div>' +
-      '<div style="color:var(--muted); font-size:15px; margin-bottom:12px;">Meaning: ' + esc(currentQuizNoun[6]) + '</div>' +
+      '<div class="quiz-word">' + esc(currentQuizNoun[0]) + ' ' + speakerButton(currentQuizNoun[0]) + '</div>' +
+      '<div style="color:var(--muted); font-size:15px; margin-bottom:12px;">Betydelse: ' + esc(currentQuizNoun[6]) + '</div>' +
       '<div class="quiz-options">' +
       '<button type="button" class="quiz-btn en-opt" data-choice="en">en ' + esc(currentQuizNoun[0]) + '</button>' +
       '<button type="button" class="quiz-btn ett-opt" data-choice="ett">ett ' + esc(currentQuizNoun[0]) + '</button>' +
       '</div>' +
       '<div id="quizFeedback" class="quiz-feedback"></div>' +
+      '<div class="quiz-stats" style="margin-top:10px;color:var(--muted);font-size:13px;">Rätt: ' + quizStats.correct + ' / ' + quizStats.total + '</div>' +
       '<button type="button" id="nextQuizBtn" class="go-btn" style="margin-top:14px; display:none;">Nästa ord →</button>' +
+      '<button type="button" id="backToQuizMenuFromGame" class="link-btn" style="margin-top:10px; display:block;">Tillbaka till quizval</button>' +
       '</div>';
   }
 
+  function renderQuizSvEn() {
+    if (!nouns.length) return;
+    var idx = Math.floor(Math.random() * nouns.length);
+    var noun = nouns[idx];
+    var correct = noun[6].split(/[;,]/)[0].trim().toLowerCase();
+    var choices = [correct];
+    var pool = nouns.slice();
+    for (var i = 0; i < 3; i++) {
+      var c = pool.splice(Math.floor(Math.random() * pool.length), 1)[0];
+      if (!c) break;
+      var cand = c[6].split(/[;,]/)[0].trim().toLowerCase();
+      if (choices.indexOf(cand) === -1) choices.push(cand);
+    }
+    for (var j = choices.length - 1; j > 0; j--) {
+      var k = Math.floor(Math.random() * (j + 1));
+      var tmp = choices[j]; choices[j] = choices[k]; choices[k] = tmp;
+    }
+    quizContainer.innerHTML =
+      '<div class="section-header"><h2>Quiz: Svenska → Engelska</h2><p>Välj rätt engelsk översättning.</p></div>' +
+      '<div class="quiz-card">' +
+      '<div class="quiz-word">' + esc(noun[4] + " " + noun[0]) + ' ' + speakerButton(noun[0]) + '</div>' +
+      '<div class="quiz-options column">' +
+      choices.map(function (ch) {
+        return '<button type="button" class="quiz-btn" data-choice="' + esc(ch) + '">' + esc(ch) + '</button>';
+      }).join('') +
+      '</div>' +
+      '<div id="quizFeedback" class="quiz-feedback"></div>' +
+      '<div class="quiz-stats" style="margin-top:10px;color:var(--muted);font-size:13px;">Rätt: ' + quizStats.correct + ' / ' + quizStats.total + '</div>' +
+      '<button type="button" id="nextQuizBtn" class="go-btn" style="margin-top:14px; display:none;">Nästa →</button>' +
+      '<button type="button" id="backToQuizMenuFromGame" class="link-btn" style="margin-top:10px; display:block;">Tillbaka till quizval</button>' +
+      '</div>';
+    quizContainer._quiz = { type: "sv-en", answer: correct, noun: noun };
+  }
+
+  function renderQuizEnSv() {
+    if (!nouns.length) return;
+    var idx = Math.floor(Math.random() * nouns.length);
+    var noun = nouns[idx];
+    var en = noun[6].split(/[;,]/)[0].trim();
+    var correct = noun[4] + " " + noun[0];
+    var choices = [correct];
+    var pool = nouns.slice();
+    for (var i = 0; i < 3; i++) {
+      var c = pool.splice(Math.floor(Math.random() * pool.length), 1)[0];
+      if (!c) break;
+      var cand = c[4] + " " + c[0];
+      if (choices.indexOf(cand) === -1) choices.push(cand);
+    }
+    for (var j = choices.length - 1; j > 0; j--) {
+      var k = Math.floor(Math.random() * (j + 1));
+      var tmp = choices[j]; choices[j] = choices[k]; choices[k] = tmp;
+    }
+    quizContainer.innerHTML =
+      '<div class="section-header"><h2>Quiz: Engelska → Svenska</h2><p>Välj rätt svenskt ord med artikel.</p></div>' +
+      '<div class="quiz-card">' +
+      '<div class="quiz-word">' + esc(en) + '</div>' +
+      '<div class="quiz-options column">' +
+      choices.map(function (ch) {
+        return '<button type="button" class="quiz-btn" data-choice="' + esc(ch) + '">' + esc(ch) + '</button>';
+      }).join('') +
+      '</div>' +
+      '<div id="quizFeedback" class="quiz-feedback"></div>' +
+      '<div class="quiz-stats" style="margin-top:10px;color:var(--muted);font-size:13px;">Rätt: ' + quizStats.correct + ' / ' + quizStats.total + '</div>' +
+      '<button type="button" id="nextQuizBtn" class="go-btn" style="margin-top:14px; display:none;">Nästa →</button>' +
+      '<button type="button" id="backToQuizMenuFromGame" class="link-btn" style="margin-top:10px; display:block;">Tillbaka till quizval</button>' +
+      '</div>';
+    quizContainer._quiz = { type: "en-sv", answer: correct };
+  }
+
   function handleQuizAnswer(choice) {
-    if (!currentQuizNoun) return;
     var feedbackEl = document.getElementById("quizFeedback");
     var nextBtn = document.getElementById("nextQuizBtn");
-    var isCorrect = choice === currentQuizNoun[4];
 
-    if (isCorrect) {
-      feedbackEl.style.background = "var(--surface-2)";
-      feedbackEl.style.color = "var(--primary)";
-      feedbackEl.innerHTML = '🎉 <b>Rätt!</b> Det heter <b>' + esc(currentQuizNoun[4] + " " + currentQuizNoun[0]) + '</b> (' + esc(currentQuizNoun[5]) + '). Plural: <em>' + esc(currentQuizNoun[2]) + '</em>.';
-    } else {
-      feedbackEl.style.background = "var(--warn-bg)";
-      feedbackEl.style.color = "var(--warn-fg)";
-      feedbackEl.innerHTML = '❌ <b>Inte riktigt!</b> Det heter <b>' + esc(currentQuizNoun[4] + " " + currentQuizNoun[0]) + '</b>. Pluralformen är <em>' + esc(currentQuizNoun[2]) + '</em>.';
+    if ((quizMode === "sv-en" || quizMode === "en-sv") && quizContainer._quiz) {
+      quizStats.total++;
+      var isCorr = (quizMode === "sv-en") ? (choice.toLowerCase() === quizContainer._quiz.answer) : (choice === quizContainer._quiz.answer);
+      if (feedbackEl) {
+        if (isCorr) {
+          quizStats.correct++;
+          feedbackEl.style.background = "var(--surface-2)";
+          feedbackEl.style.color = "var(--primary)";
+          feedbackEl.innerHTML = '🎉 <b>Rätt!</b>';
+        } else {
+          feedbackEl.style.background = "var(--warn-bg)";
+          feedbackEl.style.color = "var(--warn-fg)";
+          feedbackEl.innerHTML = '❌ <b>Fel.</b> Rätt svar: <b>' + esc(quizContainer._quiz.answer) + '</b>';
+        }
+      }
+      var qbtns = quizContainer.querySelectorAll(".quiz-btn");
+      qbtns.forEach(function (b) { b.disabled = true; b.style.opacity = "0.6"; });
+      if (nextBtn) { nextBtn.style.display = "inline-flex"; nextBtn.onclick = function () { if (quizMode === "sv-en") renderQuizSvEn(); else renderQuizEnSv(); }; }
+      return;
     }
 
-    // Disable choices
+    if (!currentQuizNoun) return;
+    quizStats.total++;
+    var isCorrect = choice === currentQuizNoun[4];
+    if (feedbackEl) {
+      if (isCorrect) {
+        quizStats.correct++;
+        feedbackEl.style.background = "var(--surface-2)";
+        feedbackEl.style.color = "var(--primary)";
+        feedbackEl.innerHTML = '🎉 <b>Rätt!</b> Det heter <b>' + esc(currentQuizNoun[4] + " " + currentQuizNoun[0]) + '</b> (' + esc(currentQuizNoun[5]) + '). Plural: <em>' + esc(currentQuizNoun[2]) + '</em>.';
+      } else {
+        feedbackEl.style.background = "var(--warn-bg)";
+        feedbackEl.style.color = "var(--warn-fg)";
+        feedbackEl.innerHTML = '❌ <b>Inte riktigt!</b> Det heter <b>' + esc(currentQuizNoun[4] + " " + currentQuizNoun[0]) + '</b>. Pluralformen är <em>' + esc(currentQuizNoun[2]) + '</em>.';
+      }
+    }
+
     var btns = quizContainer.querySelectorAll(".quiz-btn");
     btns.forEach(function (b) { b.disabled = true; b.style.opacity = "0.6"; });
-    if (nextBtn) nextBtn.style.display = "inline-flex";
+    if (nextBtn) {
+      nextBtn.style.display = "inline-flex";
+      nextBtn.onclick = function () { nextQuizQuestion(); };
+    }
   }
 
   // --- TAB SWITCHER ---
@@ -556,7 +716,7 @@
     sectionTitle.style.display = isSearchTab ? "block" : "none";
     themeContainer.style.display = tabId === "themes" ? "block" : "none";
     quizContainer.style.display = tabId === "quiz" ? "block" : "none";
-    learningContainer.style.display = ["adjectives", "prepositions", "wordorder", "pronouns", "numbers", "phrases"].indexOf(tabId) >= 0 ? "block" : "none";
+    learningContainer.style.display = ["adjectives", "prepositions", "wordorder", "pronouns", "numbers", "phrases", "idioms"].indexOf(tabId) >= 0 ? "block" : "none";
 
     // Configure the searchable word lists.
     if (tabId === "verbs") {
@@ -578,7 +738,19 @@
     } else if (tabId === "themes") {
       renderThemes();
     } else if (tabId === "quiz") {
-      nextQuizQuestion();
+      quizContainer.style.display = "block";
+      quizMode = "en-ett";
+      currentQuizNoun = null;
+      quizStats = { correct: 0, total: 0 };
+      if (quizContainer) {
+        quizContainer.innerHTML =
+          '<div class="section-header"><h2>Öva</h2><p>Välj quizläge för att träna.</p></div>' +
+          '<div class="quiz-mode-grid">' +
+          '<button type="button" class="quiz-mode-btn" data-quiz-mode="en-ett"><strong>En / Ett</strong><span>Gissa rätt artikel</span></button>' +
+          '<button type="button" class="quiz-mode-btn" data-quiz-mode="sv-en"><strong>Svenska → Engelska</strong><span>Översätt till engelska</span></button>' +
+          '<button type="button" class="quiz-mode-btn" data-quiz-mode="en-sv"><strong>Engelska → Svenska</strong><span>Hitta svenskt ord</span></button>' +
+          '</div>';
+      }
     } else {
       renderLearningTab(tabId);
     }
@@ -683,6 +855,36 @@
   document.addEventListener("click", function (e) {
     if (!e.target.closest) return;
 
+    // Speaker button
+    var speakBtn = e.target.closest(".speak-btn");
+    if (speakBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      var text = speakBtn.getAttribute("data-speak") || "";
+      if (text) speakSwedish(text);
+      return;
+    }
+
+    // Next random verb
+    var nextVerb = e.target.closest("#nextRandomVerb");
+    if (nextVerb && verbs && verbs.length) {
+      e.preventDefault();
+      var rv = verbs[Math.floor(Math.random() * verbs.length)];
+      renderVerb(rv);
+      try { resultBox.scrollIntoView({ behavior: "smooth", block: "start" }); } catch (ex) {}
+      return;
+    }
+
+    // Next random noun
+    var nextNoun = e.target.closest("#nextRandomNoun");
+    if (nextNoun && nouns && nouns.length) {
+      e.preventDefault();
+      var rn = nouns[Math.floor(Math.random() * nouns.length)];
+      renderNoun(rn);
+      try { resultBox.scrollIntoView({ behavior: "smooth", block: "start" }); } catch (ex) {}
+      return;
+    }
+
     if (!e.target.closest(".topic-navigation") && !moreTopicsMenu.hidden) {
       moreTopicsMenu.hidden = true;
       moreTopicsBtn.setAttribute("aria-expanded", "false");
@@ -717,10 +919,40 @@
       return;
     }
 
+    // Quiz mode selector
+    var quizModeBtn = e.target.closest(".quiz-mode-btn");
+    if (quizModeBtn) {
+      quizMode = quizModeBtn.getAttribute("data-quiz-mode") || "en-ett";
+      quizStats = { correct: 0, total: 0 };
+      if (quizMode === "en-ett") {
+        currentQuizNoun = null;
+        nextQuizQuestion();
+      } else if (quizMode === "sv-en") {
+        renderQuizSvEn();
+      } else if (quizMode === "en-sv") {
+        renderQuizEnSv();
+      }
+      return;
+    }
+
+    // Back to quiz menu
+    if (e.target.closest("#backToQuizMenuFromGame")) {
+      quizContainer.innerHTML =
+        '<div class="section-header"><h2>Öva</h2><p>Välj quizläge för att träna.</p></div>' +
+        '<div class="quiz-mode-grid">' +
+        '<button type="button" class="quiz-mode-btn" data-quiz-mode="en-ett"><strong>En / Ett</strong><span>Gissa rätt artikel</span></button>' +
+        '<button type="button" class="quiz-mode-btn" data-quiz-mode="sv-en"><strong>Svenska → Engelska</strong><span>Översätt till engelska</span></button>' +
+        '<button type="button" class="quiz-mode-btn" data-quiz-mode="en-sv"><strong>Engelska → Svenska</strong><span>Hitta svenskt ord</span></button>' +
+        '</div>';
+      return;
+    }
+
     // Quiz next button
     var nextQuiz = e.target.closest("#nextQuizBtn");
     if (nextQuiz) {
-      nextQuizQuestion();
+      if (quizMode === "sv-en") renderQuizSvEn();
+      else if (quizMode === "en-sv") renderQuizEnSv();
+      else nextQuizQuestion();
       return;
     }
 
@@ -730,9 +962,18 @@
     }
   });
 
-  // Initialize
-  if (totalVerbCount) totalVerbCount.textContent = verbs.length;
-  if (totalNounCount) totalNounCount.textContent = nouns.length;
+  // Add idioms tab to more menu in DOM if not present
+  var moreMenuEl = document.getElementById('moreTopicsMenu');
+  if (moreMenuEl && !moreMenuEl.querySelector('[data-tab="idioms"]')) {
+    var idiomBtn = document.createElement('button');
+    idiomBtn.type = 'button';
+    idiomBtn.className = 'nav-tab';
+    idiomBtn.setAttribute('data-tab', 'idioms');
+    idiomBtn.setAttribute('role', 'tab');
+    idiomBtn.setAttribute('aria-selected', 'false');
+    idiomBtn.innerHTML = '<span class="tab-icon">🗣️</span><span class="nav-label">Uttryck</span>';
+    moreMenuEl.appendChild(idiomBtn);
+  }
 
   switchTab("verbs");
 
