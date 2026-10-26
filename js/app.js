@@ -513,6 +513,8 @@
     }
     learningContainer.innerHTML = html;
   }
+
+  function renderIdioms() {
     var list = window.ORDKOMPIS_IDIOMS || [];
     if (!learningContainer) return;
     var html = '<div class="section-header"><h2>Idiom & Uttryck</h2><p>Vanliga svenska uttryck med betydelse och exempel.</p></div>';
