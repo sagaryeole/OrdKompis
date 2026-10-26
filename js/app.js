@@ -8,6 +8,12 @@
   var verbs = window.ORDKOMPIS_VERBS || [];
   var nouns = window.ORDKOMPIS_NOUNS || [];
   var themes = window.ORDKOMPIS_THEMES || [];
+  var adjectives = window.ORDKOMPIS_ADJECTIVES || [];
+  var prepositions = window.ORDKOMPIS_PREPOSITIONS || [];
+  var wordorder = window.ORDKOMPIS_WORDORDER || null;
+  var pronouns = window.ORDKOMPIS_PRONOUNS || null;
+  var numbers = window.ORDKOMPIS_NUMBERS || null;
+  var phrases = window.ORDKOMPIS_PHRASES || null;
 
   // State
   var currentTab = "verbs"; // "verbs", "nouns", "themes", "quiz"
@@ -17,6 +23,8 @@
 
   // DOM Elements
   var tabBtns = document.querySelectorAll(".nav-tab");
+  var moreTopicsBtn = document.getElementById("moreTopicsBtn");
+  var moreTopicsMenu = document.getElementById("moreTopicsMenu");
   var searchCard = document.getElementById("searchCard");
   var searchInput = document.getElementById("searchInput");
   var searchLabel = document.getElementById("searchLabel");
@@ -29,6 +37,7 @@
   var browseList = document.getElementById("browseList");
   var themeContainer = document.getElementById("themeContainer");
   var quizContainer = document.getElementById("quizContainer");
+  var learningContainer = document.getElementById("learningContainer");
   var totalVerbCount = document.getElementById("totalVerbCount");
   var totalNounCount = document.getElementById("totalNounCount");
 
@@ -63,7 +72,8 @@
     var forms = [
       [v[3], "presens"],
       [v[4], "preteritum"],
-      [v[5].replace(/^har /, ""), "supine"]
+      [v[9] || v[5].replace(/^har\s+/, ""), "supinum"],
+      [v[8], "imperativ"]
     ];
     forms.forEach(function (f) {
       f[0].split("/").forEach(function (p) {
@@ -172,6 +182,7 @@
   // --- RENDERING ---
   function renderVerb(v, notice) {
     var name = v[0], meaning = v[1], inf = v[2], pres = v[3], pret = v[4], perf = v[5];
+    var imperative = v[8] || "—", supine = v[9] || perf.replace(/^har\s+/, ""), group = v[10] || "—";
     var perfHtml = perf === "—"
       ? '<div class="value" style="color:var(--muted);font-weight:500;">rarely used</div><div class="desc">No common supine form for this modal verb.</div>'
       : '<div class="value">' + esc(perf) + '</div><div class="desc">har + supine form</div>';
@@ -184,13 +195,16 @@
       '<h2 class="word-title">' + esc(name) + '</h2>' +
       '<div class="word-meaning">' + esc(meaning) + '</div>' +
       '</div>' +
-      '<span class="pill">Swedish Verb</span>' +
+      '<span class="pill">' + esc(group) + '</span>' +
       '</div>' +
       '<div class="forms-grid">' +
       '<article class="form-box"><div class="label">1. Infinitiv · to…</div><div class="value">' + esc(inf) + '</div><div class="desc">' + (perf === "—" ? "Modal verb (before other verbs)" : "Used after <em>att</em>") + '</div></article>' +
       '<article class="form-box"><div class="label">2. Presens · now</div><div class="value">' + esc(pres) + '</div><div class="desc">Same for I, you, we, they</div></article>' +
       '<article class="form-box"><div class="label">3. Preteritum · past</div><div class="value">' + esc(pret) + '</div><div class="desc">Finished action in past</div></article>' +
-      '<article class="form-box"><div class="label">4. Perfekt · has / have</div>' + perfHtml + '</article>' +
+      '<article class="form-box"><div class="label">4. Supinum</div><div class="value">' + esc(supine) + '</div><div class="desc">Used with <em>har</em> or <em>hade</em></div></article>' +
+      '<article class="form-box"><div class="label">5. Perfekt · has / have</div>' + perfHtml + '</article>' +
+      '<article class="form-box"><div class="label">6. Imperativ · command</div><div class="value">' + esc(imperative) + '</div><div class="desc">A command or instruction</div></article>' +
+      '<div class="grammar-note"><b>Verbgrupp:</b> ' + esc(group) + '</div>' +
       '</div>' +
       '<div class="panels-grid">' +
       '<section class="panel"><h3>Exempel på svenska</h3><p class="sv-highlight">' + esc(v[6]) + '</p></section>' +
@@ -343,6 +357,138 @@
       '<div class="vocab-grid">' + wordsHtml + '</div>';
   }
 
+  function learningHeader(title, description) {
+    return '<header class="learning-intro"><h2>' + esc(title) + '</h2><p>' + esc(description || "") + '</p></header>';
+  }
+
+  function renderLearningTable(headers, rows) {
+    return '<div class="table-wrap"><table class="learning-table"><thead><tr>' +
+      headers.map(function (cell) { return '<th>' + esc(cell) + '</th>'; }).join("") +
+      '</tr></thead><tbody>' + rows.map(function (row) {
+        return '<tr>' + row.map(function (cell) { return '<td>' + esc(cell) + '</td>'; }).join("") + '</tr>';
+      }).join("") + '</tbody></table></div>';
+  }
+
+  function renderAdjectives() {
+    learningContainer.innerHTML = learningHeader("Adjektiv · böjning och jämförelse", "Adjektiv anpassas efter substantivets genus, numerus och bestämdhet. Jämför formerna och läs exempelmeningarna.") +
+      '<div class="learning-grid">' + adjectives.map(function (a) {
+        return '<article class="learning-card">' +
+          '<div class="learning-card-heading"><h3>' + esc(a[0]) + '</h3><span>' + esc(a[7]) + '</span></div>' +
+          '<dl class="forms-list">' +
+          '<div><dt>En-form</dt><dd>' + esc(a[1]) + '</dd></div><div><dt>Ett-form</dt><dd>' + esc(a[2]) + '</dd></div>' +
+          '<div><dt>Plural / bestämd</dt><dd>' + esc(a[3]) + '</dd></div><div><dt>Komparativ</dt><dd>' + esc(a[4]) + '</dd></div>' +
+          '<div><dt>Superlativ</dt><dd>' + esc(a[5]) + ' / ' + esc(a[6]) + '</dd></div></dl>' +
+          '<p class="learning-example"><b>' + esc(a[8]) + '</b><br>' + esc(a[9]) + '</p></article>';
+      }).join("") + '</div>';
+  }
+
+  function renderPrepositions() {
+    learningContainer.innerHTML = learningHeader("Prepositioner", "Lär dig vanliga betydelser, uttryck och skillnader mellan svenska och engelska.") +
+      '<div class="learning-grid">' + prepositions.map(function (p) {
+        return '<article class="learning-card"><div class="learning-card-heading"><h3>' + esc(p.prep) + '</h3><span>' + esc(p.english) + '</span></div>' +
+          '<ul class="learning-list">' + p.rules.map(function (rule) { return '<li>' + rule + '</li>'; }).join("") + '</ul>' +
+          '<h4>Exempel</h4><ul class="example-list">' + p.examples.map(function (e) {
+            return '<li><b>' + esc(e.sv) + '</b><span>' + esc(e.en) + '</span></li>';
+          }).join("") + '</ul>' +
+          (p.verbCombinations.length ? '<h4>Vanliga kombinationer</h4><p class="combination-list">' + p.verbCombinations.map(esc).join(" · ") + '</p>' : '') +
+          '</article>';
+      }).join("") + '</div>';
+  }
+
+  function renderWordOrder() {
+    if (!wordorder) return;
+    learningContainer.innerHTML = learningHeader(wordorder.title, wordorder.description) +
+      wordorder.sections.map(function (section) {
+        var html = '<section class="learning-section"><h3>' + esc(section.icon + " " + section.title) + '</h3><p>' + section.explanation + '</p>';
+        if (section.rules) html += '<ul class="learning-list">' + section.rules.map(function (rule) { return '<li>' + rule + '</li>'; }).join("") + '</ul>';
+        if (section.wrongExamples) html += '<div class="example-grid">' + section.wrongExamples.map(function (e) {
+          return '<article class="example-card"><p class="wrong-example">' + esc(e.wrong) + '</p><p class="correct-example">' + esc(e.correct) + '</p><span>' + esc(e.why) + '</span></article>';
+        }).join("") + '</div>';
+        if (section.slots) html += '<div class="learning-grid">' + section.slots.map(function (slot) {
+          return '<article class="learning-card"><h4>' + esc(slot.name) + '</h4><p>' + esc(slot.desc) + '</p><b>' + esc(slot.example) + '</b></article>';
+        }).join("") + '</div>';
+        if (section.mainClauseExample) html += '<div class="example-grid">' +
+          [section.mainClauseExample, section.subClauseExample].map(function (example) {
+            return '<article class="learning-card"><h4>' + esc(example.label) + '</h4><div class="slot-row">' +
+              example.slots.map(function (slot, i) { return '<div><span>' + esc(example.names[i]) + '</span><b>' + esc(slot) + '</b></div>'; }).join("") +
+              '</div></article>';
+          }).join("") + '</div>';
+        if (section.words) html += '<ul class="conjunction-list">' + section.words.map(function (w) {
+          return '<li><b>' + esc(w.word) + '</b><span>' + esc(w.en) + '</span><em>' + esc(w.example) + '</em></li>';
+        }).join("") + '</ul>';
+        return html + '</section>';
+      }).join("");
+  }
+
+  function renderPronouns() {
+    if (!pronouns) return;
+    var ref = pronouns.sinSittSina;
+    learningContainer.innerHTML = learningHeader(pronouns.title, pronouns.description) +
+      '<section class="learning-section"><h3>' + esc(pronouns.personal.title) + '</h3>' +
+      renderLearningTable(pronouns.personal.headers, pronouns.personal.rows) + '</section>' +
+      '<section class="learning-section"><h3>' + esc(ref.title) + '</h3><p>' + esc(ref.description) + '</p>' +
+      '<ul class="learning-list">' + ref.rules.map(function (rule) { return '<li>' + rule.rule + ' <span>' + esc(rule.example) + '</span></li>'; }).join("") + '</ul>' +
+      '<div class="example-grid">' + ref.contrastExamples.map(function (e) {
+        return '<article class="example-card"><b>' + esc(e.sv) + '</b><span>' + esc(e.en) + '</span><em>' + esc(e.note) + '</em></article>';
+      }).join("") + '</div></section>' +
+      ['demonstrative', 'interrogative', 'indefinite'].map(function (key) {
+        var section = pronouns[key];
+        return '<section class="learning-section"><h3>' + esc(section.title) + '</h3><div class="learning-grid">' +
+          section.rows.map(function (row) {
+            var sv = row.sv || row[0], en = row.en || row[1], example = row.example || row[2];
+            return '<article class="learning-card"><h4>' + esc(sv) + '</h4><p>' + esc(en) + '</p><span>' + esc(example) + '</span></article>';
+          }).join("") + '</div></section>';
+      }).join("");
+  }
+
+  function renderNumbers() {
+    if (!numbers) return;
+    function renderPairs(items) {
+      return '<div class="learning-grid compact-grid">' + items.map(function (item) {
+        return '<div class="pair-card"><b>' + esc(item[0]) + '</b><span>' + esc(item[1]) + '</span></div>';
+      }).join("") + '</div>';
+    }
+    function renderNotes(notes) {
+      return notes && notes.length ? '<ul class="learning-list">' + notes.map(function (note) { return '<li>' + note + '</li>'; }).join("") + '</ul>' : '';
+    }
+    learningContainer.innerHTML = learningHeader(numbers.title, numbers.description) +
+      '<section class="learning-section"><h3>' + esc(numbers.cardinals.title) + '</h3>' + renderPairs(numbers.cardinals.numbers) + renderNotes(numbers.cardinals.notes) + '</section>' +
+      '<section class="learning-section"><h3>' + esc(numbers.ordinals.title) + '</h3>' + renderPairs(numbers.ordinals.numbers) + renderNotes(numbers.ordinals.notes) + '</section>' +
+      '<section class="learning-section"><h3>' + esc(numbers.time.title) + '</h3><p>' + esc(numbers.time.description) + '</p>' +
+      renderLearningTable(["Tid", "Svenska", "English"], numbers.time.examples.map(function (e) { return [e.time, e.sv, e.en]; })) + renderNotes(numbers.time.warnings) + '</section>' +
+      ['days', 'months', 'seasons'].map(function (key) {
+        var section = numbers[key];
+        return '<section class="learning-section"><h3>' + esc(section.title) + '</h3>' + renderPairs(section.items.map(function (item) {
+          return [item.sv, item.en + (item.period ? " · " + item.period : "")];
+        })) + renderNotes(section.notes) + '</section>';
+      }).join("") +
+      '<section class="learning-section"><h3>' + esc(numbers.dateFormat.title) + '</h3>' + renderNotes(numbers.dateFormat.rules) + '</section>';
+  }
+
+  function renderPhrases() {
+    if (!phrases) return;
+    learningContainer.innerHTML = learningHeader(phrases.title, phrases.description) +
+      phrases.categories.map(function (category) {
+        return '<section class="learning-section"><h3>' + esc(category.icon + " " + category.title) + '</h3><div class="learning-grid">' +
+          category.phrases.map(function (phrase) {
+            return '<article class="learning-card"><h4>' + esc(phrase.sv) + '</h4><p>' + esc(phrase.en) + '</p>' +
+              (phrase.note ? '<span>' + esc(phrase.note) + '</span>' : '') + '</article>';
+          }).join("") + '</div></section>';
+      }).join("");
+  }
+
+  function renderLearningTab(tabId) {
+    var renderers = {
+      adjectives: renderAdjectives,
+      prepositions: renderPrepositions,
+      wordorder: renderWordOrder,
+      pronouns: renderPronouns,
+      numbers: renderNumbers,
+      phrases: renderPhrases
+    };
+    if (renderers[tabId]) renderers[tabId]();
+  }
+
   // --- EN / ETT QUIZ FEATURE ---
   var currentQuizNoun = null;
   function nextQuizQuestion() {
@@ -389,22 +535,31 @@
   // --- TAB SWITCHER ---
   function switchTab(tabId) {
     currentTab = tabId;
+    var activeTab = document.querySelector('.nav-tab[data-tab="' + tabId + '"]');
+    var activeIsMore = activeTab && moreTopicsMenu.contains(activeTab);
+    moreTopicsBtn.classList.toggle("active", !!activeIsMore);
+    moreTopicsMenu.hidden = true;
+    moreTopicsBtn.setAttribute("aria-expanded", "false");
     tabBtns.forEach(function (btn) {
-      btn.classList.toggle("active", btn.getAttribute("data-tab") === tabId);
+      var isActive = btn.getAttribute("data-tab") === tabId;
+      btn.classList.toggle("active", isActive);
+      btn.setAttribute("aria-selected", isActive ? "true" : "false");
     });
 
     closeSuggestions();
     searchInput.value = "";
 
-    // Toggle container visibilities
-    if (tabId === "verbs") {
-      searchCard.style.display = "block";
-      resultBox.style.display = "block";
-      themeContainer.style.display = "none";
-      quizContainer.style.display = "none";
-      browseList.style.display = "flex";
-      sectionTitle.style.display = "block";
+    var isSearchTab = tabId === "verbs" || tabId === "nouns";
+    searchCard.style.display = isSearchTab ? "block" : "none";
+    resultBox.style.display = isSearchTab ? "block" : "none";
+    browseList.style.display = isSearchTab ? "flex" : "none";
+    sectionTitle.style.display = isSearchTab ? "block" : "none";
+    themeContainer.style.display = tabId === "themes" ? "block" : "none";
+    quizContainer.style.display = tabId === "quiz" ? "block" : "none";
+    learningContainer.style.display = ["adjectives", "prepositions", "wordorder", "pronouns", "numbers", "phrases"].indexOf(tabId) >= 0 ? "block" : "none";
 
+    // Configure the searchable word lists.
+    if (tabId === "verbs") {
       searchLabel.textContent = "Sök svenskt verb";
       searchInput.placeholder = "skriva, gå, arbeta, write…";
       searchHint.innerHTML = "Sök på grundform (skriva), böjd form (skrev) eller engelska (write).";
@@ -413,13 +568,6 @@
       fillBrowse(["vara", "ha", "göra", "gå", "komma", "säga", "få", "ta", "se", "kunna", "vilja", "äta", "dricka", "skriva", "läsa", "prata", "bo", "arbeta", "köpa", "hjälpa", "förstå", "lära sig", "tycka om", "känna sig", "hinna", "koppla av", "ge upp"]);
       executeSearch("skriva");
     } else if (tabId === "nouns") {
-      searchCard.style.display = "block";
-      resultBox.style.display = "block";
-      themeContainer.style.display = "none";
-      quizContainer.style.display = "none";
-      browseList.style.display = "flex";
-      sectionTitle.style.display = "block";
-
       searchLabel.textContent = "Sök substantiv (En / Ett & Plural)";
       searchInput.placeholder = "bil, flicka, äpple, hus, book…";
       searchHint.innerHTML = "Sök singular, plural, bestämd form eller engelska för att se alla 4 formerna.";
@@ -428,21 +576,11 @@
       fillBrowse(["flicka", "pojke", "bil", "katt", "äpple", "hus", "barn", "bok", "stad", "bord", "hund", "blomma", "vecka", "skola", "lägenhet", "kaffe", "möte", "språk", "fika", "kollega"]);
       executeSearch("bil");
     } else if (tabId === "themes") {
-      searchCard.style.display = "none";
-      resultBox.style.display = "none";
-      browseList.style.display = "none";
-      sectionTitle.style.display = "none";
-      quizContainer.style.display = "none";
-      themeContainer.style.display = "block";
       renderThemes();
     } else if (tabId === "quiz") {
-      searchCard.style.display = "none";
-      resultBox.style.display = "none";
-      browseList.style.display = "none";
-      sectionTitle.style.display = "none";
-      themeContainer.style.display = "none";
-      quizContainer.style.display = "block";
       nextQuizQuestion();
+    } else {
+      renderLearningTab(tabId);
     }
   }
 
@@ -457,6 +595,20 @@
       return '<button type="button" class="chip" data-search="' + esc(w) + '">' + esc(w) + '</button>';
     }).join("");
   }
+
+  moreTopicsBtn.addEventListener("click", function () {
+    var isOpen = moreTopicsBtn.getAttribute("aria-expanded") === "true";
+    moreTopicsBtn.setAttribute("aria-expanded", isOpen ? "false" : "true");
+    moreTopicsMenu.hidden = isOpen;
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !moreTopicsMenu.hidden) {
+      moreTopicsMenu.hidden = true;
+      moreTopicsBtn.setAttribute("aria-expanded", "false");
+      moreTopicsBtn.focus();
+    }
+  });
 
   // --- MOBILE-FRIENDLY EVENT LISTENERS ---
   // Fix for iOS Safari tap/submit behavior:
@@ -530,6 +682,11 @@
   // Global click & delegation for chips, tabs, themes and quiz
   document.addEventListener("click", function (e) {
     if (!e.target.closest) return;
+
+    if (!e.target.closest(".topic-navigation") && !moreTopicsMenu.hidden) {
+      moreTopicsMenu.hidden = true;
+      moreTopicsBtn.setAttribute("aria-expanded", "false");
+    }
 
     // Search chip clicked
     var searchChip = e.target.closest("[data-search]");

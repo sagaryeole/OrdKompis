@@ -1,6 +1,6 @@
 # OrdKompis (Verbkompis & Svenska Lärkompis)
 
-En modern, mobilanpassad interaktiv webbapplikation för att lära sig svenska verb, substantiv (en/ett och pluralformer) samt praktiskt vardagsordförråd.
+En modern, mobilanpassad interaktiv webbapplikation för att lära sig svenska verb, substantiv, adjektiv, prepositioner, ordföljd och praktiskt vardagsordförråd.
 
 ---
 
@@ -8,7 +8,8 @@ En modern, mobilanpassad interaktiv webbapplikation för att lära sig svenska v
 
 1. **🏃 Verbkompis (478 verb)**:
    - Direkt sökning med autokomplettering på svenska och engelska.
-   - Visar de 4 grundformerna: *Infinitiv*, *Presens*, *Preteritum*, och *Perfekt* (*har + supinum*).
+   - Visar infinitiv, presens, preteritum, supinum, perfekt och imperativ.
+   - Anger verbgrupp samt exempel på svenska och engelska.
    - Exempelmeningar på svenska med engelsk översättning.
    - Hanterar partikelverb (*koppla av, hålla med, ge upp*) och reflexiva verb (*lära sig, känna sig*).
 
@@ -31,6 +32,12 @@ En modern, mobilanpassad interaktiv webbapplikation för att lära sig svenska v
 
 4. **🎯 Träna & Öva**:
    - Interaktivt quiz: gissa om ordet är *en* eller *ett* med direkt återkoppling och böjningsregler.
+
+5. **📚 Grammatik & referens**:
+   - Adjektivböjning och komparation.
+   - Prepositioner med vanliga uttryck och kontrasterande exempel.
+   - Svensk ordföljd, V2-regeln och BIFF.
+   - Pronomen, tal och tid samt vardagsfraser.
 
 ---
 

@@ -1,5 +1,6 @@
 // OrdKompis - Curated Swedish Verbs Dataset (478 verbs)
-// Format: [infinitive, english, infinitive, presens, preteritum, perfekt, swedish example, english example]
+// Format: [infinitive, english, infinitive, presens, preteritum, perfekt, exSv, exEn, imperativ, supinum, verbGroup]
+// Verb groups: Grupp 1 (-ar), Grupp 2a (-er/-de), Grupp 2b (-er/-te), Grupp 3 (-r), Grupp 4 (stark/strong), Modal, Deponent, Oregelbunden
 window.ORDKOMPIS_VERBS = [
   [
     "vara",
@@ -9,7 +10,10 @@ window.ORDKOMPIS_VERBS = [
     "var",
     "har varit",
     "Jag är hemma.",
-    "I am at home."
+    "I am at home.",
+    "var",
+    "varit",
+    "Oregelbunden"
   ],
   [
     "ha",
@@ -19,7 +23,10 @@ window.ORDKOMPIS_VERBS = [
     "hade",
     "har haft",
     "Jag har en bok.",
-    "I have a book."
+    "I have a book.",
+    "ha",
+    "haft",
+    "Oregelbunden"
   ],
   [
     "bli",
@@ -29,7 +36,10 @@ window.ORDKOMPIS_VERBS = [
     "blev",
     "har blivit",
     "Det blir bra.",
-    "It will be fine."
+    "It will be fine.",
+    "bli",
+    "blivit",
+    "Grupp 4 (stark)"
   ],
   [
     "göra",
@@ -39,7 +49,10 @@ window.ORDKOMPIS_VERBS = [
     "gjorde",
     "har gjort",
     "Vad gör du?",
-    "What are you doing?"
+    "What are you doing?",
+    "gör",
+    "gjort",
+    "Oregelbunden"
   ],
   [
     "gå",
@@ -49,7 +62,10 @@ window.ORDKOMPIS_VERBS = [
     "gick",
     "har gått",
     "Jag går till jobbet.",
-    "I walk to work."
+    "I walk to work.",
+    "gå",
+    "gått",
+    "Oregelbunden"
   ],
   [
     "komma",
@@ -59,7 +75,10 @@ window.ORDKOMPIS_VERBS = [
     "kom",
     "har kommit",
     "Hon kommer snart.",
-    "She is coming soon."
+    "She is coming soon.",
+    "kom",
+    "kommit",
+    "Grupp 4 (stark)"
   ],
   [
     "se",
@@ -69,7 +88,10 @@ window.ORDKOMPIS_VERBS = [
     "såg",
     "har sett",
     "Jag ser dig.",
-    "I see you."
+    "I see you.",
+    "se",
+    "sett",
+    "Grupp 4 (stark)"
   ],
   [
     "säga",
@@ -79,7 +101,10 @@ window.ORDKOMPIS_VERBS = [
     "sa / sade",
     "har sagt",
     "Vad säger du?",
-    "What are you saying?"
+    "What are you saying?",
+    "säg",
+    "sagt",
+    "Oregelbunden"
   ],
   [
     "få",
@@ -89,7 +114,10 @@ window.ORDKOMPIS_VERBS = [
     "fick",
     "har fått",
     "Får jag fråga?",
-    "May I ask?"
+    "May I ask?",
+    "—",
+    "fått",
+    "Oregelbunden"
   ],
   [
     "ta",
@@ -99,7 +127,10 @@ window.ORDKOMPIS_VERBS = [
     "tog",
     "har tagit",
     "Ta en kopp kaffe.",
-    "Have a cup of coffee."
+    "Have a cup of coffee.",
+    "ta",
+    "tagit",
+    "Grupp 4 (stark)"
   ],
   [
     "ge",
@@ -109,7 +140,10 @@ window.ORDKOMPIS_VERBS = [
     "gav",
     "har gett",
     "Ge mig en minut.",
-    "Give me a minute."
+    "Give me a minute.",
+    "ge",
+    "gett",
+    "Grupp 4 (stark)"
   ],
   [
     "veta",
@@ -119,7 +153,10 @@ window.ORDKOMPIS_VERBS = [
     "visste",
     "har vetat",
     "Jag vet svaret.",
-    "I know the answer."
+    "I know the answer.",
+    "—",
+    "vetat",
+    "Oregelbunden"
   ],
   [
     "tro",
@@ -129,7 +166,10 @@ window.ORDKOMPIS_VERBS = [
     "trodde",
     "har trott",
     "Jag tror det.",
-    "I think so."
+    "I think so.",
+    "tro",
+    "trott",
+    "Grupp 3"
   ],
   [
     "tycka",
@@ -139,7 +179,10 @@ window.ORDKOMPIS_VERBS = [
     "tyckte",
     "har tyckt",
     "Vad tycker du?",
-    "What do you think?"
+    "What do you think?",
+    "tyck",
+    "tyckt",
+    "Grupp 2b"
   ],
   [
     "tänka",
@@ -149,7 +192,10 @@ window.ORDKOMPIS_VERBS = [
     "tänkte",
     "har tänkt",
     "Jag tänker på dig.",
-    "I am thinking of you."
+    "I am thinking of you.",
+    "tänk",
+    "tänkt",
+    "Grupp 2b"
   ],
   [
     "kunna",
@@ -159,7 +205,10 @@ window.ORDKOMPIS_VERBS = [
     "kunde",
     "har kunnat",
     "Jag kan simma.",
-    "I can swim."
+    "I can swim.",
+    "—",
+    "kunnat",
+    "Modal"
   ],
   [
     "vilja",
@@ -169,7 +218,10 @@ window.ORDKOMPIS_VERBS = [
     "ville",
     "har velat",
     "Jag vill lära mig.",
-    "I want to learn."
+    "I want to learn.",
+    "—",
+    "velat",
+    "Modal"
   ],
   [
     "måste",
@@ -179,7 +231,10 @@ window.ORDKOMPIS_VERBS = [
     "måste",
     "har måst",
     "Jag måste gå.",
-    "I have to go."
+    "I have to go.",
+    "—",
+    "måst",
+    "Modal"
   ],
   [
     "ska",
@@ -189,7 +244,10 @@ window.ORDKOMPIS_VERBS = [
     "skulle",
     "—",
     "Jag ska ringa dig.",
-    "I will call you."
+    "I will call you.",
+    "—",
+    "—",
+    "Modal"
   ],
   [
     "behöva",
@@ -199,7 +257,10 @@ window.ORDKOMPIS_VERBS = [
     "behövde",
     "har behövt",
     "Jag behöver hjälp.",
-    "I need help."
+    "I need help.",
+    "—",
+    "behövt",
+    "Grupp 2a"
   ],
   [
     "äta",
@@ -209,7 +270,10 @@ window.ORDKOMPIS_VERBS = [
     "åt",
     "har ätit",
     "Vi äter middag.",
-    "We are eating dinner."
+    "We are eating dinner.",
+    "ät",
+    "ätit",
+    "Grupp 4 (stark)"
   ],
   [
     "dricka",
@@ -219,7 +283,10 @@ window.ORDKOMPIS_VERBS = [
     "drack",
     "har druckit",
     "Drick vatten.",
-    "Drink water."
+    "Drink water.",
+    "drick",
+    "druckit",
+    "Grupp 4 (stark)"
   ],
   [
     "sova",
@@ -229,7 +296,10 @@ window.ORDKOMPIS_VERBS = [
     "sov",
     "har sovit",
     "Barnet sover.",
-    "The child is sleeping."
+    "The child is sleeping.",
+    "sov",
+    "sovit",
+    "Grupp 4 (stark)"
   ],
   [
     "skriva",
@@ -239,7 +309,10 @@ window.ORDKOMPIS_VERBS = [
     "skrev",
     "har skrivit",
     "Skriv ditt namn.",
-    "Write your name."
+    "Write your name.",
+    "skriv",
+    "skrivit",
+    "Grupp 4 (stark)"
   ],
   [
     "läsa",
@@ -249,7 +322,10 @@ window.ORDKOMPIS_VERBS = [
     "läste",
     "har läst",
     "Jag läser en bok.",
-    "I am reading a book."
+    "I am reading a book.",
+    "läs",
+    "läst",
+    "Grupp 2b"
   ],
   [
     "tala",
@@ -259,7 +335,10 @@ window.ORDKOMPIS_VERBS = [
     "talade",
     "har talat",
     "Tala långsamt.",
-    "Speak slowly."
+    "Speak slowly.",
+    "tala",
+    "talat",
+    "Grupp 1"
   ],
   [
     "prata",
@@ -269,7 +348,10 @@ window.ORDKOMPIS_VERBS = [
     "pratade",
     "har pratat",
     "Vi pratar svenska.",
-    "We speak Swedish."
+    "We speak Swedish.",
+    "prata",
+    "pratat",
+    "Grupp 1"
   ],
   [
     "lyssna",
@@ -279,7 +361,10 @@ window.ORDKOMPIS_VERBS = [
     "lyssnade",
     "har lyssnat",
     "Lyssna noga.",
-    "Listen carefully."
+    "Listen carefully.",
+    "lyssna",
+    "lyssnat",
+    "Grupp 1"
   ],
   [
     "höra",
@@ -289,7 +374,10 @@ window.ORDKOMPIS_VERBS = [
     "hörde",
     "har hört",
     "Jag hör musik.",
-    "I hear music."
+    "I hear music.",
+    "hör",
+    "hört",
+    "Oregelbunden"
   ],
   [
     "förstå",
@@ -299,7 +387,10 @@ window.ORDKOMPIS_VERBS = [
     "förstod",
     "har förstått",
     "Jag förstår.",
-    "I understand."
+    "I understand.",
+    "förstå",
+    "förstått",
+    "Oregelbunden"
   ],
   [
     "lära",
@@ -309,7 +400,10 @@ window.ORDKOMPIS_VERBS = [
     "lärde",
     "har lärt",
     "Hon lär barnen simma.",
-    "She teaches the children to swim."
+    "She teaches the children to swim.",
+    "lär",
+    "lärt",
+    "Grupp 2a"
   ],
   [
     "lära sig",
@@ -319,7 +413,10 @@ window.ORDKOMPIS_VERBS = [
     "lärde sig",
     "har lärt sig",
     "Hon lär sig snabbt.",
-    "She learns quickly."
+    "She learns quickly.",
+    "lär dig",
+    "lärt sig",
+    "Grupp 2a"
   ],
   [
     "arbeta",
@@ -329,7 +426,10 @@ window.ORDKOMPIS_VERBS = [
     "arbetade",
     "har arbetat",
     "Sara arbetar här.",
-    "Sara works here."
+    "Sara works here.",
+    "arbeta",
+    "arbetat",
+    "Grupp 1"
   ],
   [
     "jobba",
@@ -339,7 +439,10 @@ window.ORDKOMPIS_VERBS = [
     "jobbade",
     "har jobbat",
     "Jag jobbar hemma.",
-    "I work from home."
+    "I work from home.",
+    "jobba",
+    "jobbat",
+    "Grupp 1"
   ],
   [
     "bo",
@@ -349,7 +452,10 @@ window.ORDKOMPIS_VERBS = [
     "bodde",
     "har bott",
     "Vi bor i Sverige.",
-    "We live in Sweden."
+    "We live in Sweden.",
+    "bo",
+    "bott",
+    "Grupp 3"
   ],
   [
     "leva",
@@ -359,7 +465,10 @@ window.ORDKOMPIS_VERBS = [
     "levde",
     "har levt",
     "De lever ett lugnt liv.",
-    "They live a quiet life."
+    "They live a quiet life.",
+    "lev",
+    "levt",
+    "Grupp 2a"
   ],
   [
     "älska",
@@ -369,7 +478,10 @@ window.ORDKOMPIS_VERBS = [
     "älskade",
     "har älskat",
     "Jag älskar dig.",
-    "I love you."
+    "I love you.",
+    "älska",
+    "älskat",
+    "Grupp 1"
   ],
   [
     "gilla",
@@ -379,7 +491,10 @@ window.ORDKOMPIS_VERBS = [
     "gillade",
     "har gillat",
     "Jag gillar kaffe.",
-    "I like coffee."
+    "I like coffee.",
+    "gilla",
+    "gillat",
+    "Grupp 1"
   ],
   [
     "tycka om",
@@ -389,7 +504,10 @@ window.ORDKOMPIS_VERBS = [
     "tyckte om",
     "har tyckt om",
     "Jag tycker om te.",
-    "I like tea."
+    "I like tea.",
+    "tyck om",
+    "tyckt om",
+    "Grupp 2b"
   ],
   [
     "köpa",
@@ -399,7 +517,10 @@ window.ORDKOMPIS_VERBS = [
     "köpte",
     "har köpt",
     "Jag köper bröd.",
-    "I am buying bread."
+    "I am buying bread.",
+    "köp",
+    "köpt",
+    "Grupp 2b"
   ],
   [
     "sälja",
@@ -409,7 +530,10 @@ window.ORDKOMPIS_VERBS = [
     "sålde",
     "har sålt",
     "De säljer bilen.",
-    "They are selling the car."
+    "They are selling the car.",
+    "sälj",
+    "sålt",
+    "Grupp 2a"
   ],
   [
     "betala",
@@ -419,7 +543,10 @@ window.ORDKOMPIS_VERBS = [
     "betalade",
     "har betalat",
     "Kan jag betala?",
-    "Can I pay?"
+    "Can I pay?",
+    "betala",
+    "betalat",
+    "Grupp 1"
   ],
   [
     "kosta",
@@ -429,7 +556,10 @@ window.ORDKOMPIS_VERBS = [
     "kostade",
     "har kostat",
     "Vad kostar den?",
-    "How much does it cost?"
+    "How much does it cost?",
+    "—",
+    "kostat",
+    "Grupp 1"
   ],
   [
     "öppna",
@@ -439,7 +569,10 @@ window.ORDKOMPIS_VERBS = [
     "öppnade",
     "har öppnat",
     "Öppna fönstret.",
-    "Open the window."
+    "Open the window.",
+    "öppna",
+    "öppnat",
+    "Grupp 1"
   ],
   [
     "stänga",
@@ -449,7 +582,10 @@ window.ORDKOMPIS_VERBS = [
     "stängde",
     "har stängt",
     "Stäng dörren.",
-    "Close the door."
+    "Close the door.",
+    "stäng",
+    "stängt",
+    "Grupp 2a"
   ],
   [
     "börja",
@@ -459,7 +595,10 @@ window.ORDKOMPIS_VERBS = [
     "började",
     "har börjat",
     "Filmen börjar nu.",
-    "The film starts now."
+    "The film starts now.",
+    "börja",
+    "börjat",
+    "Grupp 1"
   ],
   [
     "sluta",
@@ -469,7 +608,10 @@ window.ORDKOMPIS_VERBS = [
     "slutade",
     "har slutat",
     "Jag slutar klockan fem.",
-    "I finish at five."
+    "I finish at five.",
+    "sluta",
+    "slutat",
+    "Grupp 1"
   ],
   [
     "spela",
@@ -479,7 +621,10 @@ window.ORDKOMPIS_VERBS = [
     "spelade",
     "har spelat",
     "Vi spelar fotboll.",
-    "We play football."
+    "We play football.",
+    "spela",
+    "spelat",
+    "Grupp 1"
   ],
   [
     "springa",
@@ -489,7 +634,10 @@ window.ORDKOMPIS_VERBS = [
     "sprang",
     "har sprungit",
     "Han springer snabbt.",
-    "He runs fast."
+    "He runs fast.",
+    "spring",
+    "sprungit",
+    "Grupp 4 (stark)"
   ],
   [
     "sitta",
@@ -499,7 +647,10 @@ window.ORDKOMPIS_VERBS = [
     "satt",
     "har suttit",
     "Jag sitter här.",
-    "I am sitting here."
+    "I am sitting here.",
+    "sitt",
+    "suttit",
+    "Grupp 4 (stark)"
   ],
   [
     "stå",
@@ -509,7 +660,10 @@ window.ORDKOMPIS_VERBS = [
     "stod",
     "har stått",
     "Hon står där.",
-    "She is standing there."
+    "She is standing there.",
+    "stå",
+    "stått",
+    "Oregelbunden"
   ],
   [
     "ligga",
@@ -519,7 +673,10 @@ window.ORDKOMPIS_VERBS = [
     "låg",
     "har legat",
     "Boken ligger här.",
-    "The book is here."
+    "The book is here.",
+    "ligg",
+    "legat",
+    "Grupp 4 (stark)"
   ],
   [
     "lägga",
@@ -529,7 +686,10 @@ window.ORDKOMPIS_VERBS = [
     "lade",
     "har lagt",
     "Lägg den här.",
-    "Put it here."
+    "Put it here.",
+    "lägg",
+    "lagt",
+    "Oregelbunden"
   ],
   [
     "ställa",
@@ -539,7 +699,10 @@ window.ORDKOMPIS_VERBS = [
     "ställde",
     "har ställt",
     "Ställ glaset där.",
-    "Put the glass there."
+    "Put the glass there.",
+    "ställ",
+    "ställt",
+    "Grupp 2a"
   ],
   [
     "hitta",
@@ -549,7 +712,10 @@ window.ORDKOMPIS_VERBS = [
     "hittade",
     "har hittat",
     "Jag hittar inte nyckeln.",
-    "I can't find the key."
+    "I can't find the key.",
+    "hitta",
+    "hittat",
+    "Grupp 1"
   ],
   [
     "söka",
@@ -559,7 +725,10 @@ window.ORDKOMPIS_VERBS = [
     "sökte",
     "har sökt",
     "Jag söker ett jobb.",
-    "I am looking for a job."
+    "I am looking for a job.",
+    "sök",
+    "sökt",
+    "Grupp 2b"
   ],
   [
     "fråga",
@@ -569,7 +738,10 @@ window.ORDKOMPIS_VERBS = [
     "frågade",
     "har frågat",
     "Fråga läraren.",
-    "Ask the teacher."
+    "Ask the teacher.",
+    "fråga",
+    "frågat",
+    "Grupp 1"
   ],
   [
     "svara",
@@ -579,7 +751,10 @@ window.ORDKOMPIS_VERBS = [
     "svarade",
     "har svarat",
     "Svara på frågan.",
-    "Answer the question."
+    "Answer the question.",
+    "svara",
+    "svarat",
+    "Grupp 1"
   ],
   [
     "ringa",
@@ -589,7 +764,10 @@ window.ORDKOMPIS_VERBS = [
     "ringde",
     "har ringt",
     "Jag ringer senare.",
-    "I will call later."
+    "I will call later.",
+    "ring",
+    "ringt",
+    "Grupp 2a"
   ],
   [
     "hjälpa",
@@ -599,7 +777,10 @@ window.ORDKOMPIS_VERBS = [
     "hjälpte",
     "har hjälpt",
     "Kan du hjälpa mig?",
-    "Can you help me?"
+    "Can you help me?",
+    "hjälp",
+    "hjälpt",
+    "Grupp 2b"
   ],
   [
     "vänta",
@@ -609,7 +790,10 @@ window.ORDKOMPIS_VERBS = [
     "väntade",
     "har väntat",
     "Vänta lite.",
-    "Wait a little."
+    "Wait a little.",
+    "vänta",
+    "väntat",
+    "Grupp 1"
   ],
   [
     "möta",
@@ -619,7 +803,10 @@ window.ORDKOMPIS_VERBS = [
     "mötte",
     "har mött",
     "Jag möter honom imorgon.",
-    "I am meeting him tomorrow."
+    "I am meeting him tomorrow.",
+    "möt",
+    "mött",
+    "Grupp 2b"
   ],
   [
     "träffa",
@@ -629,7 +816,10 @@ window.ORDKOMPIS_VERBS = [
     "träffade",
     "har träffat",
     "Jag träffar en vän.",
-    "I am meeting a friend."
+    "I am meeting a friend.",
+    "träffa",
+    "träffat",
+    "Grupp 1"
   ],
   [
     "resa",
@@ -639,7 +829,10 @@ window.ORDKOMPIS_VERBS = [
     "reste",
     "har rest",
     "Vi reser imorgon.",
-    "We travel tomorrow."
+    "We travel tomorrow.",
+    "res",
+    "rest",
+    "Grupp 2b"
   ],
   [
     "köra",
@@ -649,7 +842,10 @@ window.ORDKOMPIS_VERBS = [
     "körde",
     "har kört",
     "Jag kör bil.",
-    "I drive a car."
+    "I drive a car.",
+    "kör",
+    "kört",
+    "Oregelbunden"
   ],
   [
     "åka",
@@ -659,7 +855,10 @@ window.ORDKOMPIS_VERBS = [
     "åkte",
     "har åkt",
     "Vi åker tåg.",
-    "We travel by train."
+    "We travel by train.",
+    "åk",
+    "åkt",
+    "Grupp 2b"
   ],
   [
     "flyga",
@@ -669,7 +868,10 @@ window.ORDKOMPIS_VERBS = [
     "flög",
     "har flugit",
     "Planet flyger högt.",
-    "The plane flies high."
+    "The plane flies high.",
+    "flyg",
+    "flugit",
+    "Grupp 4 (stark)"
   ],
   [
     "simma",
@@ -679,7 +881,10 @@ window.ORDKOMPIS_VERBS = [
     "simmade",
     "har simmat",
     "Jag simmar varje vecka.",
-    "I swim every week."
+    "I swim every week.",
+    "simma",
+    "simmat",
+    "Grupp 1"
   ],
   [
     "tvätta",
@@ -689,7 +894,10 @@ window.ORDKOMPIS_VERBS = [
     "tvättade",
     "har tvättat",
     "Jag tvättar kläder.",
-    "I wash clothes."
+    "I wash clothes.",
+    "tvätta",
+    "tvättat",
+    "Grupp 1"
   ],
   [
     "städa",
@@ -699,7 +907,10 @@ window.ORDKOMPIS_VERBS = [
     "städade",
     "har städat",
     "Vi städar huset.",
-    "We clean the house."
+    "We clean the house.",
+    "städa",
+    "städat",
+    "Grupp 1"
   ],
   [
     "laga",
@@ -709,7 +920,10 @@ window.ORDKOMPIS_VERBS = [
     "lagade",
     "har lagat",
     "Jag lagar mat.",
-    "I am cooking."
+    "I am cooking.",
+    "laga",
+    "lagat",
+    "Grupp 1"
   ],
   [
     "baka",
@@ -719,7 +933,10 @@ window.ORDKOMPIS_VERBS = [
     "bakade",
     "har bakat",
     "Vi bakar bröd.",
-    "We bake bread."
+    "We bake bread.",
+    "baka",
+    "bakat",
+    "Grupp 1"
   ],
   [
     "välja",
@@ -729,7 +946,10 @@ window.ORDKOMPIS_VERBS = [
     "valde",
     "har valt",
     "Välj en färg.",
-    "Choose a colour."
+    "Choose a colour.",
+    "välj",
+    "valt",
+    "Grupp 4 (stark)"
   ],
   [
     "glömma",
@@ -739,7 +959,10 @@ window.ORDKOMPIS_VERBS = [
     "glömde",
     "har glömt",
     "Glöm inte nyckeln.",
-    "Don't forget the key."
+    "Don't forget the key.",
+    "glömm",
+    "glömt",
+    "Grupp 2a"
   ],
   [
     "minnas",
@@ -749,7 +972,10 @@ window.ORDKOMPIS_VERBS = [
     "mindes",
     "har mints",
     "Jag minns dig.",
-    "I remember you."
+    "I remember you.",
+    "—",
+    "mints",
+    "Deponent"
   ],
   [
     "komma ihåg",
@@ -759,7 +985,10 @@ window.ORDKOMPIS_VERBS = [
     "kom ihåg",
     "har kommit ihåg",
     "Kom ihåg det.",
-    "Remember that."
+    "Remember that.",
+    "kom ihåg",
+    "kommit ihåg",
+    "Grupp 4 (stark)"
   ],
   [
     "försöka",
@@ -769,7 +998,10 @@ window.ORDKOMPIS_VERBS = [
     "försökte",
     "har försökt",
     "Försök igen.",
-    "Try again."
+    "Try again.",
+    "försök",
+    "försökt",
+    "Grupp 2b"
   ],
   [
     "lyckas",
@@ -779,7 +1011,10 @@ window.ORDKOMPIS_VERBS = [
     "lyckades",
     "har lyckats",
     "Du lyckas snart.",
-    "You will succeed soon."
+    "You will succeed soon.",
+    "—",
+    "lyckats",
+    "Deponent"
   ],
   [
     "hända",
@@ -789,7 +1024,10 @@ window.ORDKOMPIS_VERBS = [
     "hände",
     "har hänt",
     "Vad har hänt?",
-    "What happened?"
+    "What happened?",
+    "—",
+    "hänt",
+    "Grupp 2a"
   ],
   [
     "finnas",
@@ -799,7 +1037,10 @@ window.ORDKOMPIS_VERBS = [
     "fanns",
     "har funnits",
     "Det finns kaffe.",
-    "There is coffee."
+    "There is coffee.",
+    "—",
+    "funnits",
+    "Deponent"
   ],
   [
     "verka",
@@ -809,7 +1050,10 @@ window.ORDKOMPIS_VERBS = [
     "verkade",
     "har verkat",
     "Det verkar bra.",
-    "It seems good."
+    "It seems good.",
+    "—",
+    "verkat",
+    "Grupp 1"
   ],
   [
     "känna",
@@ -819,7 +1063,10 @@ window.ORDKOMPIS_VERBS = [
     "kände",
     "har känt",
     "Jag känner honom.",
-    "I know him."
+    "I know him.",
+    "känn",
+    "känt",
+    "Grupp 2a"
   ],
   [
     "känna sig",
@@ -829,7 +1076,10 @@ window.ORDKOMPIS_VERBS = [
     "kände sig",
     "har känt sig",
     "Jag känner mig trött.",
-    "I feel tired."
+    "I feel tired.",
+    "känn dig",
+    "känt sig",
+    "Grupp 2a"
   ],
   [
     "må",
@@ -839,7 +1089,10 @@ window.ORDKOMPIS_VERBS = [
     "mådde",
     "har mått",
     "Hur mår du?",
-    "How are you?"
+    "How are you?",
+    "—",
+    "mått",
+    "Grupp 3"
   ],
   [
     "skratta",
@@ -849,7 +1102,10 @@ window.ORDKOMPIS_VERBS = [
     "skrattade",
     "har skrattat",
     "Vi skrattar mycket.",
-    "We laugh a lot."
+    "We laugh a lot.",
+    "skratta",
+    "skrattat",
+    "Grupp 1"
   ],
   [
     "gråta",
@@ -859,7 +1115,10 @@ window.ORDKOMPIS_VERBS = [
     "grät",
     "har gråtit",
     "Barnet gråter.",
-    "The child is crying."
+    "The child is crying.",
+    "gråt",
+    "gråtit",
+    "Grupp 4 (stark)"
   ],
   [
     "sjunga",
@@ -869,7 +1128,10 @@ window.ORDKOMPIS_VERBS = [
     "sjöng",
     "har sjungit",
     "Hon sjunger fint.",
-    "She sings beautifully."
+    "She sings beautifully.",
+    "sjung",
+    "sjungit",
+    "Grupp 4 (stark)"
   ],
   [
     "dansa",
@@ -879,7 +1141,10 @@ window.ORDKOMPIS_VERBS = [
     "dansade",
     "har dansat",
     "Vill du dansa?",
-    "Would you like to dance?"
+    "Would you like to dance?",
+    "dansa",
+    "dansat",
+    "Grupp 1"
   ],
   [
     "bygga",
@@ -889,7 +1154,10 @@ window.ORDKOMPIS_VERBS = [
     "byggde",
     "har byggt",
     "De bygger ett hus.",
-    "They are building a house."
+    "They are building a house.",
+    "bygg",
+    "byggt",
+    "Grupp 2a"
   ],
   [
     "skapa",
@@ -899,7 +1167,10 @@ window.ORDKOMPIS_VERBS = [
     "skapade",
     "har skapat",
     "Vi skapar något nytt.",
-    "We are creating something new."
+    "We are creating something new.",
+    "skapa",
+    "skapat",
+    "Grupp 1"
   ],
   [
     "förklara",
@@ -909,7 +1180,10 @@ window.ORDKOMPIS_VERBS = [
     "förklarade",
     "har förklarat",
     "Kan du förklara?",
-    "Can you explain?"
+    "Can you explain?",
+    "förklara",
+    "förklarat",
+    "Grupp 1"
   ],
   [
     "visa",
@@ -919,7 +1193,10 @@ window.ORDKOMPIS_VERBS = [
     "visade",
     "har visat",
     "Visa mig vägen.",
-    "Show me the way."
+    "Show me the way.",
+    "visa",
+    "visat",
+    "Grupp 1"
   ],
   [
     "skicka",
@@ -929,7 +1206,10 @@ window.ORDKOMPIS_VERBS = [
     "skickade",
     "har skickat",
     "Skicka ett mejl.",
-    "Send an email."
+    "Send an email.",
+    "skicka",
+    "skickat",
+    "Grupp 1"
   ],
   [
     "följa",
@@ -939,7 +1219,10 @@ window.ORDKOMPIS_VERBS = [
     "följde",
     "har följt",
     "Följ mig.",
-    "Follow me."
+    "Follow me.",
+    "följ",
+    "följt",
+    "Grupp 2a"
   ],
   [
     "hålla",
@@ -949,7 +1232,10 @@ window.ORDKOMPIS_VERBS = [
     "höll",
     "har hållit",
     "Håll min hand.",
-    "Hold my hand."
+    "Hold my hand.",
+    "håll",
+    "hållit",
+    "Grupp 4 (stark)"
   ],
   [
     "bära",
@@ -959,7 +1245,10 @@ window.ORDKOMPIS_VERBS = [
     "bar",
     "har burit",
     "Jag bär väskan.",
-    "I am carrying the bag."
+    "I am carrying the bag.",
+    "bär",
+    "burit",
+    "Grupp 4 (stark)"
   ],
   [
     "dra",
@@ -969,7 +1258,10 @@ window.ORDKOMPIS_VERBS = [
     "drog",
     "har dragit",
     "Dra i handtaget.",
-    "Pull the handle."
+    "Pull the handle.",
+    "dra",
+    "dragit",
+    "Grupp 4 (stark)"
   ],
   [
     "trycka",
@@ -979,7 +1271,10 @@ window.ORDKOMPIS_VERBS = [
     "tryckte",
     "har tryckt",
     "Tryck på knappen.",
-    "Press the button."
+    "Press the button.",
+    "tryck",
+    "tryckt",
+    "Grupp 2b"
   ],
   [
     "sätta",
@@ -989,7 +1284,10 @@ window.ORDKOMPIS_VERBS = [
     "satte",
     "har satt",
     "Sätt boken på bordet.",
-    "Put the book on the table."
+    "Put the book on the table.",
+    "sätt",
+    "satt",
+    "Oregelbunden"
   ],
   [
     "falla",
@@ -999,7 +1297,10 @@ window.ORDKOMPIS_VERBS = [
     "föll",
     "har fallit",
     "Löven faller.",
-    "The leaves are falling."
+    "The leaves are falling.",
+    "fall",
+    "fallit",
+    "Grupp 4 (stark)"
   ],
   [
     "vinna",
@@ -1009,7 +1310,10 @@ window.ORDKOMPIS_VERBS = [
     "vann",
     "har vunnit",
     "Vi vill vinna.",
-    "We want to win."
+    "We want to win.",
+    "vinn",
+    "vunnit",
+    "Grupp 4 (stark)"
   ],
   [
     "förlora",
@@ -1019,7 +1323,10 @@ window.ORDKOMPIS_VERBS = [
     "förlorade",
     "har förlorat",
     "De förlorade matchen.",
-    "They lost the match."
+    "They lost the match.",
+    "förlora",
+    "förlorat",
+    "Grupp 1"
   ],
   [
     "känna till",
@@ -1029,7 +1336,10 @@ window.ORDKOMPIS_VERBS = [
     "kände till",
     "har känt till",
     "Jag känner till platsen.",
-    "I know the place."
+    "I know the place.",
+    "känn till",
+    "känt till",
+    "Grupp 2a"
   ],
   [
     "behålla",
@@ -1039,7 +1349,10 @@ window.ORDKOMPIS_VERBS = [
     "behöll",
     "har behållit",
     "Behåll kvittot.",
-    "Keep the receipt."
+    "Keep the receipt.",
+    "behåll",
+    "behållit",
+    "Grupp 4 (stark)"
   ],
   [
     "ändra",
@@ -1049,7 +1362,10 @@ window.ORDKOMPIS_VERBS = [
     "ändrade",
     "har ändrat",
     "Jag ändrar planen.",
-    "I am changing the plan."
+    "I am changing the plan.",
+    "ändra",
+    "ändrat",
+    "Grupp 1"
   ],
   [
     "förändra",
@@ -1059,7 +1375,10 @@ window.ORDKOMPIS_VERBS = [
     "förändrade",
     "har förändrat",
     "Tiden förändrar allt.",
-    "Time changes everything."
+    "Time changes everything.",
+    "förändra",
+    "förändrat",
+    "Grupp 1"
   ],
   [
     "använda",
@@ -1069,7 +1388,10 @@ window.ORDKOMPIS_VERBS = [
     "använde",
     "har använt",
     "Använd den här.",
-    "Use this one."
+    "Use this one.",
+    "använd",
+    "använt",
+    "Grupp 2a"
   ],
   [
     "öva",
@@ -1079,7 +1401,10 @@ window.ORDKOMPIS_VERBS = [
     "övade",
     "har övat",
     "Jag övar svenska.",
-    "I practise Swedish."
+    "I practise Swedish.",
+    "öva",
+    "övat",
+    "Grupp 1"
   ],
   [
     "plugga",
@@ -1089,7 +1414,10 @@ window.ORDKOMPIS_VERBS = [
     "pluggade",
     "har pluggat",
     "Jag pluggar inför provet.",
-    "I am studying for the test."
+    "I am studying for the test.",
+    "plugga",
+    "pluggat",
+    "Grupp 1"
   ],
   [
     "förbereda",
@@ -1099,7 +1427,10 @@ window.ORDKOMPIS_VERBS = [
     "förberedde",
     "har förberett",
     "Vi förbereder maten.",
-    "We are preparing the food."
+    "We are preparing the food.",
+    "förbered",
+    "förberett",
+    "Grupp 2a"
   ],
   [
     "planera",
@@ -1109,7 +1440,10 @@ window.ORDKOMPIS_VERBS = [
     "planerade",
     "har planerat",
     "Vi planerar en resa.",
-    "We are planning a trip."
+    "We are planning a trip.",
+    "planera",
+    "planerat",
+    "Grupp 1"
   ],
   [
     "bestämma",
@@ -1119,7 +1453,10 @@ window.ORDKOMPIS_VERBS = [
     "bestämde",
     "har bestämt",
     "Jag bestämmer senare.",
-    "I will decide later."
+    "I will decide later.",
+    "bestämm",
+    "bestämt",
+    "Grupp 2a"
   ],
   [
     "besöka",
@@ -1129,7 +1466,10 @@ window.ORDKOMPIS_VERBS = [
     "besökte",
     "har besökt",
     "Vi besöker farmor.",
-    "We are visiting grandma."
+    "We are visiting grandma.",
+    "besök",
+    "besökt",
+    "Grupp 2b"
   ],
   [
     "födas",
@@ -1139,7 +1479,10 @@ window.ORDKOMPIS_VERBS = [
     "föddes",
     "har fötts",
     "Hon föddes i Sverige.",
-    "She was born in Sweden."
+    "She was born in Sweden.",
+    "—",
+    "fötts",
+    "Deponent"
   ],
   [
     "dö",
@@ -1149,7 +1492,10 @@ window.ORDKOMPIS_VERBS = [
     "dog",
     "har dött",
     "Blommorna dör utan vatten.",
-    "The flowers die without water."
+    "The flowers die without water.",
+    "dö",
+    "dött",
+    "Grupp 3"
   ],
   [
     "regna",
@@ -1159,7 +1505,10 @@ window.ORDKOMPIS_VERBS = [
     "regnade",
     "har regnat",
     "Det regnar idag.",
-    "It is raining today."
+    "It is raining today.",
+    "—",
+    "regnat",
+    "Grupp 1"
   ],
   [
     "snöa",
@@ -1169,7 +1518,10 @@ window.ORDKOMPIS_VERBS = [
     "snöade",
     "har snöat",
     "Det snöar ute.",
-    "It is snowing outside."
+    "It is snowing outside.",
+    "—",
+    "snöat",
+    "Grupp 1"
   ],
   [
     "behaga",
@@ -1179,7 +1531,10 @@ window.ORDKOMPIS_VERBS = [
     "behagade",
     "har behagat",
     "Om det behagar dig.",
-    "If it pleases you."
+    "If it pleases you.",
+    "—",
+    "behagat",
+    "Grupp 1"
   ],
   [
     "fungera",
@@ -1189,7 +1544,10 @@ window.ORDKOMPIS_VERBS = [
     "fungerade",
     "har fungerat",
     "Det fungerar bra.",
-    "It works well."
+    "It works well.",
+    "—",
+    "fungerat",
+    "Grupp 1"
   ],
   [
     "sakna",
@@ -1199,7 +1557,10 @@ window.ORDKOMPIS_VERBS = [
     "saknade",
     "har saknat",
     "Jag saknar dig.",
-    "I miss you."
+    "I miss you.",
+    "sakna",
+    "saknat",
+    "Grupp 1"
   ],
   [
     "hoppas",
@@ -1209,7 +1570,10 @@ window.ORDKOMPIS_VERBS = [
     "hoppades",
     "har hoppats",
     "Jag hoppas det.",
-    "I hope so."
+    "I hope so.",
+    "—",
+    "hoppats",
+    "Deponent"
   ],
   [
     "önska",
@@ -1219,7 +1583,10 @@ window.ORDKOMPIS_VERBS = [
     "önskade",
     "har önskat",
     "Jag önskar dig lycka till.",
-    "I wish you good luck."
+    "I wish you good luck.",
+    "önska",
+    "önskat",
+    "Grupp 1"
   ],
   [
     "försvinna",
@@ -1229,7 +1596,10 @@ window.ORDKOMPIS_VERBS = [
     "försvann",
     "har försvunnit",
     "Min penna försvann.",
-    "My pen disappeared."
+    "My pen disappeared.",
+    "försvinn",
+    "försvunnit",
+    "Grupp 4 (stark)"
   ],
   [
     "återvända",
@@ -1239,7 +1609,10 @@ window.ORDKOMPIS_VERBS = [
     "återvände",
     "har återvänt",
     "Vi återvänder snart.",
-    "We will return soon."
+    "We will return soon.",
+    "återvänd",
+    "återvänt",
+    "Grupp 2a"
   ],
   [
     "beställa",
@@ -1249,7 +1622,10 @@ window.ORDKOMPIS_VERBS = [
     "beställde",
     "har beställt",
     "Jag beställer kaffe.",
-    "I am ordering coffee."
+    "I am ordering coffee.",
+    "beställ",
+    "beställt",
+    "Grupp 2a"
   ],
   [
     "hyra",
@@ -1259,7 +1635,10 @@ window.ORDKOMPIS_VERBS = [
     "hyrde",
     "har hyrt",
     "Vi hyr en bil.",
-    "We rent a car."
+    "We rent a car.",
+    "hyr",
+    "hyrt",
+    "Oregelbunden"
   ],
   [
     "låna",
@@ -1269,7 +1648,10 @@ window.ORDKOMPIS_VERBS = [
     "lånade",
     "har lånat",
     "Kan jag låna den?",
-    "Can I borrow it?"
+    "Can I borrow it?",
+    "låna",
+    "lånat",
+    "Grupp 1"
   ],
   [
     "låna ut",
@@ -1279,7 +1661,10 @@ window.ORDKOMPIS_VERBS = [
     "lånade ut",
     "har lånat ut",
     "Jag lånar ut min bok.",
-    "I lend out my book."
+    "I lend out my book.",
+    "låna ut",
+    "lånat ut",
+    "Grupp 1"
   ],
   [
     "spara",
@@ -1289,7 +1674,10 @@ window.ORDKOMPIS_VERBS = [
     "sparade",
     "har sparat",
     "Jag sparar pengar.",
-    "I save money."
+    "I save money.",
+    "spara",
+    "sparat",
+    "Grupp 1"
   ],
   [
     "spendera",
@@ -1299,7 +1687,10 @@ window.ORDKOMPIS_VERBS = [
     "spenderade",
     "har spenderat",
     "Vi spenderar helgen här.",
-    "We spend the weekend here."
+    "We spend the weekend here.",
+    "spendera",
+    "spenderat",
+    "Grupp 1"
   ],
   [
     "investera",
@@ -1309,7 +1700,10 @@ window.ORDKOMPIS_VERBS = [
     "investerade",
     "har investerat",
     "De investerar långsiktigt.",
-    "They invest for the long term."
+    "They invest for the long term.",
+    "investera",
+    "investerat",
+    "Grupp 1"
   ],
   [
     "förbättra",
@@ -1319,7 +1713,10 @@ window.ORDKOMPIS_VERBS = [
     "förbättrade",
     "har förbättrat",
     "Jag förbättrar min svenska.",
-    "I am improving my Swedish."
+    "I am improving my Swedish.",
+    "förbättra",
+    "förbättrat",
+    "Grupp 1"
   ],
   [
     "minska",
@@ -1329,7 +1726,10 @@ window.ORDKOMPIS_VERBS = [
     "minskade",
     "har minskat",
     "Vi minskar kostnaderna.",
-    "We reduce the costs."
+    "We reduce the costs.",
+    "minska",
+    "minskat",
+    "Grupp 1"
   ],
   [
     "öka",
@@ -1339,7 +1739,10 @@ window.ORDKOMPIS_VERBS = [
     "ökade",
     "har ökat",
     "Priserna ökar.",
-    "Prices are increasing."
+    "Prices are increasing.",
+    "öka",
+    "ökat",
+    "Grupp 1"
   ],
   [
     "växa",
@@ -1349,7 +1752,10 @@ window.ORDKOMPIS_VERBS = [
     "växte",
     "har vuxit",
     "Barn växer snabbt.",
-    "Children grow quickly."
+    "Children grow quickly.",
+    "väx",
+    "vuxit",
+    "Grupp 4 (stark)"
   ],
   [
     "utveckla",
@@ -1359,7 +1765,10 @@ window.ORDKOMPIS_VERBS = [
     "utvecklade",
     "har utvecklat",
     "Vi utvecklar en app.",
-    "We are developing an app."
+    "We are developing an app.",
+    "utveckla",
+    "utvecklat",
+    "Grupp 1"
   ],
   [
     "innehålla",
@@ -1369,7 +1778,10 @@ window.ORDKOMPIS_VERBS = [
     "innehöll",
     "har innehållit",
     "Lådan innehåller böcker.",
-    "The box contains books."
+    "The box contains books.",
+    "innehåll",
+    "innehållit",
+    "Grupp 4 (stark)"
   ],
   [
     "bero på",
@@ -1379,7 +1791,10 @@ window.ORDKOMPIS_VERBS = [
     "berodde på",
     "har berott på",
     "Det beror på vädret.",
-    "It depends on the weather."
+    "It depends on the weather.",
+    "bero på",
+    "berott på",
+    "Oregelbunden"
   ],
   [
     "påverka",
@@ -1389,7 +1804,10 @@ window.ORDKOMPIS_VERBS = [
     "påverkade",
     "har påverkat",
     "Sömn påverkar hälsan.",
-    "Sleep affects health."
+    "Sleep affects health.",
+    "påverka",
+    "påverkat",
+    "Grupp 1"
   ],
   [
     "beskriva",
@@ -1399,7 +1817,10 @@ window.ORDKOMPIS_VERBS = [
     "beskrev",
     "har beskrivit",
     "Beskriv bilden.",
-    "Describe the picture."
+    "Describe the picture.",
+    "beskriv",
+    "beskrivit",
+    "Grupp 4 (stark)"
   ],
   [
     "jämföra",
@@ -1409,7 +1830,10 @@ window.ORDKOMPIS_VERBS = [
     "jämförde",
     "har jämfört",
     "Jämför de två.",
-    "Compare the two."
+    "Compare the two.",
+    "jämför",
+    "jämfört",
+    "Oregelbunden"
   ],
   [
     "diskutera",
@@ -1419,7 +1843,10 @@ window.ORDKOMPIS_VERBS = [
     "diskuterade",
     "har diskuterat",
     "Vi diskuterar frågan.",
-    "We are discussing the issue."
+    "We are discussing the issue.",
+    "diskutera",
+    "diskuterat",
+    "Grupp 1"
   ],
   [
     "erbjuda",
@@ -1429,7 +1856,10 @@ window.ORDKOMPIS_VERBS = [
     "erbjöd",
     "har erbjudit",
     "De erbjuder hjälp.",
-    "They offer help."
+    "They offer help.",
+    "erbjud",
+    "erbjudit",
+    "Grupp 4 (stark)"
   ],
   [
     "tillåta",
@@ -1439,7 +1869,10 @@ window.ORDKOMPIS_VERBS = [
     "tillät",
     "har tillåtit",
     "De tillåter inte telefoner.",
-    "They do not allow phones."
+    "They do not allow phones.",
+    "tillåt",
+    "tillåtit",
+    "Grupp 4 (stark)"
   ],
   [
     "förbjuda",
@@ -1449,7 +1882,10 @@ window.ORDKOMPIS_VERBS = [
     "förbjöd",
     "har förbjudit",
     "Lagen förbjuder det.",
-    "The law forbids it."
+    "The law forbids it.",
+    "förbjud",
+    "förbjudit",
+    "Grupp 4 (stark)"
   ],
   [
     "kräva",
@@ -1459,7 +1895,10 @@ window.ORDKOMPIS_VERBS = [
     "krävde",
     "har krävt",
     "Det kräver tid.",
-    "It takes time."
+    "It takes time.",
+    "kräv",
+    "krävt",
+    "Grupp 2a"
   ],
   [
     "lyda",
@@ -1469,7 +1908,10 @@ window.ORDKOMPIS_VERBS = [
     "lydde",
     "har lytt",
     "Hunden lyder.",
-    "The dog obeys."
+    "The dog obeys.",
+    "lyd",
+    "lytt",
+    "Grupp 2a"
   ],
   [
     "skydda",
@@ -1479,7 +1921,10 @@ window.ORDKOMPIS_VERBS = [
     "skyddade",
     "har skyddat",
     "Vi skyddar naturen.",
-    "We protect nature."
+    "We protect nature.",
+    "skydda",
+    "skyddat",
+    "Grupp 1"
   ],
   [
     "rädda",
@@ -1489,7 +1934,10 @@ window.ORDKOMPIS_VERBS = [
     "räddade",
     "har räddat",
     "De räddade katten.",
-    "They rescued the cat."
+    "They rescued the cat.",
+    "rädda",
+    "räddat",
+    "Grupp 1"
   ],
   [
     "dela",
@@ -1499,7 +1947,10 @@ window.ORDKOMPIS_VERBS = [
     "delade",
     "har delat",
     "Dela med dig.",
-    "Share with others."
+    "Share with others.",
+    "dela",
+    "delat",
+    "Grupp 1"
   ],
   [
     "nå",
@@ -1509,7 +1960,10 @@ window.ORDKOMPIS_VERBS = [
     "nådde",
     "har nått",
     "Vi nådde målet.",
-    "We reached the goal."
+    "We reached the goal.",
+    "nå",
+    "nått",
+    "Grupp 3"
   ],
   [
     "märka",
@@ -1519,7 +1973,10 @@ window.ORDKOMPIS_VERBS = [
     "märkte",
     "har märkt",
     "Jag märkte skillnaden.",
-    "I noticed the difference."
+    "I noticed the difference.",
+    "märk",
+    "märkt",
+    "Grupp 2b"
   ],
   [
     "upptäcka",
@@ -1529,7 +1986,10 @@ window.ORDKOMPIS_VERBS = [
     "upptäckte",
     "har upptäckt",
     "Vi upptäckte felet.",
-    "We discovered the error."
+    "We discovered the error.",
+    "upptäck",
+    "upptäckt",
+    "Grupp 2b"
   ],
   [
     "erkänna",
@@ -1539,7 +1999,10 @@ window.ORDKOMPIS_VERBS = [
     "erkände",
     "har erkänt",
     "Han erkände misstaget.",
-    "He admitted the mistake."
+    "He admitted the mistake.",
+    "erkänn",
+    "erkänt",
+    "Grupp 2a"
   ],
   [
     "förneka",
@@ -1549,7 +2012,10 @@ window.ORDKOMPIS_VERBS = [
     "förnekade",
     "har förnekat",
     "Hon förnekade allt.",
-    "She denied everything."
+    "She denied everything.",
+    "förneka",
+    "förnekat",
+    "Grupp 1"
   ],
   [
     "föreslå",
@@ -1559,7 +2025,10 @@ window.ORDKOMPIS_VERBS = [
     "föreslog",
     "har föreslagit",
     "Jag föreslår en paus.",
-    "I suggest a break."
+    "I suggest a break.",
+    "föreslå",
+    "föreslagit",
+    "Oregelbunden"
   ],
   [
     "acceptera",
@@ -1569,7 +2038,10 @@ window.ORDKOMPIS_VERBS = [
     "accepterade",
     "har accepterat",
     "Jag accepterar erbjudandet.",
-    "I accept the offer."
+    "I accept the offer.",
+    "acceptera",
+    "accepterat",
+    "Grupp 1"
   ],
   [
     "vägra",
@@ -1579,7 +2051,10 @@ window.ORDKOMPIS_VERBS = [
     "vägrade",
     "har vägrat",
     "Han vägrade svara.",
-    "He refused to answer."
+    "He refused to answer.",
+    "vägra",
+    "vägrat",
+    "Grupp 1"
   ],
   [
     "bestå",
@@ -1589,7 +2064,10 @@ window.ORDKOMPIS_VERBS = [
     "bestod",
     "har bestått",
     "Provet består av tre delar.",
-    "The test consists of three parts."
+    "The test consists of three parts.",
+    "—",
+    "bestått",
+    "Oregelbunden"
   ],
   [
     "ske",
@@ -1599,7 +2077,10 @@ window.ORDKOMPIS_VERBS = [
     "skedde",
     "har skett",
     "Vad sker nu?",
-    "What is happening now?"
+    "What is happening now?",
+    "—",
+    "skett",
+    "Grupp 2a"
   ],
   [
     "föredra",
@@ -1609,7 +2090,10 @@ window.ORDKOMPIS_VERBS = [
     "föredrog",
     "har föredragit",
     "Jag föredrar te.",
-    "I prefer tea."
+    "I prefer tea.",
+    "föredra",
+    "föredragit",
+    "Grupp 1"
   ],
   [
     "inträffa",
@@ -1619,7 +2103,10 @@ window.ORDKOMPIS_VERBS = [
     "inträffade",
     "har inträffat",
     "En olycka inträffade.",
-    "An accident occurred."
+    "An accident occurred.",
+    "—",
+    "inträffat",
+    "Grupp 1"
   ],
   [
     "förbli",
@@ -1629,7 +2116,10 @@ window.ORDKOMPIS_VERBS = [
     "förblev",
     "har förblivit",
     "Läget förblir oklart.",
-    "The situation remains unclear."
+    "The situation remains unclear.",
+    "förbli",
+    "förblivit",
+    "Oregelbunden"
   ],
   [
     "bada",
@@ -1639,7 +2129,10 @@ window.ORDKOMPIS_VERBS = [
     "badade",
     "har badat",
     "Vi badar i sjön på sommaren.",
-    "We swim in the lake in summer."
+    "We swim in the lake in summer.",
+    "bada",
+    "badat",
+    "Grupp 1"
   ],
   [
     "duscha",
@@ -1649,7 +2142,10 @@ window.ORDKOMPIS_VERBS = [
     "duschade",
     "har duschat",
     "Jag duschar varje morgon.",
-    "I shower every morning."
+    "I shower every morning.",
+    "duscha",
+    "duschat",
+    "Grupp 1"
   ],
   [
     "borsta",
@@ -1659,7 +2155,10 @@ window.ORDKOMPIS_VERBS = [
     "borstade",
     "har borstat",
     "Kom ihåg att borsta tänderna.",
-    "Remember to brush your teeth."
+    "Remember to brush your teeth.",
+    "borsta",
+    "borstat",
+    "Grupp 1"
   ],
   [
     "kamma",
@@ -1669,7 +2168,10 @@ window.ORDKOMPIS_VERBS = [
     "kammade",
     "har kammat",
     "Han kammar håret.",
-    "He combs his hair."
+    "He combs his hair.",
+    "kamma",
+    "kammat",
+    "Grupp 1"
   ],
   [
     "raka sig",
@@ -1679,7 +2181,10 @@ window.ORDKOMPIS_VERBS = [
     "rakade sig",
     "har rakat sig",
     "Han rakar sig före jobbet.",
-    "He shaves before work."
+    "He shaves before work.",
+    "raka dig",
+    "rakat sig",
+    "Grupp 1"
   ],
   [
     "klä på sig",
@@ -1689,7 +2194,10 @@ window.ORDKOMPIS_VERBS = [
     "klädde på sig",
     "har klätt på sig",
     "Barnen klär på sig ytterkläderna.",
-    "The children put on their outdoor clothes."
+    "The children put on their outdoor clothes.",
+    "klä på dig",
+    "klätt på sig",
+    "Grupp 3"
   ],
   [
     "klä av sig",
@@ -1699,7 +2207,10 @@ window.ORDKOMPIS_VERBS = [
     "klädde av sig",
     "har klätt av sig",
     "Han klädde av sig och gick och lade sig.",
-    "He undressed and went to bed."
+    "He undressed and went to bed.",
+    "klä av dig",
+    "klätt av sig",
+    "Grupp 3"
   ],
   [
     "byta",
@@ -1709,7 +2220,10 @@ window.ORDKOMPIS_VERBS = [
     "bytte",
     "har bytt",
     "Jag måste byta tåg i Katrineholm.",
-    "I have to change trains in Katrineholm."
+    "I have to change trains in Katrineholm.",
+    "byt",
+    "bytt",
+    "Grupp 2b"
   ],
   [
     "vakna",
@@ -1719,7 +2233,10 @@ window.ORDKOMPIS_VERBS = [
     "vaknade",
     "har vaknat",
     "Jag vaknar klockan sju.",
-    "I wake up at seven o'clock."
+    "I wake up at seven o'clock.",
+    "vakna",
+    "vaknat",
+    "Grupp 1"
   ],
   [
     "väcka",
@@ -1729,7 +2246,10 @@ window.ORDKOMPIS_VERBS = [
     "väckte",
     "har väckt",
     "Väck mig inte för tidigt.",
-    "Don't wake me too early."
+    "Don't wake me too early.",
+    "väck",
+    "väckt",
+    "Grupp 2b"
   ],
   [
     "somna",
@@ -1739,7 +2259,10 @@ window.ORDKOMPIS_VERBS = [
     "somnade",
     "har somnat",
     "Barnet somnade snabbt.",
-    "The child fell asleep quickly."
+    "The child fell asleep quickly.",
+    "somna",
+    "somnat",
+    "Grupp 1"
   ],
   [
     "vila",
@@ -1749,7 +2272,10 @@ window.ORDKOMPIS_VERBS = [
     "vilade",
     "har vilat",
     "Jag behöver vila en stund.",
-    "I need to rest for a while."
+    "I need to rest for a while.",
+    "vila",
+    "vilat",
+    "Grupp 1"
   ],
   [
     "frysa",
@@ -1759,7 +2285,10 @@ window.ORDKOMPIS_VERBS = [
     "frös",
     "har frusit",
     "Jag fryser om händerna.",
-    "My hands are freezing."
+    "My hands are freezing.",
+    "frys",
+    "frusit",
+    "Grupp 4 (stark)"
   ],
   [
     "svettas",
@@ -1769,7 +2298,10 @@ window.ORDKOMPIS_VERBS = [
     "svettades",
     "har svettats",
     "Han svettas efter träningen.",
-    "He is sweating after the workout."
+    "He is sweating after the workout.",
+    "—",
+    "svettats",
+    "Deponent"
   ],
   [
     "andas",
@@ -1779,7 +2311,10 @@ window.ORDKOMPIS_VERBS = [
     "andades",
     "har andats",
     "Andas djupt och slappna av.",
-    "Breathe deeply and relax."
+    "Breathe deeply and relax.",
+    "—",
+    "andats",
+    "Deponent"
   ],
   [
     "hosta",
@@ -1789,7 +2324,10 @@ window.ORDKOMPIS_VERBS = [
     "hostade",
     "har hostat",
     "Hon hostar mycket på natten.",
-    "She coughs a lot at night."
+    "She coughs a lot at night.",
+    "hosta",
+    "hostat",
+    "Grupp 1"
   ],
   [
     "nysa",
@@ -1799,7 +2337,10 @@ window.ORDKOMPIS_VERBS = [
     "nyste",
     "har nyst",
     "Prosit när du nyser!",
-    "Bless you when you sneeze!"
+    "Bless you when you sneeze!",
+    "nys",
+    "nyst",
+    "Grupp 2b"
   ],
   [
     "blöda",
@@ -1809,7 +2350,10 @@ window.ORDKOMPIS_VERBS = [
     "blödde",
     "har blött",
     "Fingret blöder lite.",
-    "The finger is bleeding a bit."
+    "The finger is bleeding a bit.",
+    "blöd",
+    "blött",
+    "Grupp 2a"
   ],
   [
     "koka",
@@ -1819,7 +2363,10 @@ window.ORDKOMPIS_VERBS = [
     "kokade",
     "har kokat",
     "Vattnet kokar redan.",
-    "The water is already boiling."
+    "The water is already boiling.",
+    "koka",
+    "kokat",
+    "Grupp 1"
   ],
   [
     "steka",
@@ -1829,7 +2376,10 @@ window.ORDKOMPIS_VERBS = [
     "stekte",
     "har stekt",
     "Jag steker pannkakor idag.",
-    "I am frying pancakes today."
+    "I am frying pancakes today.",
+    "stek",
+    "stekt",
+    "Grupp 2b"
   ],
   [
     "grilla",
@@ -1839,7 +2389,10 @@ window.ORDKOMPIS_VERBS = [
     "grillade",
     "har grillat",
     "Vi grillar lax i trädgården.",
-    "We grill salmon in the garden."
+    "We grill salmon in the garden.",
+    "grilla",
+    "grillat",
+    "Grupp 1"
   ],
   [
     "skära",
@@ -1849,7 +2402,10 @@ window.ORDKOMPIS_VERBS = [
     "skar",
     "har skurit",
     "Skär brödet i tunna skivor.",
-    "Cut the bread into thin slices."
+    "Cut the bread into thin slices.",
+    "skär",
+    "skurit",
+    "Grupp 4 (stark)"
   ],
   [
     "hacka",
@@ -1859,7 +2415,10 @@ window.ORDKOMPIS_VERBS = [
     "hackade",
     "har hackat",
     "Hacka löken fint.",
-    "Chop the onion finely."
+    "Chop the onion finely.",
+    "hacka",
+    "hackat",
+    "Grupp 1"
   ],
   [
     "skala",
@@ -1869,7 +2428,10 @@ window.ORDKOMPIS_VERBS = [
     "skalade",
     "har skalat",
     "Kan du skala potatisen?",
-    "Can you peel the potatoes?"
+    "Can you peel the potatoes?",
+    "skala",
+    "skalat",
+    "Grupp 1"
   ],
   [
     "riva",
@@ -1879,7 +2441,10 @@ window.ORDKOMPIS_VERBS = [
     "rev",
     "har rivit",
     "Riv lite ost över pastan.",
-    "Grate some cheese over the pasta."
+    "Grate some cheese over the pasta.",
+    "riv",
+    "rivit",
+    "Grupp 4 (stark)"
   ],
   [
     "blanda",
@@ -1889,7 +2454,10 @@ window.ORDKOMPIS_VERBS = [
     "blandade",
     "har blandat",
     "Blanda mjöl och mjölk.",
-    "Mix flour and milk."
+    "Mix flour and milk.",
+    "blanda",
+    "blandat",
+    "Grupp 1"
   ],
   [
     "smaka",
@@ -1899,7 +2467,10 @@ window.ORDKOMPIS_VERBS = [
     "smakade",
     "har smakat",
     "Maten smakar jättegott.",
-    "The food tastes delicious."
+    "The food tastes delicious.",
+    "smaka",
+    "smakat",
+    "Grupp 1"
   ],
   [
     "krydda",
@@ -1909,7 +2480,10 @@ window.ORDKOMPIS_VERBS = [
     "kryddade",
     "har kryddat",
     "Krydda soppan med peppar och salt.",
-    "Season the soup with pepper and salt."
+    "Season the soup with pepper and salt.",
+    "krydda",
+    "kryddat",
+    "Grupp 1"
   ],
   [
     "hälla",
@@ -1919,7 +2493,10 @@ window.ORDKOMPIS_VERBS = [
     "hällde",
     "har hällt",
     "Häll upp en kopp kaffe.",
-    "Pour a cup of coffee."
+    "Pour a cup of coffee.",
+    "häll",
+    "hällt",
+    "Grupp 2a"
   ],
   [
     "duka",
@@ -1929,7 +2506,10 @@ window.ORDKOMPIS_VERBS = [
     "dukade",
     "har dukat",
     "Barnen dukar bordet.",
-    "The children set the table."
+    "The children set the table.",
+    "duka",
+    "dukat",
+    "Grupp 1"
   ],
   [
     "duka av",
@@ -1939,7 +2519,10 @@ window.ORDKOMPIS_VERBS = [
     "dukade av",
     "har dukat av",
     "Hjälp till att duka av bordet.",
-    "Help clear the table."
+    "Help clear the table.",
+    "duka av",
+    "dukat av",
+    "Grupp 1"
   ],
   [
     "diska",
@@ -1949,7 +2532,10 @@ window.ORDKOMPIS_VERBS = [
     "diskade",
     "har diskat",
     "Vem diskar efter middagen?",
-    "Who washes the dishes after dinner?"
+    "Who washes the dishes after dinner?",
+    "diska",
+    "diskat",
+    "Grupp 1"
   ],
   [
     "torka",
@@ -1959,7 +2545,10 @@ window.ORDKOMPIS_VERBS = [
     "torkade",
     "har torkat",
     "Torka bordet med en trasa.",
-    "Wipe the table with a cloth."
+    "Wipe the table with a cloth.",
+    "torka",
+    "torkat",
+    "Grupp 1"
   ],
   [
     "mata",
@@ -1969,7 +2558,10 @@ window.ORDKOMPIS_VERBS = [
     "matade",
     "har matat",
     "Vi matar katten klockan åtta.",
-    "We feed the cat at eight."
+    "We feed the cat at eight.",
+    "mata",
+    "matat",
+    "Grupp 1"
   ],
   [
     "svälja",
@@ -1979,7 +2571,10 @@ window.ORDKOMPIS_VERBS = [
     "svalde",
     "har svalt",
     "Det är svårt att svälja när man har ont i halsen.",
-    "It is hard to swallow with a sore throat."
+    "It is hard to swallow with a sore throat.",
+    "svälj",
+    "svalt",
+    "Grupp 2a"
   ],
   [
     "tugga",
@@ -1989,7 +2584,10 @@ window.ORDKOMPIS_VERBS = [
     "tuggade",
     "har tuggat",
     "Tugga maten ordentligt.",
-    "Chew the food properly."
+    "Chew the food properly.",
+    "tugga",
+    "tuggat",
+    "Grupp 1"
   ],
   [
     "promenera",
@@ -1999,7 +2597,10 @@ window.ORDKOMPIS_VERBS = [
     "promenerade",
     "har promenerat",
     "Vi promenerar i skogen varje söndag.",
-    "We stroll in the forest every Sunday."
+    "We stroll in the forest every Sunday.",
+    "promenera",
+    "promenerat",
+    "Grupp 1"
   ],
   [
     "vandra",
@@ -2009,7 +2610,10 @@ window.ORDKOMPIS_VERBS = [
     "vandrade",
     "har vandrat",
     "De vandrar i fjällen.",
-    "They are hiking in the mountains."
+    "They are hiking in the mountains.",
+    "vandra",
+    "vandrat",
+    "Grupp 1"
   ],
   [
     "cykla",
@@ -2019,7 +2623,10 @@ window.ORDKOMPIS_VERBS = [
     "cyklade",
     "har cyklat",
     "Jag cyklar till stationen.",
-    "I cycle to the station."
+    "I cycle to the station.",
+    "cykla",
+    "cyklat",
+    "Grupp 1"
   ],
   [
     "parkera",
@@ -2029,7 +2636,10 @@ window.ORDKOMPIS_VERBS = [
     "parkerade",
     "har parkerat",
     "Var kan jag parkera bilen?",
-    "Where can I park the car?"
+    "Where can I park the car?",
+    "parkera",
+    "parkerat",
+    "Grupp 1"
   ],
   [
     "backa",
@@ -2039,7 +2649,10 @@ window.ORDKOMPIS_VERBS = [
     "backade",
     "har backat",
     "Backa försiktigt ut ur garaget.",
-    "Carefully reverse out of the garage."
+    "Carefully reverse out of the garage.",
+    "backa",
+    "backat",
+    "Grupp 1"
   ],
   [
     "svänga",
@@ -2049,7 +2662,10 @@ window.ORDKOMPIS_VERBS = [
     "svängde",
     "har svängt",
     "Sväng till vänster vid trafikljuset.",
-    "Turn left at the traffic light."
+    "Turn left at the traffic light.",
+    "sväng",
+    "svängt",
+    "Grupp 2a"
   ],
   [
     "stanna",
@@ -2059,7 +2675,10 @@ window.ORDKOMPIS_VERBS = [
     "stannade",
     "har stannat",
     "Bussen stannar här.",
-    "The bus stops here."
+    "The bus stops here.",
+    "stanna",
+    "stannat",
+    "Grupp 1"
   ],
   [
     "passera",
@@ -2069,7 +2688,10 @@ window.ORDKOMPIS_VERBS = [
     "passerade",
     "har passerat",
     "Vi passerar Uppsala på vägen.",
-    "We pass Uppsala on the way."
+    "We pass Uppsala on the way.",
+    "passera",
+    "passerat",
+    "Grupp 1"
   ],
   [
     "hinna",
@@ -2079,7 +2701,10 @@ window.ORDKOMPIS_VERBS = [
     "hann",
     "har hunnit",
     "Jag hinner inte med tåget om jag inte springer.",
-    "I won't catch the train unless I run."
+    "I won't catch the train unless I run.",
+    "—",
+    "hunnit",
+    "Grupp 4 (stark)"
   ],
   [
     "skynda sig",
@@ -2089,7 +2714,10 @@ window.ORDKOMPIS_VERBS = [
     "skyndade sig",
     "har skyndat sig",
     "Skynda dig, vi är sena!",
-    "Hurry up, we are late!"
+    "Hurry up, we are late!",
+    "skynda dig",
+    "skyndat sig",
+    "Grupp 1"
   ],
   [
     "dröja",
@@ -2099,7 +2727,10 @@ window.ORDKOMPIS_VERBS = [
     "dröjde",
     "har dröjt",
     "Det dröjer en stund innan bussen kommer.",
-    "It will be a while before the bus arrives."
+    "It will be a while before the bus arrives.",
+    "dröj",
+    "dröjt",
+    "Grupp 2a"
   ],
   [
     "landa",
@@ -2109,7 +2740,10 @@ window.ORDKOMPIS_VERBS = [
     "landade",
     "har landat",
     "Flygplanet landar om tio minuter.",
-    "The plane lands in ten minutes."
+    "The plane lands in ten minutes.",
+    "landa",
+    "landat",
+    "Grupp 1"
   ],
   [
     "lyfta",
@@ -2119,7 +2753,10 @@ window.ORDKOMPIS_VERBS = [
     "lyfte",
     "har lyft",
     "Planet lyfter klockan sex.",
-    "The plane takes off at six o'clock."
+    "The plane takes off at six o'clock.",
+    "lyft",
+    "lyft",
+    "Grupp 2b"
   ],
   [
     "segla",
@@ -2129,7 +2766,10 @@ window.ORDKOMPIS_VERBS = [
     "seglade",
     "har seglat",
     "Vi seglar i skärgården.",
-    "We sail in the archipelago."
+    "We sail in the archipelago.",
+    "segla",
+    "seglat",
+    "Grupp 1"
   ],
   [
     "krypa",
@@ -2139,7 +2779,10 @@ window.ORDKOMPIS_VERBS = [
     "kröp",
     "har krupit",
     "Bebisen har lärt sig att krypa.",
-    "The baby has learned to crawl."
+    "The baby has learned to crawl.",
+    "kryp",
+    "krupit",
+    "Grupp 4 (stark)"
   ],
   [
     "klättra",
@@ -2149,7 +2792,10 @@ window.ORDKOMPIS_VERBS = [
     "klättrade",
     "har klättrat",
     "Katten klättrade upp i trädet.",
-    "The cat climbed up the tree."
+    "The cat climbed up the tree.",
+    "klättra",
+    "klättrat",
+    "Grupp 1"
   ],
   [
     "hoppa",
@@ -2159,7 +2805,10 @@ window.ORDKOMPIS_VERBS = [
     "hoppade",
     "har hoppat",
     "Barnen hoppar studsmatta.",
-    "The kids jump on the trampoline."
+    "The kids jump on the trampoline.",
+    "hoppa",
+    "hoppat",
+    "Grupp 1"
   ],
   [
     "dyka",
@@ -2169,7 +2818,10 @@ window.ORDKOMPIS_VERBS = [
     "dök",
     "har dykt",
     "Han dök i från klippan.",
-    "He dove in from the cliff."
+    "He dove in from the cliff.",
+    "dyk",
+    "dykt",
+    "Grupp 4 (stark)"
   ],
   [
     "glida",
@@ -2179,7 +2831,10 @@ window.ORDKOMPIS_VERBS = [
     "gled",
     "har glidit",
     "Bilen gled på den hala vägen.",
-    "The car slid on the slippery road."
+    "The car slid on the slippery road.",
+    "glid",
+    "glidit",
+    "Grupp 4 (stark)"
   ],
   [
     "snubbla",
@@ -2189,7 +2844,10 @@ window.ORDKOMPIS_VERBS = [
     "snubblade",
     "har snubblat",
     "Han snubblade på en tröskel.",
-    "He tripped on a threshold."
+    "He tripped on a threshold.",
+    "snubbla",
+    "snubblat",
+    "Grupp 1"
   ],
   [
     "berätta",
@@ -2199,7 +2857,10 @@ window.ORDKOMPIS_VERBS = [
     "berättade",
     "har berättat",
     "Berätta mer om din resa.",
-    "Tell me more about your trip."
+    "Tell me more about your trip.",
+    "berätta",
+    "berättat",
+    "Grupp 1"
   ],
   [
     "meddela",
@@ -2209,7 +2870,10 @@ window.ORDKOMPIS_VERBS = [
     "meddelade",
     "har meddelat",
     "Meddela mig när du är framme.",
-    "Notify me when you arrive."
+    "Notify me when you arrive.",
+    "meddela",
+    "meddelat",
+    "Grupp 1"
   ],
   [
     "informera",
@@ -2219,7 +2883,10 @@ window.ORDKOMPIS_VERBS = [
     "informerade",
     "har informerat",
     "Chefen informerar personalen idag.",
-    "The manager is informing the staff today."
+    "The manager is informing the staff today.",
+    "informera",
+    "informerat",
+    "Grupp 1"
   ],
   [
     "hälsa",
@@ -2229,7 +2896,10 @@ window.ORDKOMPIS_VERBS = [
     "hälsade",
     "har hälsat",
     "Hälsa alla från mig!",
-    "Say hello to everyone from me!"
+    "Say hello to everyone from me!",
+    "hälsa",
+    "hälsat",
+    "Grupp 1"
   ],
   [
     "tacka",
@@ -2239,7 +2909,10 @@ window.ORDKOMPIS_VERBS = [
     "tackade",
     "har tackat",
     "Jag vill tacka för hjälpen.",
-    "I want to thank you for the help."
+    "I want to thank you for the help.",
+    "tacka",
+    "tackat",
+    "Grupp 1"
   ],
   [
     "ursäkta",
@@ -2249,7 +2922,10 @@ window.ORDKOMPIS_VERBS = [
     "ursäktade",
     "har ursäktat",
     "Ursäkta, vet du vad klockan är?",
-    "Excuse me, do you know what time it is?"
+    "Excuse me, do you know what time it is?",
+    "ursäkta",
+    "ursäktat",
+    "Grupp 1"
   ],
   [
     "förlåta",
@@ -2259,7 +2935,10 @@ window.ORDKOMPIS_VERBS = [
     "förlät",
     "har förlåtit",
     "Kan du förlåta mig?",
-    "Can you forgive me?"
+    "Can you forgive me?",
+    "förlåt",
+    "förlåtit",
+    "Grupp 4 (stark)"
   ],
   [
     "lova",
@@ -2269,7 +2948,10 @@ window.ORDKOMPIS_VERBS = [
     "lovade",
     "har lovat",
     "Jag lovar att komma i tid.",
-    "I promise to arrive on time."
+    "I promise to arrive on time.",
+    "lova",
+    "lovat",
+    "Grupp 1"
   ],
   [
     "hålla med",
@@ -2279,7 +2961,10 @@ window.ORDKOMPIS_VERBS = [
     "höll med",
     "har hållit med",
     "Jag håller med dig helt och hållet.",
-    "I completely agree with you."
+    "I completely agree with you.",
+    "håll med",
+    "hållit med",
+    "Grupp 4 (stark)"
   ],
   [
     "hålla om",
@@ -2289,7 +2974,10 @@ window.ORDKOMPIS_VERBS = [
     "höll om",
     "har hållit om",
     "Hon höll om honom länge.",
-    "She hugged him for a long time."
+    "She hugged him for a long time.",
+    "håll om",
+    "hållit om",
+    "Grupp 4 (stark)"
   ],
   [
     "krama",
@@ -2299,7 +2987,10 @@ window.ORDKOMPIS_VERBS = [
     "kramade",
     "har kramat",
     "De kramade varandra hejdå.",
-    "They hugged each other goodbye."
+    "They hugged each other goodbye.",
+    "krama",
+    "kramat",
+    "Grupp 1"
   ],
   [
     "kyssa",
@@ -2309,7 +3000,10 @@ window.ORDKOMPIS_VERBS = [
     "kysste",
     "har kysst",
     "De kysste varandra på kinden.",
-    "They kissed each other on the cheek."
+    "They kissed each other on the cheek.",
+    "kyss",
+    "kysst",
+    "Grupp 2b"
   ],
   [
     "dejta",
@@ -2319,7 +3013,10 @@ window.ORDKOMPIS_VERBS = [
     "dejtade",
     "har dejtat",
     "De har dejtat i sex månader.",
-    "They have been dating for six months."
+    "They have been dating for six months.",
+    "dejta",
+    "dejtat",
+    "Grupp 1"
   ],
   [
     "gifta sig",
@@ -2329,7 +3026,10 @@ window.ORDKOMPIS_VERBS = [
     "gifte sig",
     "har gift sig",
     "De gifte sig i stadshuset.",
-    "They got married in the city hall."
+    "They got married in the city hall.",
+    "gift dig",
+    "gift sig",
+    "Grupp 2b"
   ],
   [
     "skilja sig",
@@ -2339,7 +3039,10 @@ window.ORDKOMPIS_VERBS = [
     "skilde sig",
     "har skilt sig",
     "Mina föräldrar skilde sig för tio år sedan.",
-    "My parents divorced ten years ago."
+    "My parents divorced ten years ago.",
+    "skilj dig",
+    "skilt sig",
+    "Grupp 2a"
   ],
   [
     "skilja",
@@ -2349,7 +3052,10 @@ window.ORDKOMPIS_VERBS = [
     "skilde",
     "har skilt",
     "Det är svårt att skilja på dem.",
-    "It is hard to tell them apart."
+    "It is hard to tell them apart.",
+    "skilj",
+    "skilt",
+    "Grupp 2a"
   ],
   [
     "bråka",
@@ -2359,7 +3065,10 @@ window.ORDKOMPIS_VERBS = [
     "bråkade",
     "har bråkat",
     "Syskonen bråkar om leksaken.",
-    "The siblings fight over the toy."
+    "The siblings fight over the toy.",
+    "bråka",
+    "bråkat",
+    "Grupp 1"
   ],
   [
     "tjata",
@@ -2369,7 +3078,10 @@ window.ORDKOMPIS_VERBS = [
     "tjatade",
     "har tjatat",
     "Sluta tjata på mig!",
-    "Stop nagging me!"
+    "Stop nagging me!",
+    "tjata",
+    "tjatat",
+    "Grupp 1"
   ],
   [
     "skrika",
@@ -2379,7 +3091,10 @@ window.ORDKOMPIS_VERBS = [
     "skrek",
     "har skrikit",
     "Du behöver inte skrika.",
-    "You don't need to shout."
+    "You don't need to shout.",
+    "skrik",
+    "skrikit",
+    "Grupp 4 (stark)"
   ],
   [
     "viska",
@@ -2389,7 +3104,10 @@ window.ORDKOMPIS_VERBS = [
     "viskade",
     "har viskat",
     "Hon viskade en hemlighet i mitt öra.",
-    "She whispered a secret into my ear."
+    "She whispered a secret into my ear.",
+    "viska",
+    "viskat",
+    "Grupp 1"
   ],
   [
     "hälsa på",
@@ -2399,7 +3117,10 @@ window.ORDKOMPIS_VERBS = [
     "hälsade på",
     "har hälsat på",
     "Vi hälsar på mormor i helgen.",
-    "We are visiting grandma this weekend."
+    "We are visiting grandma this weekend.",
+    "hälsa på",
+    "hälsat på",
+    "Grupp 1"
   ],
   [
     "bjuda",
@@ -2409,7 +3130,10 @@ window.ORDKOMPIS_VERBS = [
     "bjöd",
     "har bjudit",
     "Får jag bjuda på en fika?",
-    "May I treat you to a fika?"
+    "May I treat you to a fika?",
+    "bjud",
+    "bjudit",
+    "Grupp 4 (stark)"
   ],
   [
     "gratulera",
@@ -2419,7 +3143,10 @@ window.ORDKOMPIS_VERBS = [
     "gratulerade",
     "har gratulerat",
     "Vi vill gratulera på födelsedagen!",
-    "We want to congratulate you on your birthday!"
+    "We want to congratulate you on your birthday!",
+    "gratulera",
+    "gratulerat",
+    "Grupp 1"
   ],
   [
     "fira",
@@ -2429,7 +3156,10 @@ window.ORDKOMPIS_VERBS = [
     "firade",
     "har firat",
     "Hur firar ni midsommar?",
-    "How do you celebrate Midsummer?"
+    "How do you celebrate Midsummer?",
+    "fira",
+    "firat",
+    "Grupp 1"
   ],
   [
     "anställa",
@@ -2439,7 +3169,10 @@ window.ORDKOMPIS_VERBS = [
     "anställde",
     "har anställt",
     "Företaget vill anställa fler ingenjörer.",
-    "The company wants to hire more engineers."
+    "The company wants to hire more engineers.",
+    "anställ",
+    "anställt",
+    "Grupp 2a"
   ],
   [
     "säga upp",
@@ -2449,7 +3182,10 @@ window.ORDKOMPIS_VERBS = [
     "sa upp",
     "har sagt upp",
     "Han sa upp sig från sitt jobb igår.",
-    "He quit his job yesterday."
+    "He quit his job yesterday.",
+    "säg upp",
+    "sagt upp",
+    "Oregelbunden"
   ],
   [
     "avsluta",
@@ -2459,7 +3195,10 @@ window.ORDKOMPIS_VERBS = [
     "avslutade",
     "har avslutat",
     "Vi måste avsluta mötet nu.",
-    "We must finish the meeting now."
+    "We must finish the meeting now.",
+    "avsluta",
+    "avslutat",
+    "Grupp 1"
   ],
   [
     "inleda",
@@ -2469,7 +3208,10 @@ window.ORDKOMPIS_VERBS = [
     "inledde",
     "har inlett",
     "Mötet inleds med en presentation.",
-    "The meeting opens with a presentation."
+    "The meeting opens with a presentation.",
+    "inled",
+    "inlett",
+    "Grupp 2a"
   ],
   [
     "delta",
@@ -2479,7 +3221,10 @@ window.ORDKOMPIS_VERBS = [
     "deltog",
     "har deltagit",
     "Alla anställda deltar i kursen.",
-    "All employees are participating in the course."
+    "All employees are participating in the course.",
+    "delta",
+    "deltagit",
+    "Grupp 1"
   ],
   [
     "närvara",
@@ -2489,7 +3234,10 @@ window.ORDKOMPIS_VERBS = [
     "närvarade",
     "har närvarat",
     "Tio personer närvarade vid konferensen.",
-    "Ten people attended the conference."
+    "Ten people attended the conference.",
+    "närvara",
+    "närvarat",
+    "Grupp 1"
   ],
   [
     "samarbeta",
@@ -2499,7 +3247,10 @@ window.ORDKOMPIS_VERBS = [
     "samarbetade",
     "har samarbetat",
     "Vi samarbetar med ett svenskt team.",
-    "We are collaborating with a Swedish team."
+    "We are collaborating with a Swedish team.",
+    "samarbeta",
+    "samarbetat",
+    "Grupp 1"
   ],
   [
     "förhandla",
@@ -2509,7 +3260,10 @@ window.ORDKOMPIS_VERBS = [
     "förhandlade",
     "har förhandlat",
     "De förhandlar om ett nytt avtal.",
-    "They are negotiating a new contract."
+    "They are negotiating a new contract.",
+    "förhandla",
+    "förhandlat",
+    "Grupp 1"
   ],
   [
     "skriva under",
@@ -2519,7 +3273,10 @@ window.ORDKOMPIS_VERBS = [
     "skrev under",
     "har skrivit under",
     "Skriv under kontraktet här.",
-    "Sign the contract here."
+    "Sign the contract here.",
+    "skriv under",
+    "skrivit under",
+    "Grupp 4 (stark)"
   ],
   [
     "ansöka",
@@ -2529,7 +3286,10 @@ window.ORDKOMPIS_VERBS = [
     "ansökte",
     "har ansökt",
     "Jag ska ansöka om svenskt medborgarskap.",
-    "I will apply for Swedish citizenship."
+    "I will apply for Swedish citizenship.",
+    "ansök",
+    "ansökt",
+    "Grupp 2b"
   ],
   [
     "registrera",
@@ -2539,7 +3299,10 @@ window.ORDKOMPIS_VERBS = [
     "registrerade",
     "har registrerat",
     "Du måste registrera dig hos Skatteverket.",
-    "You must register with the Tax Agency."
+    "You must register with the Tax Agency.",
+    "registrera",
+    "registrerat",
+    "Grupp 1"
   ],
   [
     "deklarera",
@@ -2549,7 +3312,10 @@ window.ORDKOMPIS_VERBS = [
     "deklarerade",
     "har deklarerat",
     "Det är dags att deklarera i maj.",
-    "It is time to file taxes in May."
+    "It is time to file taxes in May.",
+    "deklarera",
+    "deklarerat",
+    "Grupp 1"
   ],
   [
     "tjänna",
@@ -2559,7 +3325,10 @@ window.ORDKOMPIS_VERBS = [
     "tjänade",
     "har tjänat",
     "Hon tjänar bra på sitt nya jobb.",
-    "She earns well in her new job."
+    "She earns well in her new job.",
+    "tjänar",
+    "tjänat",
+    "Grupp 1"
   ],
   [
     "lönearbeta",
@@ -2569,7 +3338,10 @@ window.ORDKOMPIS_VERBS = [
     "lönearbetade",
     "har lönearbetat",
     "Många lönearbetar heltid.",
-    "Many work full-time for wages."
+    "Many work full-time for wages.",
+    "lönearbeta",
+    "lönearbetat",
+    "Grupp 1"
   ],
   [
     "undervisa",
@@ -2579,7 +3351,10 @@ window.ORDKOMPIS_VERBS = [
     "undervisade",
     "har undervisat",
     "Läraren undervisar i svenska för invandrare.",
-    "The teacher teaches Swedish for immigrants."
+    "The teacher teaches Swedish for immigrants.",
+    "undervisa",
+    "undervisat",
+    "Grupp 1"
   ],
   [
     "tentera",
@@ -2589,7 +3364,10 @@ window.ORDKOMPIS_VERBS = [
     "tenterade",
     "har tenterat",
     "Studenterna tenterar i morgon.",
-    "The students take their exam tomorrow."
+    "The students take their exam tomorrow.",
+    "tentera",
+    "tenterat",
+    "Grupp 1"
   ],
   [
     "godkänna",
@@ -2599,7 +3377,10 @@ window.ORDKOMPIS_VERBS = [
     "godkände",
     "har godkänt",
     "Migrationsverket godkände ansökan.",
-    "The Migration Agency approved the application."
+    "The Migration Agency approved the application.",
+    "godkänn",
+    "godkänt",
+    "Grupp 2a"
   ],
   [
     "underkänna",
@@ -2609,7 +3390,10 @@ window.ORDKOMPIS_VERBS = [
     "underkände",
     "har underkänt",
     "Läraren underkände uppsatsen.",
-    "The teacher failed the essay."
+    "The teacher failed the essay.",
+    "underkänn",
+    "underkänt",
+    "Grupp 2a"
   ],
   [
     "repetera",
@@ -2619,7 +3403,10 @@ window.ORDKOMPIS_VERBS = [
     "repeterade",
     "har repeterat",
     "Repetera grammatiken varje dag.",
-    "Revise the grammar every day."
+    "Revise the grammar every day.",
+    "repetera",
+    "repeterat",
+    "Grupp 1"
   ],
   [
     "anteckna",
@@ -2629,7 +3416,10 @@ window.ORDKOMPIS_VERBS = [
     "antecknade",
     "har antecknat",
     "Anteckna viktiga punkter under föreläsningen.",
-    "Take notes on key points during the lecture."
+    "Take notes on key points during the lecture.",
+    "anteckna",
+    "antecknat",
+    "Grupp 1"
   ],
   [
     "ladda",
@@ -2639,7 +3429,10 @@ window.ORDKOMPIS_VERBS = [
     "laddade",
     "har laddat",
     "Jag behöver ladda min telefon.",
-    "I need to charge my phone."
+    "I need to charge my phone.",
+    "ladda",
+    "laddat",
+    "Grupp 1"
   ],
   [
     "ladda ner",
@@ -2649,7 +3442,10 @@ window.ORDKOMPIS_VERBS = [
     "laddade ner",
     "har laddat ner",
     "Ladda ner appen från nätet.",
-    "Download the app from the web."
+    "Download the app from the web.",
+    "ladda ner",
+    "laddat ner",
+    "Grupp 1"
   ],
   [
     "ladda upp",
@@ -2659,7 +3455,10 @@ window.ORDKOMPIS_VERBS = [
     "laddade upp",
     "har laddat upp",
     "Hon laddar upp foton på molnet.",
-    "She uploads photos to the cloud."
+    "She uploads photos to the cloud.",
+    "ladda upp",
+    "laddat upp",
+    "Grupp 1"
   ],
   [
     "starta",
@@ -2669,7 +3468,10 @@ window.ORDKOMPIS_VERBS = [
     "startade",
     "har startat",
     "Starta om datorn om det hänger sig.",
-    "Restart the computer if it freezes."
+    "Restart the computer if it freezes.",
+    "starta",
+    "startat",
+    "Grupp 1"
   ],
   [
     "stänga av",
@@ -2679,7 +3481,10 @@ window.ORDKOMPIS_VERBS = [
     "stängde av",
     "har stängt av",
     "Stäng av ljudet på mobilen under mötet.",
-    "Mute your phone during the meeting."
+    "Mute your phone during the meeting.",
+    "stäng av",
+    "stängt av",
+    "Grupp 2a"
   ],
   [
     "sätta på",
@@ -2689,7 +3494,10 @@ window.ORDKOMPIS_VERBS = [
     "satte på",
     "har satt på",
     "Sätt på radion, nyheterna börjar nu.",
-    "Turn on the radio, the news is starting."
+    "Turn on the radio, the news is starting.",
+    "sätt på",
+    "satt på",
+    "Oregelbunden"
   ],
   [
     "klicka",
@@ -2699,7 +3507,10 @@ window.ORDKOMPIS_VERBS = [
     "klickade",
     "har klickat",
     "Klicka på länken för att läsa mer.",
-    "Click the link to read more."
+    "Click the link to read more.",
+    "klicka",
+    "klickat",
+    "Grupp 1"
   ],
   [
     "skriva ut",
@@ -2709,7 +3520,10 @@ window.ORDKOMPIS_VERBS = [
     "skrev ut",
     "har skrivit ut",
     "Kan du skriva ut dokumentet åt mig?",
-    "Can you print the document for me?"
+    "Can you print the document for me?",
+    "skriv ut",
+    "skrivit ut",
+    "Grupp 4 (stark)"
   ],
   [
     "skanna",
@@ -2719,7 +3533,10 @@ window.ORDKOMPIS_VERBS = [
     "skannade",
     "har skannat",
     "Skanna ditt pass i apparaten.",
-    "Scan your passport in the machine."
+    "Scan your passport in the machine.",
+    "skanna",
+    "skannat",
+    "Grupp 1"
   ],
   [
     "googla",
@@ -2729,7 +3546,10 @@ window.ORDKOMPIS_VERBS = [
     "googlade",
     "har googlat",
     "Jag googlar adressen direkt.",
-    "I'll Google the address right away."
+    "I'll Google the address right away.",
+    "googla",
+    "googlat",
+    "Grupp 1"
   ],
   [
     "swisha",
@@ -2739,7 +3559,10 @@ window.ORDKOMPIS_VERBS = [
     "swishade",
     "har swishat",
     "Kan jag swisha dig för lunchen?",
-    "Can I Swish you for lunch?"
+    "Can I Swish you for lunch?",
+    "swisha",
+    "swishat",
+    "Grupp 1"
   ],
   [
     "sms:a",
@@ -2749,7 +3572,10 @@ window.ORDKOMPIS_VERBS = [
     "sms:ade",
     "har sms:at",
     "Sms:a mig när du har slutat.",
-    "Text me when you have finished."
+    "Text me when you have finished.",
+    "sms:a",
+    "sms:at",
+    "Grupp 1"
   ],
   [
     "mejla",
@@ -2759,7 +3585,10 @@ window.ORDKOMPIS_VERBS = [
     "mejlade",
     "har mejlat",
     "Jag mejlar dig filen om en stund.",
-    "I'll email you the file shortly."
+    "I'll email you the file shortly.",
+    "mejla",
+    "mejlat",
+    "Grupp 1"
   ],
   [
     "fota",
@@ -2769,7 +3598,10 @@ window.ORDKOMPIS_VERBS = [
     "fotade",
     "har fotat",
     "Får man fota här inne?",
-    "Are you allowed to take photos in here?"
+    "Are you allowed to take photos in here?",
+    "fota",
+    "fotat",
+    "Grupp 1"
   ],
   [
     "filma",
@@ -2779,7 +3611,10 @@ window.ORDKOMPIS_VERBS = [
     "filmade",
     "har filmat",
     "Hon filmade hela konserten.",
-    "She recorded the entire concert."
+    "She recorded the entire concert.",
+    "filma",
+    "filmat",
+    "Grupp 1"
   ],
   [
     "streama",
@@ -2789,7 +3624,10 @@ window.ORDKOMPIS_VERBS = [
     "streamade",
     "har streamat",
     "Vi streamar en svensk serie ikväll.",
-    "We stream a Swedish series tonight."
+    "We stream a Swedish series tonight.",
+    "streama",
+    "streamat",
+    "Grupp 1"
   ],
   [
     "känna på",
@@ -2799,7 +3637,10 @@ window.ORDKOMPIS_VERBS = [
     "kände på",
     "har känt på",
     "Känn på tyget, det är mjukt.",
-    "Feel the fabric, it is soft."
+    "Feel the fabric, it is soft.",
+    "känn på",
+    "känt på",
+    "Grupp 2a"
   ],
   [
     "lukta",
@@ -2809,7 +3650,10 @@ window.ORDKOMPIS_VERBS = [
     "luktade",
     "har luktat",
     "Det luktar nybakat kanelbullar.",
-    "It smells like freshly baked cinnamon buns."
+    "It smells like freshly baked cinnamon buns.",
+    "lukta",
+    "luktat",
+    "Grupp 1"
   ],
   [
     "dofta",
@@ -2819,7 +3663,10 @@ window.ORDKOMPIS_VERBS = [
     "doftade",
     "har doftat",
     "Blommorna doftar underbart.",
-    "The flowers smell wonderful."
+    "The flowers smell wonderful.",
+    "dofta",
+    "doftat",
+    "Grupp 1"
   ],
   [
     "titta",
@@ -2829,7 +3676,10 @@ window.ORDKOMPIS_VERBS = [
     "tittade",
     "har tittat",
     "Titta på den vackra utsikten!",
-    "Look at the beautiful view!"
+    "Look at the beautiful view!",
+    "titta",
+    "tittat",
+    "Grupp 1"
   ],
   [
     "stirra",
@@ -2839,7 +3689,10 @@ window.ORDKOMPIS_VERBS = [
     "stirrade",
     "har stirrat",
     "Stirra inte på folk på bussen.",
-    "Don't stare at people on the bus."
+    "Don't stare at people on the bus.",
+    "stirra",
+    "stirrat",
+    "Grupp 1"
   ],
   [
     "blunda",
@@ -2849,7 +3702,10 @@ window.ORDKOMPIS_VERBS = [
     "blundade",
     "har blundat",
     "Blunda och gissa vad det är.",
-    "Close your eyes and guess what it is."
+    "Close your eyes and guess what it is.",
+    "blunda",
+    "blundat",
+    "Grupp 1"
   ],
   [
     "kasta",
@@ -2859,7 +3715,10 @@ window.ORDKOMPIS_VERBS = [
     "kastade",
     "har kastat",
     "Kasta inte skräp på marken.",
-    "Don't throw trash on the ground."
+    "Don't throw trash on the ground.",
+    "kasta",
+    "kastat",
+    "Grupp 1"
   ],
   [
     "fånga",
@@ -2869,7 +3728,10 @@ window.ORDKOMPIS_VERBS = [
     "fångade",
     "har fångat",
     "Hunden fångade bollen i luften.",
-    "The dog caught the ball in the air."
+    "The dog caught the ball in the air.",
+    "fånga",
+    "fångat",
+    "Grupp 1"
   ],
   [
     "släppa",
@@ -2879,7 +3741,10 @@ window.ORDKOMPIS_VERBS = [
     "släppte",
     "har släppt",
     "Släpp taget om repet.",
-    "Let go of the rope."
+    "Let go of the rope.",
+    "släpp",
+    "släppt",
+    "Grupp 2b"
   ],
   [
     "tappa",
@@ -2889,7 +3754,10 @@ window.ORDKOMPIS_VERBS = [
     "tappade",
     "har tappat",
     "Jag tappade min mobil i golvet.",
-    "I dropped my phone on the floor."
+    "I dropped my phone on the floor.",
+    "tappa",
+    "tappat",
+    "Grupp 1"
   ],
   [
     "plocka",
@@ -2899,7 +3767,10 @@ window.ORDKOMPIS_VERBS = [
     "plockade",
     "har plockat",
     "Vi plockar blåbär i skogen varje sensommar.",
-    "We pick blueberries in the forest every late summer."
+    "We pick blueberries in the forest every late summer.",
+    "plocka",
+    "plockat",
+    "Grupp 1"
   ],
   [
     "lyfta upp",
@@ -2909,7 +3780,10 @@ window.ORDKOMPIS_VERBS = [
     "lyfte upp",
     "har lyft upp",
     "Han lyfte upp barnet på sina axlar.",
-    "He lifted the child onto his shoulders."
+    "He lifted the child onto his shoulders.",
+    "lyft upp",
+    "lyft upp",
+    "Grupp 2b"
   ],
   [
     "skaka",
@@ -2919,7 +3793,10 @@ window.ORDKOMPIS_VERBS = [
     "skakade",
     "har skakat",
     "Skaka flaskan innan du öppnar den.",
-    "Shake the bottle before opening it."
+    "Shake the bottle before opening it.",
+    "skaka",
+    "skakat",
+    "Grupp 1"
   ],
   [
     "bita",
@@ -2929,7 +3806,10 @@ window.ORDKOMPIS_VERBS = [
     "bet",
     "har bitit",
     "Hunden bits inte, den är snäll.",
-    "The dog doesn't bite, it's gentle."
+    "The dog doesn't bite, it's gentle.",
+    "bit",
+    "bitit",
+    "Grupp 4 (stark)"
   ],
   [
     "sticka",
@@ -2939,7 +3819,10 @@ window.ORDKOMPIS_VERBS = [
     "stack",
     "har stuckit",
     "Jag måste sticka nu, tåget går snart.",
-    "I have to dash now, the train leaves soon."
+    "I have to dash now, the train leaves soon.",
+    "stick",
+    "stuckit",
+    "Grupp 4 (stark)"
   ],
   [
     "slå",
@@ -2949,7 +3832,10 @@ window.ORDKOMPIS_VERBS = [
     "slog",
     "har slagit",
     "Klockan slår tolv.",
-    "The clock strikes twelve."
+    "The clock strikes twelve.",
+    "slå",
+    "slagit",
+    "Grupp 4 (stark)"
   ],
   [
     "sparka",
@@ -2959,7 +3845,10 @@ window.ORDKOMPIS_VERBS = [
     "sparkade",
     "har sparkat",
     "Sparka bollen till mig!",
-    "Kick the ball to me!"
+    "Kick the ball to me!",
+    "sparka",
+    "sparkat",
+    "Grupp 1"
   ],
   [
     "knuffa",
@@ -2969,7 +3858,10 @@ window.ORDKOMPIS_VERBS = [
     "knuffade",
     "har knuffat",
     "Knuffas inte i kön.",
-    "Don't push in the line."
+    "Don't push in the line.",
+    "knuffa",
+    "knuffat",
+    "Grupp 1"
   ],
   [
     "trampa",
@@ -2979,7 +3871,10 @@ window.ORDKOMPIS_VERBS = [
     "trampade",
     "har trampat",
     "Se upp så att du inte trampar på snigeln.",
-    "Watch out so you don't step on the snail."
+    "Watch out so you don't step on the snail.",
+    "trampa",
+    "trampat",
+    "Grupp 1"
   ],
   [
     "krympa",
@@ -2989,7 +3884,10 @@ window.ORDKOMPIS_VERBS = [
     "krympte",
     "har krympt",
     "Tröjan krympte i tvätten.",
-    "The sweater shrank in the wash."
+    "The sweater shrank in the wash.",
+    "krymp",
+    "krympt",
+    "Grupp 2b"
   ],
   [
     "brinna",
@@ -2999,7 +3897,10 @@ window.ORDKOMPIS_VERBS = [
     "brann",
     "har brunnit",
     "Ljusen brinner på bordet.",
-    "The candles are burning on the table."
+    "The candles are burning on the table.",
+    "brinn",
+    "brunnit",
+    "Grupp 4 (stark)"
   ],
   [
     "bränna",
@@ -3009,7 +3910,10 @@ window.ORDKOMPIS_VERBS = [
     "brände",
     "har bränt",
     "Se till att inte bränna maten.",
-    "Make sure not to burn the food."
+    "Make sure not to burn the food.",
+    "bränn",
+    "bränt",
+    "Grupp 2a"
   ],
   [
     "smälta",
@@ -3019,7 +3923,10 @@ window.ORDKOMPIS_VERBS = [
     "smälte",
     "har smält",
     "Snön smälter i vårsolen.",
-    "The snow melts in the spring sun."
+    "The snow melts in the spring sun.",
+    "smält",
+    "smält",
+    "Grupp 2b"
   ],
   [
     "frysa till",
@@ -3029,7 +3936,10 @@ window.ORDKOMPIS_VERBS = [
     "frös till",
     "har frusit till",
     "Sjön fryser till på vintern.",
-    "The lake freezes over in winter."
+    "The lake freezes over in winter.",
+    "frys till",
+    "frusit till",
+    "Grupp 4 (stark)"
   ],
   [
     "blåsa",
@@ -3039,7 +3949,10 @@ window.ORDKOMPIS_VERBS = [
     "blåste",
     "har blåst",
     "Det blåser kallt från norr.",
-    "It is blowing cold from the north."
+    "It is blowing cold from the north.",
+    "blås",
+    "blåst",
+    "Grupp 2b"
   ],
   [
     "skina",
@@ -3049,7 +3962,10 @@ window.ORDKOMPIS_VERBS = [
     "sken",
     "har skinit",
     "Solen skiner över hela Sverige idag.",
-    "The sun is shining over all of Sweden today."
+    "The sun is shining over all of Sweden today.",
+    "skin",
+    "skinit",
+    "Grupp 4 (stark)"
   ],
   [
     "blixtra",
@@ -3059,7 +3975,10 @@ window.ORDKOMPIS_VERBS = [
     "blixtrade",
     "har blixtrat",
     "Det blixtrar och åskar ute.",
-    "There is lightning and thunder outside."
+    "There is lightning and thunder outside.",
+    "—",
+    "blixtrat",
+    "Grupp 1"
   ],
   [
     "åska",
@@ -3069,7 +3988,10 @@ window.ORDKOMPIS_VERBS = [
     "åskade",
     "har åskat",
     "Det åskar i fjärran.",
-    "It is thundering in the distance."
+    "It is thundering in the distance.",
+    "—",
+    "åskat",
+    "Grupp 1"
   ],
   [
     "undrar",
@@ -3079,7 +4001,10 @@ window.ORDKOMPIS_VERBS = [
     "undrade",
     "har undrat",
     "Jag undrar vad som hände.",
-    "I wonder what happened."
+    "I wonder what happened.",
+    "undra",
+    "undrat",
+    "Grupp 1"
   ],
   [
     "tveka",
@@ -3089,7 +4014,10 @@ window.ORDKOMPIS_VERBS = [
     "tvekade",
     "har tvekat",
     "Tveka inte att fråga om hjälp.",
-    "Don't hesitate to ask for help."
+    "Don't hesitate to ask for help.",
+    "tveka",
+    "tvekat",
+    "Grupp 1"
   ],
   [
     "oroa sig",
@@ -3099,7 +4027,10 @@ window.ORDKOMPIS_VERBS = [
     "oroade sig",
     "har oroat sig",
     "Oroa dig inte, allting ordnar sig.",
-    "Don't worry, everything will work out."
+    "Don't worry, everything will work out.",
+    "oroa dig",
+    "oroat sig",
+    "Grupp 1"
   ],
   [
     "lugna sig",
@@ -3109,7 +4040,10 @@ window.ORDKOMPIS_VERBS = [
     "lugnade sig",
     "har lugnat sig",
     "Ta ett djupt andetag och lugna dig.",
-    "Take a deep breath and calm down."
+    "Take a deep breath and calm down.",
+    "lugna dig",
+    "lugnat sig",
+    "Grupp 1"
   ],
   [
     "skämmas",
@@ -3119,7 +4053,10 @@ window.ORDKOMPIS_VERBS = [
     "skämdes",
     "har skämts",
     "Du behöver inte skämmas över att göra fel.",
-    "You don't need to be ashamed of making mistakes."
+    "You don't need to be ashamed of making mistakes.",
+    "—",
+    "skämts",
+    "Deponent"
   ],
   [
     "ångra",
@@ -3129,7 +4066,10 @@ window.ORDKOMPIS_VERBS = [
     "ångrade",
     "har ångrat",
     "Jag ångrar att jag inte började tidigare.",
-    "I regret that I didn't start earlier."
+    "I regret that I didn't start earlier.",
+    "ångra",
+    "ångrat",
+    "Grupp 1"
   ],
   [
     "lita på",
@@ -3139,7 +4079,10 @@ window.ORDKOMPIS_VERBS = [
     "litade på",
     "har litat på",
     "Du kan alltid lita på mig.",
-    "You can always trust me."
+    "You can always trust me.",
+    "lita på",
+    "litat på",
+    "Grupp 1"
   ],
   [
     "misstänka",
@@ -3149,7 +4092,10 @@ window.ORDKOMPIS_VERBS = [
     "misstänkte",
     "har misstänkt",
     "Polisen misstänker brott.",
-    "The police suspect a crime."
+    "The police suspect a crime.",
+    "misstänk",
+    "misstänkt",
+    "Grupp 2b"
   ],
   [
     "beundra",
@@ -3159,7 +4105,10 @@ window.ORDKOMPIS_VERBS = [
     "beundrade",
     "har beundrat",
     "Jag beundrar ditt mod.",
-    "I admire your courage."
+    "I admire your courage.",
+    "beundra",
+    "beundrat",
+    "Grupp 1"
   ],
   [
     "respektera",
@@ -3169,7 +4118,10 @@ window.ORDKOMPIS_VERBS = [
     "respekterade",
     "har respekterat",
     "Alla måste respektera reglerna.",
-    "Everyone must respect the rules."
+    "Everyone must respect the rules.",
+    "respektera",
+    "respekterat",
+    "Grupp 1"
   ],
   [
     "uppskatta",
@@ -3179,7 +4131,10 @@ window.ORDKOMPIS_VERBS = [
     "uppskattade",
     "har uppskattat",
     "Jag uppskattar verkligen din hjälp.",
-    "I really appreciate your help."
+    "I really appreciate your help.",
+    "uppskatta",
+    "uppskattat",
+    "Grupp 1"
   ],
   [
     "längta",
@@ -3189,7 +4144,10 @@ window.ORDKOMPIS_VERBS = [
     "längtade",
     "har längtat",
     "Jag längtar efter sommaren och värmen.",
-    "I long for summer and the warmth."
+    "I long for summer and the warmth.",
+    "längta",
+    "längtat",
+    "Grupp 1"
   ],
   [
     "drömma",
@@ -3199,7 +4157,10 @@ window.ORDKOMPIS_VERBS = [
     "drömde",
     "har drömt",
     "Jag drömde en konstig dröm i natt.",
-    "I dreamed a strange dream last night."
+    "I dreamed a strange dream last night.",
+    "drömm",
+    "drömt",
+    "Grupp 2a"
   ],
   [
     "föreställa sig",
@@ -3209,7 +4170,10 @@ window.ORDKOMPIS_VERBS = [
     "föreställde sig",
     "har föreställt sig",
     "Kan du föreställa dig hur det känns?",
-    "Can you imagine how it feels?"
+    "Can you imagine how it feels?",
+    "föreställ dig",
+    "föreställt sig",
+    "Grupp 2a"
   ],
   [
     "inse",
@@ -3219,7 +4183,10 @@ window.ORDKOMPIS_VERBS = [
     "insåg",
     "har insett",
     "Hon insåg sitt misstag för sent.",
-    "She realized her mistake too late."
+    "She realized her mistake too late.",
+    "inse",
+    "insett",
+    "Grupp 4 (stark)"
   ],
   [
     "uppfatta",
@@ -3229,7 +4196,10 @@ window.ORDKOMPIS_VERBS = [
     "uppfattade",
     "har uppfattat",
     "Hur uppfattade du hans reaktion?",
-    "How did you perceive his reaction?"
+    "How did you perceive his reaction?",
+    "uppfatta",
+    "uppfattat",
+    "Grupp 1"
   ],
   [
     "anta",
@@ -3239,7 +4209,10 @@ window.ORDKOMPIS_VERBS = [
     "antog",
     "har antagit",
     "Jag antar att du har rätt.",
-    "I assume you are right."
+    "I assume you are right.",
+    "anta",
+    "antagit",
+    "Grupp 1"
   ],
   [
     "missta sig",
@@ -3249,7 +4222,10 @@ window.ORDKOMPIS_VERBS = [
     "misstog sig",
     "har misstagit sig",
     "Där misstog du dig nog.",
-    "You were probably mistaken there."
+    "You were probably mistaken there.",
+    "missta dig",
+    "misstagit sig",
+    "Grupp 1"
   ],
   [
     "förvänta sig",
@@ -3259,7 +4235,10 @@ window.ORDKOMPIS_VERBS = [
     "förväntade sig",
     "har förväntat sig",
     "Vad förväntar du dig av kursen?",
-    "What do you expect from the course?"
+    "What do you expect from the course?",
+    "förvänta dig",
+    "förväntat sig",
+    "Grupp 1"
   ],
   [
     "gälla",
@@ -3269,7 +4248,10 @@ window.ORDKOMPIS_VERBS = [
     "gällde",
     "har gällt",
     "Regeln gäller för alla besökare.",
-    "The rule applies to all visitors."
+    "The rule applies to all visitors.",
+    "—",
+    "gällt",
+    "Grupp 2a"
   ],
   [
     "bestraffa",
@@ -3279,7 +4261,10 @@ window.ORDKOMPIS_VERBS = [
     "bestraffade",
     "har bestraffat",
     "Lagen bestraffar fusk hårt.",
-    "The law punishes cheating strictly."
+    "The law punishes cheating strictly.",
+    "bestraffa",
+    "bestraffat",
+    "Grupp 1"
   ],
   [
     "försvara",
@@ -3289,7 +4274,10 @@ window.ORDKOMPIS_VERBS = [
     "försvarade",
     "har försvarat",
     "Sverige försvarar sina gränser.",
-    "Sweden defends its borders."
+    "Sweden defends its borders.",
+    "försvara",
+    "försvarat",
+    "Grupp 1"
   ],
   [
     "anmäla",
@@ -3299,7 +4287,10 @@ window.ORDKOMPIS_VERBS = [
     "anmälde",
     "har anmält",
     "Du bör anmäla stölden till polisen.",
-    "You should report the theft to the police."
+    "You should report the theft to the police.",
+    "anmäl",
+    "anmält",
+    "Grupp 2a"
   ],
   [
     "vittna",
@@ -3309,7 +4300,10 @@ window.ORDKOMPIS_VERBS = [
     "vittnade",
     "har vittnat",
     "Vittnet vittnade i rätten.",
-    "The witness testified in court."
+    "The witness testified in court.",
+    "vittna",
+    "vittnat",
+    "Grupp 1"
   ],
   [
     "döma",
@@ -3319,7 +4313,10 @@ window.ORDKOMPIS_VERBS = [
     "dömde",
     "har dömt",
     "Domstolen dömde den skyldige till böter.",
-    "The court sentenced the culprit to a fine."
+    "The court sentenced the culprit to a fine.",
+    "döm",
+    "dömt",
+    "Grupp 2a"
   ],
   [
     "rösta",
@@ -3329,7 +4326,10 @@ window.ORDKOMPIS_VERBS = [
     "röstade",
     "har röstat",
     "Svenska medborgare röstar i riksdagsvalet.",
-    "Swedish citizens vote in parliamentary elections."
+    "Swedish citizens vote in parliamentary elections.",
+    "rösta",
+    "röstat",
+    "Grupp 1"
   ],
   [
     "påstå",
@@ -3339,7 +4339,10 @@ window.ORDKOMPIS_VERBS = [
     "påstod",
     "har påstått",
     "Han påstår att han inte visste något.",
-    "He claims that he knew nothing."
+    "He claims that he knew nothing.",
+    "påstå",
+    "påstått",
+    "Oregelbunden"
   ],
   [
     "intyga",
@@ -3349,7 +4352,10 @@ window.ORDKOMPIS_VERBS = [
     "intygade",
     "har intygat",
     "Läkaren kan intyga din sjukfrånvaro.",
-    "The doctor can certify your sick leave."
+    "The doctor can certify your sick leave.",
+    "intyga",
+    "intygat",
+    "Grupp 1"
   ],
   [
     "flytta",
@@ -3359,7 +4365,10 @@ window.ORDKOMPIS_VERBS = [
     "flyttade",
     "har flyttat",
     "Vi ska flytta till en större lägenhet i höst.",
-    "We are moving to a bigger flat this autumn."
+    "We are moving to a bigger flat this autumn.",
+    "flytta",
+    "flyttat",
+    "Grupp 1"
   ],
   [
     "trivas",
@@ -3369,7 +4378,10 @@ window.ORDKOMPIS_VERBS = [
     "trivdes",
     "har trivts",
     "Jag trivs jättebra här i Stockholm.",
-    "I feel really at home here in Stockholm."
+    "I feel really at home here in Stockholm.",
+    "—",
+    "trivts",
+    "Deponent"
   ],
   [
     "passa",
@@ -3379,7 +4391,10 @@ window.ORDKOMPIS_VERBS = [
     "passade",
     "har passat",
     "Passar den här tiden för dig?",
-    "Does this time suit you?"
+    "Does this time suit you?",
+    "passa",
+    "passat",
+    "Grupp 1"
   ],
   [
     "passa på",
@@ -3389,7 +4404,10 @@ window.ORDKOMPIS_VERBS = [
     "passade på",
     "har passat på",
     "Passa på medan det är rea!",
-    "Take the opportunity while there is a sale!"
+    "Take the opportunity while there is a sale!",
+    "passa på",
+    "passat på",
+    "Grupp 1"
   ],
   [
     "prova",
@@ -3399,7 +4417,10 @@ window.ORDKOMPIS_VERBS = [
     "provade",
     "har provat",
     "Kan jag prova den här jackan i provrummet?",
-    "Can I try on this jacket in the fitting room?"
+    "Can I try on this jacket in the fitting room?",
+    "prova",
+    "provat",
+    "Grupp 1"
   ],
   [
     "returera",
@@ -3409,7 +4430,10 @@ window.ORDKOMPIS_VERBS = [
     "returerade",
     "har returerat",
     "Jag vill returnera den här tröjan.",
-    "I want to return this sweater."
+    "I want to return this sweater.",
+    "returera",
+    "returerat",
+    "Grupp 1"
   ],
   [
     "rekommendera",
@@ -3419,7 +4443,10 @@ window.ORDKOMPIS_VERBS = [
     "rekommenderade",
     "har rekommenderat",
     "Vad rekommenderar du på menyn?",
-    "What do you recommend on the menu?"
+    "What do you recommend on the menu?",
+    "rekommendera",
+    "rekommenderat",
+    "Grupp 1"
   ],
   [
     "leverera",
@@ -3429,7 +4456,10 @@ window.ORDKOMPIS_VERBS = [
     "levererade",
     "har levererat",
     "Paketet levereras imorgon eftermiddag.",
-    "The parcel will be delivered tomorrow afternoon."
+    "The parcel will be delivered tomorrow afternoon.",
+    "leverera",
+    "levererat",
+    "Grupp 1"
   ],
   [
     "skruva",
@@ -3439,7 +4469,10 @@ window.ORDKOMPIS_VERBS = [
     "skruvade",
     "har skruvat",
     "Vi skruvar ihop en IKEA-bokhylla.",
-    "We are assembling an IKEA bookcase."
+    "We are assembling an IKEA bookcase.",
+    "skruva",
+    "skruvat",
+    "Grupp 1"
   ],
   [
     "måla",
@@ -3449,7 +4482,10 @@ window.ORDKOMPIS_VERBS = [
     "målade",
     "har målat",
     "Vi ska måla om sovrummet i vitt.",
-    "We are going to repaint the bedroom in white."
+    "We are going to repaint the bedroom in white.",
+    "måla",
+    "målat",
+    "Grupp 1"
   ],
   [
     "reparera",
@@ -3459,7 +4495,10 @@ window.ORDKOMPIS_VERBS = [
     "reparerade",
     "har reparerat",
     "Mekanikern reparerar cykeln.",
-    "The mechanic is repairing the bicycle."
+    "The mechanic is repairing the bicycle.",
+    "reparera",
+    "reparerat",
+    "Grupp 1"
   ],
   [
     "rensa",
@@ -3469,7 +4508,10 @@ window.ORDKOMPIS_VERBS = [
     "rensade",
     "har rensat",
     "Vi måste rensa förrådet i helgen.",
-    "We need to clear out the storage this weekend."
+    "We need to clear out the storage this weekend.",
+    "rensa",
+    "rensat",
+    "Grupp 1"
   ],
   [
     "slänga",
@@ -3479,7 +4521,10 @@ window.ORDKOMPIS_VERBS = [
     "slängde",
     "har slängt",
     "Släng inte glas i vanliga soporna.",
-    "Don't throw glass in regular garbage."
+    "Don't throw glass in regular garbage.",
+    "släng",
+    "slängt",
+    "Grupp 2a"
   ],
   [
     "återvinna",
@@ -3489,7 +4534,10 @@ window.ORDKOMPIS_VERBS = [
     "återvann",
     "har återvunnit",
     "I Sverige återvinner man papper, plast och metall.",
-    "In Sweden people recycle paper, plastic and metal."
+    "In Sweden people recycle paper, plastic and metal.",
+    "återvinn",
+    "återvunnit",
+    "Grupp 4 (stark)"
   ],
   [
     "panta",
@@ -3499,7 +4547,10 @@ window.ORDKOMPIS_VERBS = [
     "pantade",
     "har pantat",
     "Glöm inte att panta burkarna på affären.",
-    "Don't forget to return the cans for deposit at the store."
+    "Don't forget to return the cans for deposit at the store.",
+    "panta",
+    "pantat",
+    "Grupp 1"
   ],
   [
     "handla",
@@ -3509,7 +4560,10 @@ window.ORDKOMPIS_VERBS = [
     "handlade",
     "har handlat",
     "Jag ska handla mat på ICA.",
-    "I am going to buy groceries at ICA."
+    "I am going to buy groceries at ICA.",
+    "handla",
+    "handlat",
+    "Grupp 1"
   ],
   [
     "ge upp",
@@ -3519,7 +4573,10 @@ window.ORDKOMPIS_VERBS = [
     "gav upp",
     "har gett upp",
     "Ge aldrig upp dina drömmar!",
-    "Never give up on your dreams!"
+    "Never give up on your dreams!",
+    "ge upp",
+    "gett upp",
+    "Grupp 4 (stark)"
   ],
   [
     "komma på",
@@ -3529,7 +4586,10 @@ window.ORDKOMPIS_VERBS = [
     "kom på",
     "har kommit på",
     "Jag kom precis på en bra idé.",
-    "I just came up with a great idea."
+    "I just came up with a great idea.",
+    "kom på",
+    "kommit på",
+    "Grupp 4 (stark)"
   ],
   [
     "komma fram",
@@ -3539,7 +4599,10 @@ window.ORDKOMPIS_VERBS = [
     "kom fram",
     "har kommit fram",
     "När kommer tåget fram?",
-    "When does the train arrive?"
+    "When does the train arrive?",
+    "kom fram",
+    "kommit fram",
+    "Grupp 4 (stark)"
   ],
   [
     "komma överens",
@@ -3549,7 +4612,10 @@ window.ORDKOMPIS_VERBS = [
     "kom överens",
     "har kommit överens",
     "Vi kom överens om priset.",
-    "We agreed on the price."
+    "We agreed on the price.",
+    "kom överens",
+    "kommit överens",
+    "Grupp 4 (stark)"
   ],
   [
     "slå på",
@@ -3559,7 +4625,10 @@ window.ORDKOMPIS_VERBS = [
     "slog på",
     "har slagit på",
     "Slå på kaffebryggaren, tack.",
-    "Turn on the coffee maker, please."
+    "Turn on the coffee maker, please.",
+    "slå på",
+    "slagit på",
+    "Grupp 4 (stark)"
   ],
   [
     "slå av",
@@ -3569,7 +4638,10 @@ window.ORDKOMPIS_VERBS = [
     "slog av",
     "har slagit av",
     "Glöm inte att slå av ugnen.",
-    "Don't forget to turn off the oven."
+    "Don't forget to turn off the oven.",
+    "slå av",
+    "slagit av",
+    "Grupp 4 (stark)"
   ],
   [
     "koppla av",
@@ -3579,7 +4651,10 @@ window.ORDKOMPIS_VERBS = [
     "kopplade av",
     "har kopplat av",
     "Det är skönt att koppla av efter en lång vecka.",
-    "It is nice to unwind after a long week."
+    "It is nice to unwind after a long week.",
+    "koppla av",
+    "kopplat av",
+    "Grupp 1"
   ],
   [
     "se ut",
@@ -3589,7 +4664,10 @@ window.ORDKOMPIS_VERBS = [
     "såg ut",
     "har sett ut",
     "Det ser ut som om det ska regna.",
-    "It looks as if it is going to rain."
+    "It looks as if it is going to rain.",
+    "se ut",
+    "sett ut",
+    "Grupp 4 (stark)"
   ],
   [
     "se efter",
@@ -3599,7 +4677,10 @@ window.ORDKOMPIS_VERBS = [
     "såg efter",
     "har sett efter",
     "Kan du se efter om posten har kommit?",
-    "Can you check if the mail has arrived?"
+    "Can you check if the mail has arrived?",
+    "se efter",
+    "sett efter",
+    "Grupp 4 (stark)"
   ],
   [
     "känna igen",
@@ -3609,7 +4690,10 @@ window.ORDKOMPIS_VERBS = [
     "kände igen",
     "har känt igen",
     "Jag känner igen ditt ansikte.",
-    "I recognize your face."
+    "I recognize your face.",
+    "känn igen",
+    "känt igen",
+    "Grupp 2a"
   ],
   [
     "ge efter",
@@ -3619,7 +4703,10 @@ window.ORDKOMPIS_VERBS = [
     "gav efter",
     "har gett efter",
     "Han gav efter för grupptrycket.",
-    "He yielded to peer pressure."
+    "He yielded to peer pressure.",
+    "ge efter",
+    "gett efter",
+    "Grupp 4 (stark)"
   ],
   [
     "stå ut",
@@ -3629,7 +4716,10 @@ window.ORDKOMPIS_VERBS = [
     "stod ut",
     "har stått ut",
     "Jag står inte ut med detta oväsen.",
-    "I can't stand this noise."
+    "I can't stand this noise.",
+    "stå ut",
+    "stått ut",
+    "Oregelbunden"
   ],
   [
     "lägga av",
@@ -3639,7 +4729,10 @@ window.ORDKOMPIS_VERBS = [
     "lade av",
     "har lagt av",
     "Lägg av! Du skämtar väl?",
-    "Stop it! You must be kidding?"
+    "Stop it! You must be kidding?",
+    "lägg av",
+    "lagt av",
+    "Oregelbunden"
   ],
   [
     "lägga till",
@@ -3649,7 +4742,10 @@ window.ORDKOMPIS_VERBS = [
     "lade till",
     "har lagt till",
     "Vill du lägga till något till listan?",
-    "Do you want to add something to the list?"
+    "Do you want to add something to the list?",
+    "lägg till",
+    "lagt till",
+    "Oregelbunden"
   ],
   [
     "hålla på med",
@@ -3659,7 +4755,10 @@ window.ORDKOMPIS_VERBS = [
     "höll på med",
     "har hållit på med",
     "Vad håller du på med just nu?",
-    "What are you up to right now?"
+    "What are you up to right now?",
+    "håll på med",
+    "hållit på med",
+    "Grupp 4 (stark)"
   ],
   [
     "dyka upp",
@@ -3669,7 +4768,10 @@ window.ORDKOMPIS_VERBS = [
     "dök upp",
     "har dykt upp",
     "Han dök plötsligt upp på festen.",
-    "He suddenly showed up at the party."
+    "He suddenly showed up at the party.",
+    "dyk upp",
+    "dykt upp",
+    "Grupp 4 (stark)"
   ],
   [
     "gå ut",
@@ -3679,7 +4781,10 @@ window.ORDKOMPIS_VERBS = [
     "gick ut",
     "har gått ut",
     "Ska vi gå ut och ta en öl på fredag?",
-    "Shall we go out and have a beer on Friday?"
+    "Shall we go out and have a beer on Friday?",
+    "gå ut",
+    "gått ut",
+    "Oregelbunden"
   ],
   [
     "gå om",
@@ -3689,7 +4794,10 @@ window.ORDKOMPIS_VERBS = [
     "gick om",
     "har gått om",
     "Han fick gå om kursen.",
-    "He had to retake the course."
+    "He had to retake the course.",
+    "gå om",
+    "gått om",
+    "Oregelbunden"
   ],
   [
     "ta reda på",
@@ -3699,7 +4807,10 @@ window.ORDKOMPIS_VERBS = [
     "tog reda på",
     "har tagit reda på",
     "Jag ska ta reda på fakta.",
-    "I will find out the facts."
+    "I will find out the facts.",
+    "ta reda på",
+    "tagit reda på",
+    "Grupp 4 (stark)"
   ],
   [
     "ta hand om",
@@ -3709,7 +4820,10 @@ window.ORDKOMPIS_VERBS = [
     "tog hand om",
     "har tagit hand om",
     "Kan du ta hand om hunden i helgen?",
-    "Can you take care of the dog this weekend?"
+    "Can you take care of the dog this weekend?",
+    "ta hand om",
+    "tagit hand om",
+    "Grupp 4 (stark)"
   ],
   [
     "ta emot",
@@ -3719,7 +4833,10 @@ window.ORDKOMPIS_VERBS = [
     "tog emot",
     "har tagit emot",
     "Läkaren tar emot patienter från klockan nio.",
-    "The doctor receives patients from nine o'clock."
+    "The doctor receives patients from nine o'clock.",
+    "ta emot",
+    "tagit emot",
+    "Grupp 4 (stark)"
   ],
   [
     "ta av sig",
@@ -3729,7 +4846,10 @@ window.ORDKOMPIS_VERBS = [
     "tog av sig",
     "har tagit av sig",
     "I Sverige tar man alltid av sig skorna inomhus.",
-    "In Sweden one always takes off shoes indoors."
+    "In Sweden one always takes off shoes indoors.",
+    "ta av dig",
+    "tagit av sig",
+    "Grupp 4 (stark)"
   ],
   [
     "skriva upp",
@@ -3739,7 +4859,10 @@ window.ORDKOMPIS_VERBS = [
     "skrev upp",
     "har skrivit upp",
     "Skriv upp mitt telefonnummer.",
-    "Write down my phone number."
+    "Write down my phone number.",
+    "skriv upp",
+    "skrivit upp",
+    "Grupp 4 (stark)"
   ],
   [
     "ringa upp",
@@ -3749,7 +4872,10 @@ window.ORDKOMPIS_VERBS = [
     "ringde upp",
     "har ringt upp",
     "Jag ringer upp dig så fort mötet är slut.",
-    "I will call you back as soon as the meeting ends."
+    "I will call you back as soon as the meeting ends.",
+    "ring upp",
+    "ringt upp",
+    "Grupp 2a"
   ],
   [
     "hänga med",
@@ -3759,7 +4885,10 @@ window.ORDKOMPIS_VERBS = [
     "hängde med",
     "har hängt med",
     "Vill du hänga med till gymmet?",
-    "Do you want to come along to the gym?"
+    "Do you want to come along to the gym?",
+    "häng med",
+    "hängt med",
+    "Grupp 2a"
   ],
   [
     "bjuda in",
@@ -3769,7 +4898,10 @@ window.ORDKOMPIS_VERBS = [
     "bjöd in",
     "har bjudit in",
     "Vi har bjudit in alla grannar på fika.",
-    "We have invited all neighbours for coffee."
+    "We have invited all neighbours for coffee.",
+    "bjud in",
+    "bjudit in",
+    "Grupp 4 (stark)"
   ],
   [
     "stämma",
@@ -3779,7 +4911,10 @@ window.ORDKOMPIS_VERBS = [
     "stämde",
     "har stämt",
     "Det stämmer precis som du säger.",
-    "That is exactly correct, as you say."
+    "That is exactly correct, as you say.",
+    "—",
+    "stämt",
+    "Grupp 2a"
   ],
   [
     "stämma träff",
@@ -3789,7 +4924,10 @@ window.ORDKOMPIS_VERBS = [
     "stämde träff",
     "har stämt träff",
     "Vi stämde träff utanför bion.",
-    "We arranged to meet outside the cinema."
+    "We arranged to meet outside the cinema.",
+    "—",
+    "stämt träff",
+    "Grupp 2a"
   ],
   [
     "bruka",
@@ -3799,7 +4937,10 @@ window.ORDKOMPIS_VERBS = [
     "brukade",
     "har brukat",
     "Jag brukar dricka te på kvällen.",
-    "I usually drink tea in the evening."
+    "I usually drink tea in the evening.",
+    "—",
+    "brukat",
+    "Grupp 1"
   ],
   [
     "slippa",
@@ -3809,7 +4950,10 @@ window.ORDKOMPIS_VERBS = [
     "slapp",
     "har sluppit",
     "Vi slapp vänta i kön länge.",
-    "We escaped having to wait long in the queue."
+    "We escaped having to wait long in the queue.",
+    "—",
+    "sluppit",
+    "Grupp 4 (stark)"
   ],
   [
     "orka",
@@ -3819,7 +4963,10 @@ window.ORDKOMPIS_VERBS = [
     "orkade",
     "har orkat",
     "Jag orkar inte springa längre idag.",
-    "I don't have the energy to run any further today."
+    "I don't have the energy to run any further today.",
+    "—",
+    "orkat",
+    "Grupp 1"
   ],
   [
     "töras",
@@ -3829,7 +4976,10 @@ window.ORDKOMPIS_VERBS = [
     "tordes",
     "har torts",
     "Jag törs inte hoppa från den höjden.",
-    "I don't dare jump from that height."
+    "I don't dare jump from that height.",
+    "—",
+    "torts",
+    "Deponent"
   ],
   [
     "våga",
@@ -3839,7 +4989,10 @@ window.ORDKOMPIS_VERBS = [
     "vågade",
     "har vågat",
     "Hon vågade säga vad hon tyckte.",
-    "She dared to say what she thought."
+    "She dared to say what she thought.",
+    "våga",
+    "vågat",
+    "Grupp 1"
   ],
   [
     "låta",
@@ -3849,7 +5002,10 @@ window.ORDKOMPIS_VERBS = [
     "lät",
     "har låtit",
     "Det låter som en fantastisk idé!",
-    "That sounds like a fantastic idea!"
+    "That sounds like a fantastic idea!",
+    "låt",
+    "låtit",
+    "Grupp 4 (stark)"
   ],
   [
     "be",
@@ -3859,7 +5015,10 @@ window.ORDKOMPIS_VERBS = [
     "bad",
     "har bett",
     "Jag ber om ursäkt.",
-    "I apologize."
+    "I apologize.",
+    "be",
+    "bett",
+    "Grupp 4 (stark)"
   ],
   [
     "tillhöra",
@@ -3869,7 +5028,10 @@ window.ORDKOMPIS_VERBS = [
     "tillhörde",
     "har tillhört",
     "Vem tillhör den här väskan?",
-    "Whom does this bag belong to?"
+    "Whom does this bag belong to?",
+    "tillhör",
+    "tillhört",
+    "Oregelbunden"
   ],
   [
     "passa ihop",
@@ -3879,7 +5041,10 @@ window.ORDKOMPIS_VERBS = [
     "passade ihop",
     "har passat ihop",
     "Färgerna passar perfekt ihop.",
-    "The colours match together perfectly."
+    "The colours match together perfectly.",
+    "passa ihop",
+    "passat ihop",
+    "Grupp 1"
   ],
   [
     "hänga ihop",
@@ -3889,7 +5054,10 @@ window.ORDKOMPIS_VERBS = [
     "hängde ihop",
     "har hängt ihop",
     "Allt hänger ihop i naturen.",
-    "Everything is connected in nature."
+    "Everything is connected in nature.",
+    "häng ihop",
+    "hängt ihop",
+    "Grupp 2a"
   ],
   [
     "beroende",
@@ -3899,7 +5067,10 @@ window.ORDKOMPIS_VERBS = [
     "berodde",
     "har berott",
     "Allt beror på resultatet.",
-    "Everything depends on the result."
+    "Everything depends on the result.",
+    "bero",
+    "berott",
+    "Oregelbunden"
   ],
   [
     "duga",
@@ -3909,7 +5080,10 @@ window.ORDKOMPIS_VERBS = [
     "dög",
     "har dugt",
     "Den gamla jackan duger bra i trädgården.",
-    "The old jacket is good enough in the garden."
+    "The old jacket is good enough in the garden.",
+    "—",
+    "dugt",
+    "Grupp 4 (stark)"
   ],
   [
     "märkas",
@@ -3919,7 +5093,10 @@ window.ORDKOMPIS_VERBS = [
     "märktes",
     "har märkts",
     "Det märks att våren är här nu.",
-    "It shows that spring is here now."
+    "It shows that spring is here now.",
+    "—",
+    "märkts",
+    "Deponent"
   ],
   [
     "synas",
@@ -3929,7 +5106,10 @@ window.ORDKOMPIS_VERBS = [
     "syntes",
     "har synts",
     "Stjärnorna syns klart på himlen inatt.",
-    "The stars are clearly visible in the sky tonight."
+    "The stars are clearly visible in the sky tonight.",
+    "—",
+    "synts",
+    "Deponent"
   ],
   [
     "höra av sig",
@@ -3939,7 +5119,10 @@ window.ORDKOMPIS_VERBS = [
     "hörde av sig",
     "har hört av sig",
     "Hör av dig när du har landat!",
-    "Get in touch when you have landed!"
+    "Get in touch when you have landed!",
+    "hör av dig",
+    "hört av sig",
+    "Oregelbunden"
   ],
   [
     "ta sig till",
@@ -3949,7 +5132,10 @@ window.ORDKOMPIS_VERBS = [
     "tog sig till",
     "har tagit sig till",
     "Vad ska jag ta mig till nu?",
-    "What on earth should I do now?"
+    "What on earth should I do now?",
+    "ta sig till",
+    "tagit sig till",
+    "Grupp 4 (stark)"
   ],
   [
     "andas in",
@@ -3959,7 +5145,10 @@ window.ORDKOMPIS_VERBS = [
     "andades in",
     "har andats in",
     "Andas in djupt genom näsan.",
-    "Inhale deeply through your nose."
+    "Inhale deeply through your nose.",
+    "—",
+    "andats in",
+    "Deponent"
   ],
   [
     "andas ut",
@@ -3969,7 +5158,10 @@ window.ORDKOMPIS_VERBS = [
     "andades ut",
     "har andats ut",
     "Andas ut långsamt genom munnen.",
-    "Exhale slowly through your mouth."
+    "Exhale slowly through your mouth.",
+    "—",
+    "andats ut",
+    "Deponent"
   ],
   [
     "bädda",
@@ -3979,7 +5171,10 @@ window.ORDKOMPIS_VERBS = [
     "bäddade",
     "har bäddat",
     "Bädda sängen varje morgon.",
-    "Make the bed every morning."
+    "Make the bed every morning.",
+    "bädda",
+    "bäddat",
+    "Grupp 1"
   ],
   [
     "bädda ner sig",
@@ -3989,7 +5184,10 @@ window.ORDKOMPIS_VERBS = [
     "bäddade ner sig",
     "har bäddat ner sig",
     "Jag bäddar ner mig med en god bok.",
-    "I tuck myself in with a good book."
+    "I tuck myself in with a good book.",
+    "bädda ner dig",
+    "bäddat ner sig",
+    "Grupp 1"
   ],
   [
     "stryka",
@@ -3999,7 +5197,10 @@ window.ORDKOMPIS_VERBS = [
     "strök",
     "har strukit",
     "Jag måste stryka min skjorta innan festen.",
-    "I have to iron my shirt before the party."
+    "I have to iron my shirt before the party.",
+    "stryk",
+    "strukit",
+    "Grupp 4 (stark)"
   ],
   [
     "sy",
@@ -4009,7 +5210,10 @@ window.ORDKOMPIS_VERBS = [
     "sydde",
     "har sytt",
     "Hon syr sina egna kläder.",
-    "She sews her own clothes."
+    "She sews her own clothes.",
+    "sy",
+    "sytt",
+    "Grupp 3"
   ],
   [
     "lappa",
@@ -4019,7 +5223,10 @@ window.ORDKOMPIS_VERBS = [
     "lappade",
     "har lappat",
     "Jag ska lappa mina gamla jeans.",
-    "I am going to patch my old jeans."
+    "I am going to patch my old jeans.",
+    "lappa",
+    "lappat",
+    "Grupp 1"
   ],
   [
     "hänga",
@@ -4029,7 +5236,10 @@ window.ORDKOMPIS_VERBS = [
     "hängde",
     "har hängt",
     "Häng jackan på kroken.",
-    "Hang the jacket on the hook."
+    "Hang the jacket on the hook.",
+    "häng",
+    "hängt",
+    "Grupp 2a"
   ],
   [
     "hänga upp",
@@ -4039,7 +5249,10 @@ window.ORDKOMPIS_VERBS = [
     "hängde upp",
     "har hängt upp",
     "Jag ska hänga upp tvätten nu.",
-    "I will hang up the laundry now."
+    "I will hang up the laundry now.",
+    "häng upp",
+    "hängt upp",
+    "Grupp 2a"
   ],
   [
     "låsa",
@@ -4049,7 +5262,10 @@ window.ORDKOMPIS_VERBS = [
     "låste",
     "har låst",
     "Kom ihåg att låsa ytterdörren.",
-    "Remember to lock the front door."
+    "Remember to lock the front door.",
+    "lås",
+    "låst",
+    "Grupp 2b"
   ],
   [
     "låsa upp",
@@ -4059,7 +5275,10 @@ window.ORDKOMPIS_VERBS = [
     "låste upp",
     "har låst upp",
     "Kan du låsa upp dörren åt mig?",
-    "Can you unlock the door for me?"
+    "Can you unlock the door for me?",
+    "lås upp",
+    "låst upp",
+    "Grupp 2b"
   ],
   [
     "knacka",
@@ -4069,7 +5288,10 @@ window.ORDKOMPIS_VERBS = [
     "knackade",
     "har knackat",
     "Knacka på dörren innan du går in.",
-    "Knock on the door before you enter."
+    "Knock on the door before you enter.",
+    "knacka",
+    "knackat",
+    "Grupp 1"
   ],
   [
     "ringa på",
@@ -4079,7 +5301,10 @@ window.ORDKOMPIS_VERBS = [
     "ringde på",
     "har ringt på",
     "Någon ringer på dörren.",
-    "Someone is ringing the doorbell."
+    "Someone is ringing the doorbell.",
+    "ring på",
+    "ringt på",
+    "Grupp 2a"
   ],
   [
     "tända",
@@ -4089,7 +5314,10 @@ window.ORDKOMPIS_VERBS = [
     "tände",
     "har tänt",
     "Tänd lampan i hallen.",
-    "Turn on the light in the hallway."
+    "Turn on the light in the hallway.",
+    "tänd",
+    "tänt",
+    "Grupp 2a"
   ],
   [
     "släcka",
@@ -4099,7 +5327,10 @@ window.ORDKOMPIS_VERBS = [
     "släckte",
     "har släckt",
     "Släck ljuset när du går.",
-    "Turn off the light when you leave."
+    "Turn off the light when you leave.",
+    "släck",
+    "släckt",
+    "Grupp 2b"
   ],
   [
     "frysa in",
@@ -4109,7 +5340,10 @@ window.ORDKOMPIS_VERBS = [
     "frös in",
     "har frusit in",
     "Vi fryser in bären till vintern.",
-    "We freeze the berries for winter."
+    "We freeze the berries for winter.",
+    "frys in",
+    "frusit in",
+    "Grupp 4 (stark)"
   ],
   [
     "tina",
@@ -4119,7 +5353,10 @@ window.ORDKOMPIS_VERBS = [
     "tinade",
     "har tinat",
     "Låt fisken tina i kylen.",
-    "Let the fish thaw in the fridge."
+    "Let the fish thaw in the fridge.",
+    "tina",
+    "tinat",
+    "Grupp 1"
   ],
   [
     "värma",
@@ -4129,7 +5366,10 @@ window.ORDKOMPIS_VERBS = [
     "värmde",
     "har värmt",
     "Värm maten i mikron.",
-    "Heat the food in the microwave."
+    "Heat the food in the microwave.",
+    "värm",
+    "värmt",
+    "Grupp 2a"
   ],
   [
     "koka upp",
@@ -4139,7 +5379,10 @@ window.ORDKOMPIS_VERBS = [
     "kokade upp",
     "har kokat upp",
     "Koka upp vattnet och häll i pastan.",
-    "Bring the water to a boil and pour in pasta."
+    "Bring the water to a boil and pour in pasta.",
+    "koka upp",
+    "kokat upp",
+    "Grupp 1"
   ],
   [
     "vispa",
@@ -4149,7 +5392,10 @@ window.ORDKOMPIS_VERBS = [
     "vispade",
     "har vispat",
     "Vispa grädden tills den blir fluffig.",
-    "Whip the cream until it becomes fluffy."
+    "Whip the cream until it becomes fluffy.",
+    "vispa",
+    "vispat",
+    "Grupp 1"
   ],
   [
     "smälta ner",
@@ -4159,7 +5405,10 @@ window.ORDKOMPIS_VERBS = [
     "smälte ner",
     "har smält ner",
     "Smält ner smöret i en kastrull.",
-    "Melt down the butter in a pan."
+    "Melt down the butter in a pan.",
+    "smält ner",
+    "smält ner",
+    "Grupp 2b"
   ],
   [
     "spilla",
@@ -4169,7 +5418,10 @@ window.ORDKOMPIS_VERBS = [
     "spillde",
     "har spillt",
     "Var försiktig så du inte spiller kaffe.",
-    "Be careful not to spill coffee."
+    "Be careful not to spill coffee.",
+    "spill",
+    "spillt",
+    "Grupp 2a"
   ],
   [
     "plocka undan",
@@ -4179,7 +5431,10 @@ window.ORDKOMPIS_VERBS = [
     "plockade undan",
     "har plockat undan",
     "Barnen plockar undan sina leksaker.",
-    "The children put away their toys."
+    "The children put away their toys.",
+    "plocka undan",
+    "plockat undan",
+    "Grupp 1"
   ],
   [
     "dammsuga",
@@ -4189,7 +5444,10 @@ window.ORDKOMPIS_VERBS = [
     "dammsög",
     "har dammsugit",
     "Jag dammsuger lägenheten på lördagar.",
-    "I vacuum the apartment on Saturdays."
+    "I vacuum the apartment on Saturdays.",
+    "dammsug",
+    "dammsugit",
+    "Grupp 4 (stark)"
   ],
   [
     "skura",
@@ -4199,7 +5457,10 @@ window.ORDKOMPIS_VERBS = [
     "skurade",
     "har skurat",
     "Han skurar badrumsgolvet.",
-    "He scrubs the bathroom floor."
+    "He scrubs the bathroom floor.",
+    "skura",
+    "skurat",
+    "Grupp 1"
   ],
   [
     "vattna",
@@ -4209,7 +5470,10 @@ window.ORDKOMPIS_VERBS = [
     "vattnade",
     "har vattnat",
     "Glöm inte att vattna blommorna.",
-    "Don't forget to water the flowers."
+    "Don't forget to water the flowers.",
+    "vattna",
+    "vattnat",
+    "Grupp 1"
   ],
   [
     "odla",
@@ -4219,7 +5483,10 @@ window.ORDKOMPIS_VERBS = [
     "odlade",
     "har odlat",
     "Vi odlar tomater på balkongen.",
-    "We grow tomatoes on the balcony."
+    "We grow tomatoes on the balcony.",
+    "odla",
+    "odlat",
+    "Grupp 1"
   ],
   [
     "skörda",
@@ -4229,7 +5496,10 @@ window.ORDKOMPIS_VERBS = [
     "skördade",
     "har skördat",
     "Bonden skördar vete i augusti.",
-    "The farmer harvests wheat in August."
+    "The farmer harvests wheat in August.",
+    "skörda",
+    "skördat",
+    "Grupp 1"
   ],
   [
     "hugga",
@@ -4239,7 +5509,10 @@ window.ORDKOMPIS_VERBS = [
     "högg",
     "har huggit",
     "Han hugger ved till kaminen.",
-    "He chops firewood for the stove."
+    "He chops firewood for the stove.",
+    "hugg",
+    "huggit",
+    "Grupp 4 (stark)"
   ],
   [
     "elda",
@@ -4249,7 +5522,10 @@ window.ORDKOMPIS_VERBS = [
     "eldade",
     "har eldat",
     "Det är mysigt att elda i öppna spisen.",
-    "It is cozy to make a fire in the fireplace."
+    "It is cozy to make a fire in the fireplace.",
+    "elda",
+    "eldat",
+    "Grupp 1"
   ],
   [
     "uttala",
@@ -4259,7 +5535,10 @@ window.ORDKOMPIS_VERBS = [
     "uttalade",
     "har uttalat",
     "Hur uttalar man det här ordet?",
-    "How do you pronounce this word?"
+    "How do you pronounce this word?",
+    "uttala",
+    "uttalat",
+    "Grupp 1"
   ],
   [
     "stava",
@@ -4269,7 +5548,10 @@ window.ORDKOMPIS_VERBS = [
     "stavade",
     "har stavat",
     "Kan du stava ditt efternamn?",
-    "Can you spell your surname?"
+    "Can you spell your surname?",
+    "stava",
+    "stavat",
+    "Grupp 1"
   ],
   [
     "översätta",
@@ -4279,7 +5561,10 @@ window.ORDKOMPIS_VERBS = [
     "översatte",
     "har översatt",
     "Översätt meningen till svenska.",
-    "Translate the sentence into Swedish."
+    "Translate the sentence into Swedish.",
+    "översätt",
+    "översatt",
+    "Grupp 2b"
   ],
   [
     "tolka",
@@ -4289,7 +5574,10 @@ window.ORDKOMPIS_VERBS = [
     "tolkade",
     "har tolkat",
     "Hon tolkar mellan arabiska och svenska.",
-    "She interprets between Arabic and Swedish."
+    "She interprets between Arabic and Swedish.",
+    "tolka",
+    "tolkat",
+    "Grupp 1"
   ],
   [
     "böja",
@@ -4299,7 +5587,10 @@ window.ORDKOMPIS_VERBS = [
     "böjde",
     "har böjt",
     "Hur böjer man verbet i preteritum?",
-    "How do you conjugate the verb in past tense?"
+    "How do you conjugate the verb in past tense?",
+    "böj",
+    "böjt",
+    "Grupp 2a"
   ],
   [
     "förhöra",
@@ -4309,7 +5600,10 @@ window.ORDKOMPIS_VERBS = [
     "förhörde",
     "har förhört",
     "Mamma förhör mig på glosorna.",
-    "Mum tests me on the vocabulary."
+    "Mum tests me on the vocabulary.",
+    "förhör",
+    "förhört",
+    "Oregelbunden"
   ],
   [
     "lösa",
@@ -4319,7 +5613,10 @@ window.ORDKOMPIS_VERBS = [
     "löste",
     "har löst",
     "Vi ska lösa problemet tillsammans.",
-    "We will solve the problem together."
+    "We will solve the problem together.",
+    "lös",
+    "löst",
+    "Grupp 2b"
   ],
   [
     "räkna",
@@ -4329,7 +5626,10 @@ window.ORDKOMPIS_VERBS = [
     "räknade",
     "har räknat",
     "Kan du räkna till tio på svenska?",
-    "Can you count to ten in Swedish?"
+    "Can you count to ten in Swedish?",
+    "räkna",
+    "räknat",
+    "Grupp 1"
   ],
   [
     "mäta",
@@ -4339,7 +5639,10 @@ window.ORDKOMPIS_VERBS = [
     "mätte",
     "har mätt",
     "Mät avståndet med en linjal.",
-    "Measure the distance with a ruler."
+    "Measure the distance with a ruler.",
+    "mät",
+    "mätt",
+    "Grupp 2b"
   ],
   [
     "väga",
@@ -4349,7 +5652,10 @@ window.ORDKOMPIS_VERBS = [
     "vägde",
     "har vägt",
     "Paketet väger två kilo.",
-    "The parcel weighs two kilos."
+    "The parcel weighs two kilos.",
+    "väg",
+    "vägt",
+    "Grupp 2a"
   ],
   [
     "upprepa",
@@ -4359,7 +5665,10 @@ window.ORDKOMPIS_VERBS = [
     "upprepade",
     "har upprepat",
     "Kan du upprepa vad du sa?",
-    "Can you repeat what you said?"
+    "Can you repeat what you said?",
+    "upprepa",
+    "upprepat",
+    "Grupp 1"
   ],
   [
     "sammanfatta",
@@ -4369,7 +5678,10 @@ window.ORDKOMPIS_VERBS = [
     "sammanfattade",
     "har sammanfattat",
     "Sammanfatta texten med tre meningar.",
-    "Summarize the text in three sentences."
+    "Summarize the text in three sentences.",
+    "sammanfatta",
+    "sammanfattat",
+    "Grupp 1"
   ],
   [
     "definiera",
@@ -4379,7 +5691,10 @@ window.ORDKOMPIS_VERBS = [
     "definierade",
     "har definierat",
     "Hur definierar du begreppet?",
-    "How do you define the concept?"
+    "How do you define the concept?",
+    "definiera",
+    "definierat",
+    "Grupp 1"
   ],
   [
     "må illa",
@@ -4389,7 +5704,10 @@ window.ORDKOMPIS_VERBS = [
     "mådde illa",
     "har mått illa",
     "Jag mår illa efter båtresan.",
-    "I feel nauseous after the boat trip."
+    "I feel nauseous after the boat trip.",
+    "—",
+    "mått illa",
+    "Grupp 3"
   ],
   [
     "kräkas",
@@ -4399,7 +5717,10 @@ window.ORDKOMPIS_VERBS = [
     "kräktes",
     "har kräkts",
     "Barnet kräktes under natten.",
-    "The child vomited during the night."
+    "The child vomited during the night.",
+    "—",
+    "kräkts",
+    "Deponent"
   ],
   [
     "svimma",
@@ -4409,7 +5730,10 @@ window.ORDKOMPIS_VERBS = [
     "svimmade",
     "har svimmat",
     "Hon svimmade i värmen.",
-    "She fainted in the heat."
+    "She fainted in the heat.",
+    "svimma",
+    "svimmat",
+    "Grupp 1"
   ],
   [
     "läka",
@@ -4419,7 +5743,10 @@ window.ORDKOMPIS_VERBS = [
     "läkte",
     "har läkt",
     "Såret läker fint nu.",
-    "The wound is healing nicely now."
+    "The wound is healing nicely now.",
+    "läk",
+    "läkt",
+    "Grupp 2b"
   ],
   [
     "smitta",
@@ -4429,7 +5756,10 @@ window.ORDKOMPIS_VERBS = [
     "smittade",
     "har smittat",
     "Förkylningen smittar lätt.",
-    "The cold is easily contagious."
+    "The cold is easily contagious.",
+    "smitta",
+    "smittat",
+    "Grupp 1"
   ],
   [
     "behandla",
@@ -4439,7 +5769,10 @@ window.ORDKOMPIS_VERBS = [
     "behandlade",
     "har behandlat",
     "Läkaren behandlar infektionen med penicillin.",
-    "The doctor treats the infection with penicillin."
+    "The doctor treats the infection with penicillin.",
+    "behandla",
+    "behandlat",
+    "Grupp 1"
   ],
   [
     "operera",
@@ -4449,7 +5782,10 @@ window.ORDKOMPIS_VERBS = [
     "opererade",
     "har opererat",
     "Kirurgen opererade knät igår.",
-    "The surgeon operated on the knee yesterday."
+    "The surgeon operated on the knee yesterday.",
+    "operera",
+    "opererat",
+    "Grupp 1"
   ],
   [
     "rehabilitera",
@@ -4459,7 +5795,10 @@ window.ORDKOMPIS_VERBS = [
     "rehabiliterade",
     "har rehabiliterat",
     "Patienten rehabiliteras efter olyckan.",
-    "The patient is rehabilitated after the accident."
+    "The patient is rehabilitated after the accident.",
+    "rehabilitera",
+    "rehabiliterat",
+    "Grupp 1"
   ],
   [
     "skada",
@@ -4469,7 +5808,10 @@ window.ORDKOMPIS_VERBS = [
     "skadade",
     "har skadat",
     "Han skadade ryggen på träningen.",
-    "He injured his back during training."
+    "He injured his back during training.",
+    "skada",
+    "skadat",
+    "Grupp 1"
   ],
   [
     "bryta",
@@ -4479,7 +5821,10 @@ window.ORDKOMPIS_VERBS = [
     "bröt",
     "har brutit",
     "Hon bröt armen när hon åkte skidor.",
-    "She broke her arm when skiing."
+    "She broke her arm when skiing.",
+    "bryt",
+    "brutit",
+    "Grupp 4 (stark)"
   ],
   [
     "bända",
@@ -4489,7 +5834,10 @@ window.ORDKOMPIS_VERBS = [
     "bände",
     "har bänt",
     "De fick bända upp dörren.",
-    "They had to pry open the door."
+    "They had to pry open the door.",
+    "bänd",
+    "bänt",
+    "Grupp 2a"
   ],
   [
     "sträcka",
@@ -4499,7 +5847,10 @@ window.ORDKOMPIS_VERBS = [
     "sträckte",
     "har sträckt",
     "Jag sträckte en muskel i benet.",
-    "I strained a muscle in my leg."
+    "I strained a muscle in my leg.",
+    "sträck",
+    "sträckt",
+    "Grupp 2b"
   ],
   [
     "hagla",
@@ -4509,7 +5860,10 @@ window.ORDKOMPIS_VERBS = [
     "haglade",
     "har haglat",
     "Det haglar stora hagel ute.",
-    "It is hailing large hailstones outside."
+    "It is hailing large hailstones outside.",
+    "—",
+    "haglat",
+    "Grupp 1"
   ],
   [
     "dugga",
@@ -4519,7 +5873,10 @@ window.ORDKOMPIS_VERBS = [
     "duggade",
     "har duggat",
     "Det bara duggar lite grann.",
-    "It is only drizzling a little bit."
+    "It is only drizzling a little bit.",
+    "—",
+    "duggat",
+    "Grupp 1"
   ],
   [
     "skymma",
@@ -4529,7 +5886,10 @@ window.ORDKOMPIS_VERBS = [
     "skymde",
     "har skymt",
     "Det börjar skymma tidigt i november.",
-    "It starts to get dark early in November."
+    "It starts to get dark early in November.",
+    "—",
+    "skymt",
+    "Grupp 2a"
   ],
   [
     "ljusna",
@@ -4539,7 +5899,10 @@ window.ORDKOMPIS_VERBS = [
     "ljusnade",
     "har ljusnat",
     "Det ljusnar redan vid fyra på sommaren.",
-    "It brightens already at four in summer."
+    "It brightens already at four in summer.",
+    "—",
+    "ljusnat",
+    "Grupp 1"
   ],
   [
     "storma",
@@ -4549,7 +5912,10 @@ window.ORDKOMPIS_VERBS = [
     "stormade",
     "har stormat",
     "Det stormar på havet inatt.",
-    "It is storming at sea tonight."
+    "It is storming at sea tonight.",
+    "—",
+    "stormat",
+    "Grupp 1"
   ],
   [
     "frysa fast",
@@ -4559,7 +5925,10 @@ window.ORDKOMPIS_VERBS = [
     "frös fast",
     "har frusit fast",
     "Bilen frös fast i snön.",
-    "The car froze stuck in the snow."
+    "The car froze stuck in the snow.",
+    "frys fast",
+    "frusit fast",
+    "Grupp 4 (stark)"
   ],
   [
     "låna pengar",
@@ -4569,7 +5938,10 @@ window.ORDKOMPIS_VERBS = [
     "lånade pengar",
     "har lånat pengar",
     "Vi måste låna pengar till huset.",
-    "We need to borrow money for the house."
+    "We need to borrow money for the house.",
+    "låna pengar",
+    "lånat pengar",
+    "Grupp 1"
   ],
   [
     "skatta",
@@ -4579,7 +5951,10 @@ window.ORDKOMPIS_VERBS = [
     "skattade",
     "har skattat",
     "Man skattar på sin inkomst i Sverige.",
-    "One pays taxes on one's income in Sweden."
+    "One pays taxes on one's income in Sweden.",
+    "skatta",
+    "skattat",
+    "Grupp 1"
   ],
   [
     "fakturera",
@@ -4589,7 +5964,10 @@ window.ORDKOMPIS_VERBS = [
     "fakturerade",
     "har fakturerat",
     "Konsulten fakturerar per timme.",
-    "The consultant invoices per hour."
+    "The consultant invoices per hour.",
+    "fakturera",
+    "fakturerat",
+    "Grupp 1"
   ],
   [
     "pruta",
@@ -4599,7 +5977,10 @@ window.ORDKOMPIS_VERBS = [
     "prutade",
     "har prutat",
     "I Sverige prutar man sällan i vanliga affärer.",
-    "In Sweden people rarely haggle in regular shops."
+    "In Sweden people rarely haggle in regular shops.",
+    "pruta",
+    "prutat",
+    "Grupp 1"
   ],
   [
     "bjuda över",
@@ -4609,7 +5990,10 @@ window.ORDKOMPIS_VERBS = [
     "bjöd över",
     "har bjudit över",
     "Någon bjöd över i budgivningen på lägenheten.",
-    "Someone outbid us in the bidding for the apartment."
+    "Someone outbid us in the bidding for the apartment.",
+    "bjud över",
+    "bjudit över",
+    "Grupp 4 (stark)"
   ],
   [
     "kvittera",
@@ -4619,7 +6003,10 @@ window.ORDKOMPIS_VERBS = [
     "kvitterade",
     "har kvitterat",
     "Kvittera paketet här med din namnteckning.",
-    "Sign for the parcel here with your signature."
+    "Sign for the parcel here with your signature.",
+    "kvittera",
+    "kvitterat",
+    "Grupp 1"
   ],
   [
     "ha råd",
@@ -4629,7 +6016,10 @@ window.ORDKOMPIS_VERBS = [
     "hade råd",
     "har haft råd",
     "Jag har inte råd att köpa en ny bil just nu.",
-    "I cannot afford to buy a new car right now."
+    "I cannot afford to buy a new car right now.",
+    "ha råd",
+    "haft råd",
+    "Oregelbunden"
   ],
   [
     "ha lust",
@@ -4639,7 +6029,10 @@ window.ORDKOMPIS_VERBS = [
     "hade lust",
     "har haft lust",
     "Har du lust att gå på bio ikväll?",
-    "Do you feel like going to the cinema tonight?"
+    "Do you feel like going to the cinema tonight?",
+    "ha lust",
+    "haft lust",
+    "Oregelbunden"
   ],
   [
     "ha bråttom",
@@ -4649,7 +6042,10 @@ window.ORDKOMPIS_VERBS = [
     "hade bråttom",
     "har haft bråttom",
     "Förlåt, jag har lite bråttom.",
-    "Sorry, I am in a bit of a hurry."
+    "Sorry, I am in a bit of a hurry.",
+    "ha bråttom",
+    "haft bråttom",
+    "Oregelbunden"
   ],
   [
     "ha rätt",
@@ -4659,7 +6055,10 @@ window.ORDKOMPIS_VERBS = [
     "hade rätt",
     "har haft rätt",
     "Du har alldeles rätt i det du säger.",
-    "You are quite right in what you say."
+    "You are quite right in what you say.",
+    "ha rätt",
+    "haft rätt",
+    "Oregelbunden"
   ],
   [
     "ha fel",
@@ -4669,7 +6068,10 @@ window.ORDKOMPIS_VERBS = [
     "hade fel",
     "har haft fel",
     "Ingen tycker om att ha fel.",
-    "Nobody likes to be wrong."
+    "Nobody likes to be wrong.",
+    "ha fel",
+    "haft fel",
+    "Oregelbunden"
   ],
   [
     "ta det lugnt",
@@ -4679,7 +6081,10 @@ window.ORDKOMPIS_VERBS = [
     "tog det lugnt",
     "har tagit det lugnt",
     "Ta det lugnt, det ordnar sig.",
-    "Take it easy, it will work out."
+    "Take it easy, it will work out.",
+    "ta det lugnt",
+    "tagit det lugnt",
+    "Grupp 4 (stark)"
   ],
   [
     "lägga märke till",
@@ -4689,7 +6094,10 @@ window.ORDKOMPIS_VERBS = [
     "lade märke till",
     "har lagt märke till",
     "Lade du märke till den nya tavlan?",
-    "Did you notice the new painting?"
+    "Did you notice the new painting?",
+    "lägg märke till",
+    "lagt märke till",
+    "Oregelbunden"
   ],
   [
     "hålla tyst",
@@ -4699,7 +6107,10 @@ window.ORDKOMPIS_VERBS = [
     "höll tyst",
     "har hållit tyst",
     "Håll tyst så att alla kan lyssna.",
-    "Be quiet so everyone can listen."
+    "Be quiet so everyone can listen.",
+    "håll tyst",
+    "hållit tyst",
+    "Grupp 4 (stark)"
   ],
   [
     "hålla tummarna",
@@ -4709,7 +6120,10 @@ window.ORDKOMPIS_VERBS = [
     "höll tummarna",
     "har hållit tummarna",
     "Jag håller tummarna för dig på provet!",
-    "I keep my fingers crossed for you on the test!"
+    "I keep my fingers crossed for you on the test!",
+    "håll tummarna",
+    "hållit tummarna",
+    "Grupp 4 (stark)"
   ],
   [
     "bry sig om",
@@ -4719,7 +6133,10 @@ window.ORDKOMPIS_VERBS = [
     "brydde sig om",
     "har brytt sig om",
     "Hon bryr sig verkligen om sina elever.",
-    "She really cares about her students."
+    "She really cares about her students.",
+    "bry sig om",
+    "brytt sig om",
+    "Grupp 3"
   ],
   [
     "bry sig",
@@ -4729,7 +6146,10 @@ window.ORDKOMPIS_VERBS = [
     "brydde sig",
     "har brytt sig",
     "Bry dig inte om vad andra säger.",
-    "Don't care about what others say."
+    "Don't care about what others say.",
+    "bry dig",
+    "brytt sig",
+    "Grupp 3"
   ],
   [
     "vara rädd för",
@@ -4739,7 +6159,10 @@ window.ORDKOMPIS_VERBS = [
     "var rädd för",
     "har varit rädd för",
     "Är du rädd för spindlar?",
-    "Are you afraid of spiders?"
+    "Are you afraid of spiders?",
+    "var rädd för",
+    "varit rädd för",
+    "Oregelbunden"
   ],
   [
     "se fram emot",
@@ -4749,7 +6172,10 @@ window.ORDKOMPIS_VERBS = [
     "såg fram emot",
     "har sett fram emot",
     "Jag ser verkligen fram emot semestern.",
-    "I really look forward to the holidays."
+    "I really look forward to the holidays.",
+    "se fram emot",
+    "sett fram emot",
+    "Grupp 4 (stark)"
   ],
   [
     "stå på sig",
@@ -4759,7 +6185,10 @@ window.ORDKOMPIS_VERBS = [
     "stod på sig",
     "har stått på sig",
     "Man måste våga stå på sig ibland.",
-    "One must dare to stand one's ground sometimes."
+    "One must dare to stand one's ground sometimes.",
+    "stå på dig",
+    "stått på sig",
+    "Oregelbunden"
   ],
   [
     "ge sig",
@@ -4769,7 +6198,10 @@ window.ORDKOMPIS_VERBS = [
     "gav sig",
     "har gett sig",
     "Han ger sig aldrig utan kamp.",
-    "He never gives in without a fight."
+    "He never gives in without a fight.",
+    "ge dig",
+    "gett sig",
+    "Grupp 4 (stark)"
   ],
   [
     "ge sig av",
@@ -4779,6 +6211,9 @@ window.ORDKOMPIS_VERBS = [
     "gav sig av",
     "har gett sig av",
     "Vi måste ge oss av innan det blir mörkt.",
-    "We must set off before it gets dark."
+    "We must set off before it gets dark.",
+    "ge sig av",
+    "gett sig av",
+    "Grupp 4 (stark)"
   ]
 ];

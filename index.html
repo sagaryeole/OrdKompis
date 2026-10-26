@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>OrdKompis — Interaktiv Svensk Språkkompis</title>
-  <meta name="description" content="Lär dig svenska verb, substantiv (en/ett & plural), praktiskt ordförråd och träna med interaktiva övningar.">
+  <meta name="description" content="Lär dig svenska verb, adjektiv, prepositioner, ordföljd och praktiskt ordförråd med interaktiva övningar.">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="theme-color" content="#155e56">
@@ -25,7 +25,7 @@
         <span class="badge-tag">GitHub Pages Ready</span>
       </div>
       <h1>Lär dig svenska.<br><span>Enkelt & interaktivt.</span></h1>
-      <p class="subtitle">Din personliga språkkompis för svenska verbformer, substantiv (en/ett och plural) och praktiskt ordförråd i vardagen.</p>
+      <p class="subtitle">Din personliga språkkompis för svensk grammatik, ord och uttryck i vardagen.</p>
     </div>
   </header>
 
@@ -33,20 +33,45 @@
   <main class="band">
     <div class="inner">
 
-      <!-- Navigation Tabs (Topic Switcher) -->
-      <nav class="nav-bar" role="tablist" aria-label="Lärämnen">
-        <button type="button" class="nav-tab active" data-tab="verbs" role="tab" aria-selected="true">
-          <span class="tab-icon">🏃</span> Verbkompis
+      <!-- Primary destinations stay visible; less-used lessons live in More. -->
+      <nav class="topic-navigation" aria-label="Lärämnen">
+        <div class="nav-bar" role="tablist" aria-label="Huvudämnen">
+          <button type="button" class="nav-tab active" data-tab="verbs" role="tab" aria-selected="true">
+            <span class="tab-icon">🏃</span><span class="nav-label">Verb</span>
+          </button>
+          <button type="button" class="nav-tab" data-tab="nouns" role="tab" aria-selected="false">
+            <span class="tab-icon">📦</span><span class="nav-label">En / ett</span>
+          </button>
+          <button type="button" class="nav-tab" data-tab="themes" role="tab" aria-selected="false">
+            <span class="tab-icon">☕</span><span class="nav-label">Teman</span>
+          </button>
+          <button type="button" class="nav-tab" data-tab="quiz" role="tab" aria-selected="false">
+            <span class="tab-icon">🎯</span><span class="nav-label">Öva</span>
+          </button>
+        </div>
+        <button type="button" class="nav-more" id="moreTopicsBtn" aria-expanded="false" aria-controls="moreTopicsMenu">
+          <span class="tab-icon" aria-hidden="true">•••</span><span class="nav-label">Mer</span>
         </button>
-        <button type="button" class="nav-tab" data-tab="nouns" role="tab" aria-selected="false">
-          <span class="tab-icon">📦</span> En / Ett & Plural
-        </button>
-        <button type="button" class="nav-tab" data-tab="themes" role="tab" aria-selected="false">
-          <span class="tab-icon">☕</span> Vardagsteman
-        </button>
-        <button type="button" class="nav-tab" data-tab="quiz" role="tab" aria-selected="false">
-          <span class="tab-icon">🎯</span> Träna & Öva
-        </button>
+        <div class="nav-more-menu" id="moreTopicsMenu" role="tablist" aria-label="Fler lärämnen" hidden>
+          <button type="button" class="nav-tab" data-tab="adjectives" role="tab" aria-selected="false">
+            <span class="tab-icon">🎨</span><span class="nav-label">Adjektiv</span>
+          </button>
+          <button type="button" class="nav-tab" data-tab="prepositions" role="tab" aria-selected="false">
+            <span class="tab-icon">🔗</span><span class="nav-label">Prepositioner</span>
+          </button>
+          <button type="button" class="nav-tab" data-tab="wordorder" role="tab" aria-selected="false">
+            <span class="tab-icon">📝</span><span class="nav-label">Ordföljd</span>
+          </button>
+          <button type="button" class="nav-tab" data-tab="pronouns" role="tab" aria-selected="false">
+            <span class="tab-icon">👥</span><span class="nav-label">Pronomen</span>
+          </button>
+          <button type="button" class="nav-tab" data-tab="numbers" role="tab" aria-selected="false">
+            <span class="tab-icon">🔢</span><span class="nav-label">Tal & tid</span>
+          </button>
+          <button type="button" class="nav-tab" data-tab="phrases" role="tab" aria-selected="false">
+            <span class="tab-icon">💬</span><span class="nav-label">Vardagsfraser</span>
+          </button>
+        </div>
       </nav>
 
       <!-- Search Card (Active for Verbs and Nouns) -->
@@ -87,6 +112,9 @@
       <!-- Interactive Quiz Container -->
       <div id="quizContainer" style="display: none;"></div>
 
+      <!-- Reference and grammar lessons -->
+      <div id="learningContainer" style="display: none;"></div>
+
       <!-- Quick Browse Section for Verbs / Nouns -->
       <div id="sectionTitle" class="section-title" style="font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 28px 2px 10px;">
         Vanliga ord att utforska
@@ -100,7 +128,7 @@
   <footer class="band">
     <div class="inner">
       <p style="margin: 0 0 8px;">
-        <b>OrdKompis</b> innehåller just nu <span id="totalVerbCount">478</span> verifierade svenska verb, <span id="totalNounCount">139</span> vanliga substantiv med böjningsmönster och praktiska teman för vardagen i Sverige.
+        <b>OrdKompis</b> innehåller <span id="totalVerbCount">478</span> svenska verb, <span id="totalNounCount">139</span> substantiv och lektioner om adjektiv, prepositioner, ordföljd, pronomen, tal och vardagsfraser.
       </p>
       <p style="margin: 0; font-size: 12px; color: var(--muted);">
         Byggd med ren HTML, modern CSS och Vanilla JavaScript utan externa beroenden — 100% kompatibel med GitHub Pages och mobil Safari på iPhone.
@@ -112,6 +140,12 @@
   <script src="data/verbs.js"></script>
   <script src="data/nouns.js"></script>
   <script src="data/themes.js"></script>
+  <script src="data/adjectives.js"></script>
+  <script src="data/prepositions.js"></script>
+  <script src="data/wordorder.js"></script>
+  <script src="data/pronouns.js"></script>
+  <script src="data/numbers.js"></script>
+  <script src="data/phrases.js"></script>
 
   <!-- Application Controller Script -->
   <script src="js/app.js"></script>
