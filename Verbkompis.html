@@ -1,0 +1,441 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Verbkompis</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: teal masthead, search card overlapping it, four tense cards, example panels. Mobile first. */
+:root{
+  --primary:#1f6f65;--on-primary:#ffffff;--tint:#c4f2df;
+  --bg:#f3f9f7;--surface:#ffffff;--surface-2:#e4f4ee;--line:#d3e6df;
+  --fg:#1c3532;--muted:#566f69;--accent-text:#1b6458;--focus:#2f9c88;
+  --warn-bg:#fff6e0;--warn-line:#ecd9a6;--warn-fg:#6b5320;
+  --font-body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-display:"Bricolage Grotesque","Atkinson Hyperlegible",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --primary:#134a43;--on-primary:#eafaf5;--tint:#8fe0c4;
+  --bg:#0f1b19;--surface:#172624;--surface-2:#1c322e;--line:#2c4540;
+  --fg:#e5f3ef;--muted:#9bb6af;--accent-text:#8fe0c4;--focus:#58c4ac;
+  --warn-bg:#2d2819;--warn-line:#554824;--warn-fg:#ecd9a6;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --primary:#134a43;--on-primary:#eafaf5;--tint:#8fe0c4;
+  --bg:#0f1b19;--surface:#172624;--surface-2:#1c322e;--line:#2c4540;
+  --fg:#e5f3ef;--muted:#9bb6af;--accent-text:#8fe0c4;--focus:#58c4ac;
+  --warn-bg:#2d2819;--warn-line:#554824;--warn-fg:#ecd9a6;color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.5;-webkit-text-size-adjust:100%}
+button,input{font:inherit}
+.band{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.inner{max-width:960px;margin:0 auto}
+
+header.band{background:var(--primary);color:var(--on-primary);padding-block:28px 72px;position:relative;overflow:hidden}
+header .deco{position:absolute;right:3%;bottom:-14px;font:800 clamp(2rem,9vw,5rem)/1 var(--font-display);letter-spacing:-.06em;opacity:.12;pointer-events:none;white-space:nowrap}
+.brand{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;opacity:.85}
+h1{font:800 clamp(2rem,6vw,3.25rem)/1.05 var(--font-display);letter-spacing:-.03em;margin:10px 0 12px;text-wrap:balance}
+h1 span{color:var(--tint)}
+.subtitle{max-width:34rem;margin:0;opacity:.92}
+
+main.band{margin-top:-44px;padding-bottom:48px;position:relative}
+.search-card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 10px 30px rgba(10,50,42,.10)}
+label{display:block;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.searchline{display:flex;gap:10px;align-items:stretch}
+.field{position:relative;flex:1;min-width:0}
+input[type=search]{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:14px 14px;background:var(--bg);color:var(--fg);font-size:17px;outline:none;-webkit-appearance:none;appearance:none}
+input[type=search]:focus{border-color:var(--focus);box-shadow:0 0 0 4px color-mix(in srgb,var(--focus) 25%,transparent)}
+.go{border:0;border-radius:12px;padding:0 18px;background:var(--primary);color:var(--on-primary);font-weight:700;cursor:pointer;min-height:48px;white-space:nowrap}
+.go:active{transform:translateY(1px)}
+button:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+
+.sugg{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:5;margin:0;padding:6px;list-style:none;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 28px rgba(10,50,42,.16);max-height:320px;overflow:auto}
+.sugg li{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:11px 12px;border-radius:9px;cursor:pointer;min-height:44px}
+.sugg li[aria-selected=true],.sugg li:hover{background:var(--surface-2)}
+.sugg .sv{font-weight:700}
+.sugg .en{color:var(--muted);font-size:14px;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+
+.hint{font-size:13px;color:var(--muted);margin:10px 2px 0}
+.chips,.verb-list{display:flex;gap:8px;flex-wrap:wrap}
+.chips{margin-top:14px}
+.chip,.verb-list button{border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:99px;padding:8px 14px;cursor:pointer;min-height:40px;font-size:14px}
+.verb-list button{background:var(--surface)}
+.chip:hover,.verb-list button:hover{border-color:var(--focus)}
+
+#result{margin-top:24px;scroll-margin-top:12px}
+.result-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin:0 2px 14px}
+.eyebrow{font-size:11px;letter-spacing:.14em;font-weight:700;text-transform:uppercase;color:var(--accent-text)}
+.verb-title{font:800 clamp(2rem,6vw,2.75rem)/1.1 var(--font-display);letter-spacing:-.03em;margin:2px 0 0;overflow-wrap:anywhere}
+.meaning{color:var(--muted);margin-top:4px}
+.pill{background:var(--surface-2);color:var(--accent-text);font-size:12px;font-weight:700;padding:6px 11px;border-radius:99px;white-space:nowrap}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.tense{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0}
+.tense .name{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.tense .form{font:700 clamp(1.25rem,4.5vw,1.75rem)/1.2 var(--font-display);letter-spacing:-.02em;margin:8px 0 4px;overflow-wrap:anywhere}
+.tense .form.none{color:var(--muted);font-weight:500}
+.tense .note{font-size:13px;color:var(--muted)}
+.extra{margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.panel{background:var(--surface-2);border-radius:16px;padding:16px;min-width:0}
+.panel h3{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.panel p{margin:0;overflow-wrap:anywhere}
+.panel .sv-ex{font:700 1.15rem/1.35 var(--font-display);color:var(--accent-text)}
+.notice{background:var(--surface-2);border-radius:12px;padding:10px 14px;margin:0 0 14px;font-size:14px;color:var(--muted)}
+.notice b{color:var(--fg)}
+.empty{padding:18px;background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:16px;color:var(--warn-fg)}
+.empty .chips{margin-top:12px}
+.section-title{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:28px 2px 10px}
+footer.band{padding-bottom:32px;font-size:13px;color:var(--muted)}
+footer .inner{padding-top:4px}
+
+@media (max-width:560px){.extra{grid-template-columns:1fr}.pill{display:none}}
+@media (max-width:340px){.grid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap">
+
+<header class="band"><div class="inner" style="position:relative">
+  <div class="brand">Verbkompis · Svenska</div>
+  <h1>Every verb has a story.<br><span>Learn yours.</span></h1>
+  <p class="subtitle">Type a Swedish verb, or the English word, and see its forms, its meaning and an example sentence.</p>
+</div><div class="deco" aria-hidden="true">å ä ö · lära · öva</div></header>
+
+<main class="band"><div class="inner">
+  <form class="search-card" id="searchForm" autocomplete="off" novalidate>
+    <label for="verbInput">Search a Swedish verb</label>
+    <div class="searchline">
+      <div class="field">
+        <input id="verbInput" type="search" placeholder="skriva, gå, äta, write…" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="search" role="combobox" aria-expanded="false" aria-controls="sugg" aria-autocomplete="list">
+        <ul class="sugg" id="sugg" role="listbox" hidden></ul>
+      </div>
+      <button class="go" id="goBtn" type="submit">Explore</button>
+    </div>
+    <p class="hint">Works with the infinitive (skriva), a verb form (skrev) or English (write).</p>
+    <div class="chips" id="quickChips"></div>
+  </form>
+
+  <div id="result" aria-live="polite"></div>
+
+  <div class="section-title">Popular verbs</div>
+  <div class="verb-list" id="popular"></div>
+</div></main>
+
+<footer class="band"><div class="inner">
+  This is a curated starter list of <span id="count">160</span> common verbs, not every Swedish verb. A verb that is not listed is flagged instead of guessed, because irregular forms are easy to get wrong. Forms were checked by hand against standard Swedish verb tables; treat a form you doubt as a prompt to check Svenska Akademiens ordlista (SAOL).
+</div></footer>
+
+<script>
+(function(){
+"use strict";
+// Row: [infinitive, English, infinitive, presens, preteritum, perfekt, Swedish example, English example]
+var verbs = [
+["vara","be","vara","är","var","har varit","Jag är hemma.","I am at home."],
+["ha","have","ha","har","hade","har haft","Jag har en bok.","I have a book."],
+["bli","become","bli","blir","blev","har blivit","Det blir bra.","It will be fine."],
+["göra","do; make","göra","gör","gjorde","har gjort","Vad gör du?","What are you doing?"],
+["gå","go; walk","gå","går","gick","har gått","Jag går till jobbet.","I walk to work."],
+["komma","come","komma","kommer","kom","har kommit","Hon kommer snart.","She is coming soon."],
+["se","see","se","ser","såg","har sett","Jag ser dig.","I see you."],
+["säga","say; tell","säga","säger","sa / sade","har sagt","Vad säger du?","What are you saying?"],
+["få","get; may; receive","få","får","fick","har fått","Får jag fråga?","May I ask?"],
+["ta","take","ta","tar","tog","har tagit","Ta en kopp kaffe.","Have a cup of coffee."],
+["ge","give","ge","ger","gav","har gett","Ge mig en minut.","Give me a minute."],
+["veta","know (a fact)","veta","vet","visste","har vetat","Jag vet svaret.","I know the answer."],
+["tro","believe; think","tro","tror","trodde","har trott","Jag tror det.","I think so."],
+["tycka","think; have an opinion","tycka","tycker","tyckte","har tyckt","Vad tycker du?","What do you think?"],
+["tänka","think; intend","tänka","tänker","tänkte","har tänkt","Jag tänker på dig.","I am thinking of you."],
+["kunna","can; be able to","kunna","kan","kunde","har kunnat","Jag kan simma.","I can swim."],
+["vilja","want","vilja","vill","ville","har velat","Jag vill lära mig.","I want to learn."],
+["måste","must; have to","måste","måste","måste","har måst","Jag måste gå.","I have to go."],
+["ska","will; shall; be going to","ska","ska","skulle","—","Jag ska ringa dig.","I will call you."],
+["behöva","need","behöva","behöver","behövde","har behövt","Jag behöver hjälp.","I need help."],
+["äta","eat","äta","äter","åt","har ätit","Vi äter middag.","We are eating dinner."],
+["dricka","drink","dricka","dricker","drack","har druckit","Drick vatten.","Drink water."],
+["sova","sleep","sova","sover","sov","har sovit","Barnet sover.","The child is sleeping."],
+["skriva","write","skriva","skriver","skrev","har skrivit","Skriv ditt namn.","Write your name."],
+["läsa","read; study","läsa","läser","läste","har läst","Jag läser en bok.","I am reading a book."],
+["tala","speak","tala","talar","talade","har talat","Tala långsamt.","Speak slowly."],
+["prata","talk","prata","pratar","pratade","har pratat","Vi pratar svenska.","We speak Swedish."],
+["lyssna","listen","lyssna","lyssnar","lyssnade","har lyssnat","Lyssna noga.","Listen carefully."],
+["höra","hear","höra","hör","hörde","har hört","Jag hör musik.","I hear music."],
+["förstå","understand","förstå","förstår","förstod","har förstått","Jag förstår.","I understand."],
+["lära","teach; learn","lära","lär","lärde","har lärt","Hon lär barnen simma.","She teaches the children to swim."],
+["lära sig","learn","lära sig","lär sig","lärde sig","har lärt sig","Hon lär sig snabbt.","She learns quickly."],
+["arbeta","work","arbeta","arbetar","arbetade","har arbetat","Sara arbetar här.","Sara works here."],
+["jobba","work","jobba","jobbar","jobbade","har jobbat","Jag jobbar hemma.","I work from home."],
+["bo","live; reside","bo","bor","bodde","har bott","Vi bor i Sverige.","We live in Sweden."],
+["leva","live; be alive","leva","lever","levde","har levt","De lever ett lugnt liv.","They live a quiet life."],
+["älska","love","älska","älskar","älskade","har älskat","Jag älskar dig.","I love you."],
+["gilla","like","gilla","gillar","gillade","har gillat","Jag gillar kaffe.","I like coffee."],
+["tycka om","like","tycka om","tycker om","tyckte om","har tyckt om","Jag tycker om te.","I like tea."],
+["köpa","buy","köpa","köper","köpte","har köpt","Jag köper bröd.","I am buying bread."],
+["sälja","sell","sälja","säljer","sålde","har sålt","De säljer bilen.","They are selling the car."],
+["betala","pay","betala","betalar","betalade","har betalat","Kan jag betala?","Can I pay?"],
+["kosta","cost","kosta","kostar","kostade","har kostat","Vad kostar den?","How much does it cost?"],
+["öppna","open","öppna","öppnar","öppnade","har öppnat","Öppna fönstret.","Open the window."],
+["stänga","close; shut","stänga","stänger","stängde","har stängt","Stäng dörren.","Close the door."],
+["börja","begin; start","börja","börjar","började","har börjat","Filmen börjar nu.","The film starts now."],
+["sluta","stop; finish; quit","sluta","slutar","slutade","har slutat","Jag slutar klockan fem.","I finish at five."],
+["spela","play","spela","spelar","spelade","har spelat","Vi spelar fotboll.","We play football."],
+["springa","run","springa","springer","sprang","har sprungit","Han springer snabbt.","He runs fast."],
+["sitta","sit","sitta","sitter","satt","har suttit","Jag sitter här.","I am sitting here."],
+["stå","stand","stå","står","stod","har stått","Hon står där.","She is standing there."],
+["ligga","lie; be located","ligga","ligger","låg","har legat","Boken ligger här.","The book is here."],
+["lägga","put; lay","lägga","lägger","lade","har lagt","Lägg den här.","Put it here."],
+["ställa","put; place upright","ställa","ställer","ställde","har ställt","Ställ glaset där.","Put the glass there."],
+["hitta","find","hitta","hittar","hittade","har hittat","Jag hittar inte nyckeln.","I can't find the key."],
+["söka","seek; search; apply","söka","söker","sökte","har sökt","Jag söker ett jobb.","I am looking for a job."],
+["fråga","ask","fråga","frågar","frågade","har frågat","Fråga läraren.","Ask the teacher."],
+["svara","answer","svara","svarar","svarade","har svarat","Svara på frågan.","Answer the question."],
+["ringa","call; phone","ringa","ringer","ringde","har ringt","Jag ringer senare.","I will call later."],
+["hjälpa","help","hjälpa","hjälper","hjälpte","har hjälpt","Kan du hjälpa mig?","Can you help me?"],
+["vänta","wait","vänta","väntar","väntade","har väntat","Vänta lite.","Wait a little."],
+["möta","meet; encounter","möta","möter","mötte","har mött","Jag möter honom imorgon.","I am meeting him tomorrow."],
+["träffa","meet; see","träffa","träffar","träffade","har träffat","Jag träffar en vän.","I am meeting a friend."],
+["resa","travel","resa","reser","reste","har rest","Vi reser imorgon.","We travel tomorrow."],
+["köra","drive","köra","kör","körde","har kört","Jag kör bil.","I drive a car."],
+["åka","go; travel by vehicle","åka","åker","åkte","har åkt","Vi åker tåg.","We travel by train."],
+["flyga","fly","flyga","flyger","flög","har flugit","Planet flyger högt.","The plane flies high."],
+["simma","swim","simma","simmar","simmade","har simmat","Jag simmar varje vecka.","I swim every week."],
+["tvätta","wash","tvätta","tvättar","tvättade","har tvättat","Jag tvättar kläder.","I wash clothes."],
+["städa","clean; tidy","städa","städar","städade","har städat","Vi städar huset.","We clean the house."],
+["laga","fix; cook","laga","lagar","lagade","har lagat","Jag lagar mat.","I am cooking."],
+["baka","bake","baka","bakar","bakade","har bakat","Vi bakar bröd.","We bake bread."],
+["välja","choose","välja","väljer","valde","har valt","Välj en färg.","Choose a colour."],
+["glömma","forget","glömma","glömmer","glömde","har glömt","Glöm inte nyckeln.","Don't forget the key."],
+["minnas","remember","minnas","minns","mindes","har mints","Jag minns dig.","I remember you."],
+["komma ihåg","remember","komma ihåg","kommer ihåg","kom ihåg","har kommit ihåg","Kom ihåg det.","Remember that."],
+["försöka","try; attempt","försöka","försöker","försökte","har försökt","Försök igen.","Try again."],
+["lyckas","succeed","lyckas","lyckas","lyckades","har lyckats","Du lyckas snart.","You will succeed soon."],
+["hända","happen","hända","händer","hände","har hänt","Vad har hänt?","What happened?"],
+["finnas","exist; be available","finnas","finns","fanns","har funnits","Det finns kaffe.","There is coffee."],
+["verka","seem; appear","verka","verkar","verkade","har verkat","Det verkar bra.","It seems good."],
+["känna","feel; know (a person)","känna","känner","kände","har känt","Jag känner honom.","I know him."],
+["känna sig","feel","känna sig","känner sig","kände sig","har känt sig","Jag känner mig trött.","I feel tired."],
+["må","feel; be (well/unwell)","må","mår","mådde","har mått","Hur mår du?","How are you?"],
+["skratta","laugh","skratta","skrattar","skrattade","har skrattat","Vi skrattar mycket.","We laugh a lot."],
+["gråta","cry","gråta","gråter","grät","har gråtit","Barnet gråter.","The child is crying."],
+["sjunga","sing","sjunga","sjunger","sjöng","har sjungit","Hon sjunger fint.","She sings beautifully."],
+["dansa","dance","dansa","dansar","dansade","har dansat","Vill du dansa?","Would you like to dance?"],
+["bygga","build","bygga","bygger","byggde","har byggt","De bygger ett hus.","They are building a house."],
+["skapa","create","skapa","skapar","skapade","har skapat","Vi skapar något nytt.","We are creating something new."],
+["förklara","explain","förklara","förklarar","förklarade","har förklarat","Kan du förklara?","Can you explain?"],
+["visa","show","visa","visar","visade","har visat","Visa mig vägen.","Show me the way."],
+["skicka","send","skicka","skickar","skickade","har skickat","Skicka ett mejl.","Send an email."],
+["följa","follow","följa","följer","följde","har följt","Följ mig.","Follow me."],
+["hålla","hold; keep","hålla","håller","höll","har hållit","Håll min hand.","Hold my hand."],
+["bära","carry; wear","bära","bär","bar","har burit","Jag bär väskan.","I am carrying the bag."],
+["dra","pull; drag","dra","drar","drog","har dragit","Dra i handtaget.","Pull the handle."],
+["trycka","press; print","trycka","trycker","tryckte","har tryckt","Tryck på knappen.","Press the button."],
+["sätta","put; set","sätta","sätter","satte","har satt","Sätt boken på bordet.","Put the book on the table."],
+["falla","fall","falla","faller","föll","har fallit","Löven faller.","The leaves are falling."],
+["vinna","win","vinna","vinner","vann","har vunnit","Vi vill vinna.","We want to win."],
+["förlora","lose","förlora","förlorar","förlorade","har förlorat","De förlorade matchen.","They lost the match."],
+["känna till","know of; be familiar with","känna till","känner till","kände till","har känt till","Jag känner till platsen.","I know the place."],
+["behålla","keep; retain","behålla","behåller","behöll","har behållit","Behåll kvittot.","Keep the receipt."],
+["ändra","change","ändra","ändrar","ändrade","har ändrat","Jag ändrar planen.","I am changing the plan."],
+["förändra","change; transform","förändra","förändrar","förändrade","har förändrat","Tiden förändrar allt.","Time changes everything."],
+["använda","use","använda","använder","använde","har använt","Använd den här.","Use this one."],
+["öva","practise","öva","övar","övade","har övat","Jag övar svenska.","I practise Swedish."],
+["plugga","study; cram","plugga","pluggar","pluggade","har pluggat","Jag pluggar inför provet.","I am studying for the test."],
+["förbereda","prepare","förbereda","förbereder","förberedde","har förberett","Vi förbereder maten.","We are preparing the food."],
+["planera","plan","planera","planerar","planerade","har planerat","Vi planerar en resa.","We are planning a trip."],
+["bestämma","decide","bestämma","bestämmer","bestämde","har bestämt","Jag bestämmer senare.","I will decide later."],
+["besöka","visit","besöka","besöker","besökte","har besökt","Vi besöker farmor.","We are visiting grandma."],
+["födas","be born","födas","föds","föddes","har fötts","Hon föddes i Sverige.","She was born in Sweden."],
+["dö","die","dö","dör","dog","har dött","Blommorna dör utan vatten.","The flowers die without water."],
+["regna","rain","regna","regnar","regnade","har regnat","Det regnar idag.","It is raining today."],
+["snöa","snow","snöa","snöar","snöade","har snöat","Det snöar ute.","It is snowing outside."],
+["behaga","please","behaga","behagar","behagade","har behagat","Om det behagar dig.","If it pleases you."],
+["fungera","work; function","fungera","fungerar","fungerade","har fungerat","Det fungerar bra.","It works well."],
+["sakna","miss; lack","sakna","saknar","saknade","har saknat","Jag saknar dig.","I miss you."],
+["hoppas","hope","hoppas","hoppas","hoppades","har hoppats","Jag hoppas det.","I hope so."],
+["önska","wish","önska","önskar","önskade","har önskat","Jag önskar dig lycka till.","I wish you good luck."],
+["försvinna","disappear","försvinna","försvinner","försvann","har försvunnit","Min penna försvann.","My pen disappeared."],
+["återvända","return","återvända","återvänder","återvände","har återvänt","Vi återvänder snart.","We will return soon."],
+["beställa","order","beställa","beställer","beställde","har beställt","Jag beställer kaffe.","I am ordering coffee."],
+["hyra","rent; hire","hyra","hyr","hyrde","har hyrt","Vi hyr en bil.","We rent a car."],
+["låna","borrow; lend","låna","lånar","lånade","har lånat","Kan jag låna den?","Can I borrow it?"],
+["låna ut","lend","låna ut","lånar ut","lånade ut","har lånat ut","Jag lånar ut min bok.","I lend out my book."],
+["spara","save","spara","sparar","sparade","har sparat","Jag sparar pengar.","I save money."],
+["spendera","spend","spendera","spenderar","spenderade","har spenderat","Vi spenderar helgen här.","We spend the weekend here."],
+["investera","invest","investera","investerar","investerade","har investerat","De investerar långsiktigt.","They invest for the long term."],
+["förbättra","improve","förbättra","förbättrar","förbättrade","har förbättrat","Jag förbättrar min svenska.","I am improving my Swedish."],
+["minska","decrease; reduce","minska","minskar","minskade","har minskat","Vi minskar kostnaderna.","We reduce the costs."],
+["öka","increase","öka","ökar","ökade","har ökat","Priserna ökar.","Prices are increasing."],
+["växa","grow","växa","växer","växte","har vuxit","Barn växer snabbt.","Children grow quickly."],
+["utveckla","develop","utveckla","utvecklar","utvecklade","har utvecklat","Vi utvecklar en app.","We are developing an app."],
+["innehålla","contain","innehålla","innehåller","innehöll","har innehållit","Lådan innehåller böcker.","The box contains books."],
+["bero på","depend on","bero på","beror på","berodde på","har berott på","Det beror på vädret.","It depends on the weather."],
+["påverka","affect; influence","påverka","påverkar","påverkade","har påverkat","Sömn påverkar hälsan.","Sleep affects health."],
+["beskriva","describe","beskriva","beskriver","beskrev","har beskrivit","Beskriv bilden.","Describe the picture."],
+["jämföra","compare","jämföra","jämför","jämförde","har jämfört","Jämför de två.","Compare the two."],
+["diskutera","discuss","diskutera","diskuterar","diskuterade","har diskuterat","Vi diskuterar frågan.","We are discussing the issue."],
+["erbjuda","offer","erbjuda","erbjuder","erbjöd","har erbjudit","De erbjuder hjälp.","They offer help."],
+["tillåta","allow","tillåta","tillåter","tillät","har tillåtit","De tillåter inte telefoner.","They do not allow phones."],
+["förbjuda","forbid","förbjuda","förbjuder","förbjöd","har förbjudit","Lagen förbjuder det.","The law forbids it."],
+["kräva","require; demand","kräva","kräver","krävde","har krävt","Det kräver tid.","It takes time."],
+["lyda","obey","lyda","lyder","lydde","har lytt","Hunden lyder.","The dog obeys."],
+["skydda","protect","skydda","skyddar","skyddade","har skyddat","Vi skyddar naturen.","We protect nature."],
+["rädda","save; rescue","rädda","räddar","räddade","har räddat","De räddade katten.","They rescued the cat."],
+["dela","share; divide","dela","delar","delade","har delat","Dela med dig.","Share with others."],
+["nå","reach; achieve","nå","når","nådde","har nått","Vi nådde målet.","We reached the goal."],
+["märka","notice; mark","märka","märker","märkte","har märkt","Jag märkte skillnaden.","I noticed the difference."],
+["upptäcka","discover; notice","upptäcka","upptäcker","upptäckte","har upptäckt","Vi upptäckte felet.","We discovered the error."],
+["erkänna","admit; acknowledge","erkänna","erkänner","erkände","har erkänt","Han erkände misstaget.","He admitted the mistake."],
+["förneka","deny","förneka","förnekar","förnekade","har förnekat","Hon förnekade allt.","She denied everything."],
+["föreslå","suggest; propose","föreslå","föreslår","föreslog","har föreslagit","Jag föreslår en paus.","I suggest a break."],
+["acceptera","accept","acceptera","accepterar","accepterade","har accepterat","Jag accepterar erbjudandet.","I accept the offer."],
+["vägra","refuse","vägra","vägrar","vägrade","har vägrat","Han vägrade svara.","He refused to answer."],
+["bestå","consist; endure","bestå","består","bestod","har bestått","Provet består av tre delar.","The test consists of three parts."],
+["ske","occur; take place","ske","sker","skedde","har skett","Vad sker nu?","What is happening now?"],
+["föredra","prefer","föredra","föredrar","föredrog","har föredragit","Jag föredrar te.","I prefer tea."],
+["inträffa","occur; happen","inträffa","inträffar","inträffade","har inträffat","En olycka inträffade.","An accident occurred."],
+["förbli","remain","förbli","förblir","förblev","har förblivit","Läget förblir oklart.","The situation remains unclear."]
+];
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function norm(s){return String(s||"").trim().toLocaleLowerCase("sv").replace(/\s+/g," ");}
+
+var byName={}, byForm={};
+verbs.forEach(function(v){
+  byName[norm(v[0])]=v;
+  // preteritum may list two forms: "sa / sade"; perfekt "har sagt" -> supine "sagt"
+  var forms=[[v[3],"presens"],[v[4],"preteritum"],[v[5].replace(/^har /,""),"supine"]];
+  forms.forEach(function(f){
+    f[0].split("/").forEach(function(p){
+      var k=norm(p); if(!k||k==="—"||byName[k]) return;
+      (byForm[k]=byForm[k]||[]).push({verb:v,label:f[1]});
+    });
+  });
+});
+
+function lev(a,b){
+  var m=a.length,n=b.length,d=[],i,j;
+  for(i=0;i<=m;i++){d[i]=[i];}
+  for(j=1;j<=n;j++){d[0][j]=j;}
+  for(i=1;i<=m;i++){for(j=1;j<=n;j++){
+    d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));}}
+  return d[m][n];
+}
+function enWords(v){return v[1].toLocaleLowerCase("en").split(/[;,]\s*/);}
+function suggest(q,limit){
+  q=norm(q); if(!q) return [];
+  var out=[],seen={};
+  function add(v){if(!seen[v[0]]){seen[v[0]]=1;out.push(v);}}
+  verbs.forEach(function(v){if(norm(v[0]).indexOf(q)===0) add(v);});
+  verbs.forEach(function(v){if(enWords(v).some(function(w){return w.indexOf(q)===0 || w.replace(/^to /,"").indexOf(q)===0;})) add(v);});
+  verbs.forEach(function(v){if(norm(v[0]).indexOf(q)>0) add(v);});
+  verbs.forEach(function(v){if(v[1].toLocaleLowerCase("en").indexOf(q)>=0) add(v);});
+  return out.slice(0,limit||6);
+}
+
+var input=$("verbInput"), box=$("sugg"), result=$("result");
+var active=-1, items=[];
+
+function closeBox(){box.hidden=true;box.innerHTML="";input.setAttribute("aria-expanded","false");active=-1;items=[];}
+function openBox(list){
+  items=list;active=-1;
+  if(!list.length){closeBox();return;}
+  box.innerHTML=list.map(function(v,i){
+    return '<li role="option" id="opt'+i+'" data-i="'+i+'"><span class="sv">'+esc(v[0])+'</span><span class="en">'+esc(v[1])+'</span></li>';
+  }).join("");
+  box.hidden=false;input.setAttribute("aria-expanded","true");
+}
+function setActive(n){
+  var lis=box.children; if(!lis.length) return;
+  active=(n+lis.length)%lis.length;
+  for(var i=0;i<lis.length;i++){lis[i].setAttribute("aria-selected",i===active?"true":"false");}
+  input.setAttribute("aria-activedescendant","opt"+active);
+}
+
+function chipButtons(names){
+  return '<div class="chips">'+names.map(function(n){return '<button type="button" class="chip" data-verb="'+esc(n)+'">'+esc(n)+'</button>';}).join("")+'</div>';
+}
+
+function render(v,notice){
+  var name=v[0],meaning=v[1],inf=v[2],pres=v[3],pret=v[4],perf=v[5];
+  var perfHtml = perf==="—"
+    ? '<div class="form none">rarely used</div><div class="note">No common supine form for this modal verb.</div>'
+    : '<div class="form">'+esc(perf)+'</div><div class="note">har + supine</div>';
+  result.innerHTML=
+    (notice?'<p class="notice">'+notice+'</p>':'')+
+    '<div class="result-head"><div><div class="eyebrow">Your verb, unpacked</div><h2 class="verb-title">'+esc(name)+'</h2><div class="meaning">'+esc(meaning)+'</div></div><span class="pill">Swedish verb</span></div>'+
+    '<div class="grid">'+
+    '<article class="tense"><div class="name">Infinitiv · to…</div><div class="form">'+esc(inf)+'</div><div class="note">'+(perf==="—"?'Modal verb: used before another verb, e.g. <em>'+esc(pres)+' gå</em>':'Used after <em>att</em>: att '+esc(inf))+'</div></article>'+
+    '<article class="tense"><div class="name">Presens · now</div><div class="form">'+esc(pres)+'</div><div class="note">Same form for I, you, he, we, they</div></article>'+
+    '<article class="tense"><div class="name">Preteritum · past</div><div class="form">'+esc(pret)+'</div><div class="note">A finished action in the past</div></article>'+
+    '<article class="tense"><div class="name">Perfekt · has / have</div>'+perfHtml+'</article>'+
+    '</div>'+
+    '<div class="extra"><section class="panel"><h3>På svenska</h3><p class="sv-ex">'+esc(v[6])+'</p></section>'+
+    '<section class="panel"><h3>In English</h3><p>'+esc(v[7])+'</p></section></div>';
+}
+
+function show(raw,fromTap){
+  var q=norm(raw);
+  closeBox();
+  if(!q){
+    result.innerHTML='<div class="empty"><b>Type a verb first.</b><br>Try one of these:'+chipButtons(["skriva","gå","äta","arbeta"])+'</div>';
+    return;
+  }
+  var v=byName[q], notice="";
+  if(!v && byForm[q]){
+    var hit=byForm[q][0]; v=hit.verb;
+    notice='<b>'+esc(raw.trim())+'</b> is the '+hit.label+' of <b>'+esc(v[0])+'</b>.';
+  }
+  if(!v){
+    var s=suggest(q,1);
+    if(s.length){v=s[0];notice='Showing the closest match for <b>'+esc(raw.trim())+'</b>.';}
+  }
+  if(!v && q.length>=3){
+    var near=verbs.map(function(x){return {v:x,d:lev(q,norm(x[0]))};}).filter(function(o){return o.d<=2;})
+      .sort(function(a,b){return a.d-b.d;}).slice(0,4);
+    if(near.length){
+      result.innerHTML='<div class="empty"><b>No verb called “'+esc(raw.trim())+'” in this list.</b><br>Did you mean:'+chipButtons(near.map(function(o){return o.v[0];}))+'</div>';
+      return;
+    }
+  }
+  if(!v){
+    result.innerHTML='<div class="empty"><b>“'+esc(raw.trim())+'” is not in this starter list yet.</b><br>I do not guess Swedish forms, because a wrong form is worse than none. Try the infinitive (like <em>skriva</em>) or an English word.'+chipButtons(["skriva","gå","äta","arbeta"])+'</div>';
+    return;
+  }
+  input.value=v[0];
+  render(v,notice);
+  if(fromTap && result.scrollIntoView){try{result.scrollIntoView({behavior:"smooth",block:"start"});}catch(e){}}
+}
+
+// Wiring
+$("searchForm").addEventListener("submit",function(e){
+  e.preventDefault();
+  if(active>=0&&items[active]){show(items[active][0]);} else {show(input.value);}
+  input.blur();
+});
+input.addEventListener("input",function(){openBox(suggest(input.value,6));});
+input.addEventListener("focus",function(){if(input.value.trim()) openBox(suggest(input.value,6));});
+input.addEventListener("keydown",function(e){
+  if(e.key==="ArrowDown"){e.preventDefault(); if(box.hidden) openBox(suggest(input.value,6)); setActive(active+1);}
+  else if(e.key==="ArrowUp"){e.preventDefault(); setActive(active-1);}
+  else if(e.key==="Escape"){closeBox();}
+});
+box.addEventListener("mousedown",function(e){e.preventDefault();}); // keep focus so tap registers
+box.addEventListener("click",function(e){
+  var li=e.target.closest?e.target.closest("li"):null; if(!li) return;
+  show(items[+li.getAttribute("data-i")][0],true); input.blur();
+});
+document.addEventListener("click",function(e){
+  if(!e.target.closest) return;
+  var b=e.target.closest("[data-verb]");
+  if(b){show(b.getAttribute("data-verb"),true);return;}
+  if(!e.target.closest(".field")) closeBox();
+});
+
+function fill(el,names){
+  el.innerHTML=names.map(function(n){return '<button type="button" '+(el.id==="quickChips"?'class="chip" ':'')+'data-verb="'+esc(n)+'">'+esc(n)+'</button>';}).join("");
+}
+fill($("quickChips"),["vara","ha","göra","gå","komma","äta","skriva","läsa","arbeta","kunna","vilja","förstå"]);
+fill($("popular"),["vara","ha","göra","gå","komma","säga","få","ta","se","kunna","vilja","äta","dricka","skriva","läsa","prata","bo","arbeta","köpa","hjälpa","förstå","lära sig","tycka om","känna sig"]);
+$("count").textContent=verbs.length;
+
+show("skriva");
+window.__verbkompis={show:show,count:verbs.length};
+})();
+</script>
+
+</body></html>

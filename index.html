@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>OrdKompis — Interaktiv Svensk Språkkompis</title>
+  <meta name="description" content="Lär dig svenska verb, substantiv (en/ett & plural), praktiskt ordförråd och träna med interaktiva övningar.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="theme-color" content="#155e56">
+
+  <!-- Design System CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Masthead Header -->
+  <header class="band">
+    <div class="inner">
+      <div class="header-top">
+        <div class="brand">
+          <span class="brand-dot"></span>
+          OrdKompis · Svenska
+        </div>
+        <span class="badge-tag">GitHub Pages Ready</span>
+      </div>
+      <h1>Lär dig svenska.<br><span>Enkelt & interaktivt.</span></h1>
+      <p class="subtitle">Din personliga språkkompis för svenska verbformer, substantiv (en/ett och plural) och praktiskt ordförråd i vardagen.</p>
+    </div>
+  </header>
+
+  <!-- Main Application Body -->
+  <main class="band">
+    <div class="inner">
+
+      <!-- Navigation Tabs (Topic Switcher) -->
+      <nav class="nav-bar" role="tablist" aria-label="Lärämnen">
+        <button type="button" class="nav-tab active" data-tab="verbs" role="tab" aria-selected="true">
+          <span class="tab-icon">🏃</span> Verbkompis
+        </button>
+        <button type="button" class="nav-tab" data-tab="nouns" role="tab" aria-selected="false">
+          <span class="tab-icon">📦</span> En / Ett & Plural
+        </button>
+        <button type="button" class="nav-tab" data-tab="themes" role="tab" aria-selected="false">
+          <span class="tab-icon">☕</span> Vardagsteman
+        </button>
+        <button type="button" class="nav-tab" data-tab="quiz" role="tab" aria-selected="false">
+          <span class="tab-icon">🎯</span> Träna & Öva
+        </button>
+      </nav>
+
+      <!-- Search Card (Active for Verbs and Nouns) -->
+      <section class="search-card" id="searchCard">
+        <form id="searchForm" autocomplete="off" novalidate>
+          <label for="searchInput" id="searchLabel" class="search-label">Sök svenskt verb</label>
+          <div class="searchline">
+            <div class="field">
+              <input
+                id="searchInput"
+                type="search"
+                placeholder="skriva, gå, äta, write…"
+                autocomplete="off"
+                autocapitalize="none"
+                autocorrect="off"
+                spellcheck="false"
+                enterkeyhint="search"
+                role="combobox"
+                aria-expanded="false"
+                aria-controls="suggBox"
+                aria-autocomplete="list"
+              >
+              <ul class="sugg" id="suggBox" role="listbox" hidden></ul>
+            </div>
+            <button class="go-btn" id="goBtn" type="button">Utforska</button>
+          </div>
+          <p class="hint" id="searchHint">Sök på grundform (skriva), böjd form (skrev) eller engelska (write).</p>
+          <div class="chips" id="quickChips"></div>
+        </form>
+      </section>
+
+      <!-- Dynamic Result Container (Verbs and Nouns) -->
+      <div id="resultBox" aria-live="polite"></div>
+
+      <!-- Thematic Explorer Container -->
+      <div id="themeContainer" style="display: none;"></div>
+
+      <!-- Interactive Quiz Container -->
+      <div id="quizContainer" style="display: none;"></div>
+
+      <!-- Quick Browse Section for Verbs / Nouns -->
+      <div id="sectionTitle" class="section-title" style="font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 28px 2px 10px;">
+        Vanliga ord att utforska
+      </div>
+      <div class="chips" id="browseList"></div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="band">
+    <div class="inner">
+      <p style="margin: 0 0 8px;">
+        <b>OrdKompis</b> innehåller just nu <span id="totalVerbCount">478</span> verifierade svenska verb, <span id="totalNounCount">139</span> vanliga substantiv med böjningsmönster och praktiska teman för vardagen i Sverige.
+      </p>
+      <p style="margin: 0; font-size: 12px; color: var(--muted);">
+        Byggd med ren HTML, modern CSS och Vanilla JavaScript utan externa beroenden — 100% kompatibel med GitHub Pages och mobil Safari på iPhone.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Data Scripts (Curated Datasets) -->
+  <script src="data/verbs.js"></script>
+  <script src="data/nouns.js"></script>
+  <script src="data/themes.js"></script>
+
+  <!-- Application Controller Script -->
+  <script src="js/app.js"></script>
+</body>
+</html>
