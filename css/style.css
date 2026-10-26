@@ -1035,6 +1035,19 @@ footer.band {
     line-height: 1;
   }
 
+  .nav-tab .nav-label,
+  .nav-more .nav-label {
+    flex: 0 1 100%;
+    max-width: 100%;
+    min-width: 0;
+    width: 100%;
+    font-size: 9px;
+    line-height: 1.05;
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
   .nav-tab.active,
   .nav-more.active {
     background: var(--primary-light);
