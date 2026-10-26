@@ -17,14 +17,6 @@ window.ORDKOMPIS_IDIOMS = [
     exampleEn: "Let's stay inside, it's pouring down."
   },
   {
-    id: "vara-pa-god-humor",
-    sv: "Han är på gott humör idag.",
-    literal: "He is in a good mood today.",
-    en: "He's in a good mood today.",
-    exampleSv: "När solen skiner är alla på gott humör.",
-    exampleEn: "When the sun shines, everyone is in a good mood."
-  },
-  {
     id: "lagga-kort-pa-bordet",
     sv: "Lägg korten på bordet.",
     literal: "Put the cards on the table.",
@@ -65,19 +57,59 @@ window.ORDKOMPIS_IDIOMS = [
     exampleEn: "After three hours of trying, he gave up."
   },
   {
-    id: "allt-eller-inget",
-    sv: "Det är allt eller inget.",
-    literal: "It's all or nothing.",
-    en: "It's all or nothing.",
-    exampleSv: "Antingen vinner jag eller så förlorar jag allt - allt eller inget.",
-    exampleEn: "Either I win or I lose everything - it's all or nothing."
-  },
-  {
     id: "som-en-fisk-i-vattnet",
     sv: "Hon känns som en fisk i vattnet på festen.",
     literal: "She feels like a fish in water at the party.",
     en: "She feels right at home / in her element.",
     exampleSv: "När han spelar piano är han som en fisk i vattnet.",
     exampleEn: "When he plays piano, he's in his element."
+  },
+  {
+    id: "dra-oronen-at-sig",
+    sv: "Dra öronen åt sig.",
+    literal: "Pull one's ears to oneself.",
+    en: "Listen up / take notice.",
+    exampleSv: "Nu får ni dra öronen åt er, det här är viktigt!",
+    exampleEn: "Listen up everyone, this is important!"
+  },
+  {
+    id: "falla-pa-rak-mark",
+    sv: "Det föll på rak mark.",
+    literal: "It fell on flat ground.",
+    en: "It fell on deaf ears / had no effect.",
+    exampleSv: "Hans argument föll tyvärr på rak mark.",
+    exampleEn: "Unfortunately, his arguments fell on deaf ears."
+  },
+  {
+    id: "kalla-en-spade-for-en-spade",
+    sv: "Kalla en spade för en spade.",
+    literal: "Call a spade a spade.",
+    en: "Call a spade a spade / speak plainly.",
+    exampleSv: "Jag föredrar att kalla en spade för en spade.",
+    exampleEn: "I prefer to call a spade a spade."
+  },
+  {
+    id: "rida-pa-en-hog-hast",
+    sv: "Han rider på en hög häst.",
+    literal: "He's riding a high horse.",
+    en: "He's being arrogant / snooty.",
+    exampleSv: "Efter att ha fått jobbet rider han på en hög häst.",
+    exampleEn: "Since getting the job, he's been riding high."
+  },
+  {
+    id: "slipa-sina-knivar",
+    sv: "De slipar sina knivar.",
+    literal: "They're sharpening their knives.",
+    en: "They're plotting / getting ready for a fight.",
+    exampleSv: "I köket slipar alla sina knivar inför tävlingen.",
+    exampleEn: "In the kitchen, they're all sharpening their knives for the competition."
+  },
+  {
+    id: "vattnet-pa-mjolnen",
+    sv: "Det var vatten på hans kvarn.",
+    literal: "It was water on his mill.",
+    en: "It played right into his hands.",
+    exampleSv: "När motståndaren gjorde det misstaget var det vatten på hans kvarn.",
+    exampleEn: "When his opponent made that mistake, it played right into his hands."
   }
 ];

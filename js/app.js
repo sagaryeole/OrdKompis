@@ -492,7 +492,27 @@
       '<section class="learning-section"><h3>' + esc(numbers.dateFormat.title) + '</h3>' + renderNotes(numbers.dateFormat.rules) + '</section>';
   }
 
-  function renderIdioms() {
+  function renderFalseFriends() {
+    var list = window.ORDKOMPIS_FALSEFRIENDS || [];
+    if (!learningContainer) return;
+    var html = '<div class="section-header"><h2>Vanliga fällor (False Friends)</h2><p>Ord som ser engelska ut men betyder något annat på svenska.</p></div>';
+    if (list.length === 0) {
+      html += '<div class="notice">Inga fällor tillagda ännu.</div>';
+    } else {
+      html += '<div class="lesson-grid">';
+      list.forEach(function (item) {
+        html += '<article class="lesson-card">' +
+          '<h3>' + esc(item.sv) + ' ' + speakerButton(item.sv, "Lyssna på ordet") + '</h3>' +
+          '<p style="margin:6px 0"><b>Betydelse:</b> ' + esc(item.actualSv) + '</p>' +
+          '<p style="margin:6px 0;color:var(--muted)"><b>Förklaring:</b> ' + esc(item.explanation) + '</p>' +
+          (item.exampleSv ? '<p style="margin:10px 0 4px"><b>Exempel:</b> ' + esc(item.exampleSv) + ' ' + speakerButton(item.exampleSv) + '</p>' : '') +
+          (item.exampleEn ? '<p style="margin:4px 0;color:var(--muted)">' + esc(item.exampleEn) + '</p>' : '') +
+          '</article>';
+      });
+      html += '</div>';
+    }
+    learningContainer.innerHTML = html;
+  }
     var list = window.ORDKOMPIS_IDIOMS || [];
     if (!learningContainer) return;
     var html = '<div class="section-header"><h2>Idiom & Uttryck</h2><p>Vanliga svenska uttryck med betydelse och exempel.</p></div>';
@@ -534,7 +554,8 @@
       pronouns: renderPronouns,
       numbers: renderNumbers,
       phrases: renderPhrases,
-      idioms: renderIdioms
+      idioms: renderIdioms,
+      falsefriends: renderFalseFriends
     };
     if (renderers[tabId]) renderers[tabId]();
   }
@@ -716,7 +737,7 @@
     sectionTitle.style.display = isSearchTab ? "block" : "none";
     themeContainer.style.display = tabId === "themes" ? "block" : "none";
     quizContainer.style.display = tabId === "quiz" ? "block" : "none";
-    learningContainer.style.display = ["adjectives", "prepositions", "wordorder", "pronouns", "numbers", "phrases", "idioms"].indexOf(tabId) >= 0 ? "block" : "none";
+    learningContainer.style.display = ["adjectives", "prepositions", "wordorder", "pronouns", "numbers", "phrases", "idioms", "falsefriends"].indexOf(tabId) >= 0 ? "block" : "none";
 
     // Configure the searchable word lists.
     if (tabId === "verbs") {
@@ -962,7 +983,7 @@
     }
   });
 
-  // Add idioms tab to more menu in DOM if not present
+  // Add idioms and false friends tabs to more menu in DOM if not present
   var moreMenuEl = document.getElementById('moreTopicsMenu');
   if (moreMenuEl && !moreMenuEl.querySelector('[data-tab="idioms"]')) {
     var idiomBtn = document.createElement('button');
@@ -973,6 +994,16 @@
     idiomBtn.setAttribute('aria-selected', 'false');
     idiomBtn.innerHTML = '<span class="tab-icon">🗣️</span><span class="nav-label">Uttryck</span>';
     moreMenuEl.appendChild(idiomBtn);
+  }
+  if (moreMenuEl && !moreMenuEl.querySelector('[data-tab="falsefriends"]')) {
+    var ffBtn = document.createElement('button');
+    ffBtn.type = 'button';
+    ffBtn.className = 'nav-tab';
+    ffBtn.setAttribute('data-tab', 'falsefriends');
+    ffBtn.setAttribute('role', 'tab');
+    ffBtn.setAttribute('aria-selected', 'false');
+    ffBtn.innerHTML = '<span class="tab-icon">⚠️</span><span class="nav-label">Vanliga fällor</span>';
+    moreMenuEl.appendChild(ffBtn);
   }
 
   switchTab("verbs");
