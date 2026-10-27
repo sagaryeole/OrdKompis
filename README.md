@@ -131,3 +131,9 @@ Inom 1–2 minuter finns appen tillgänglig live på:
 - Öppna länken i **Safari** på din iPhone.
 - Tryck på Dela-knappen (fyrkanten med pilen uppåt) och välj **"Lägg till på hemskärmen"**.
 - Appen fungerar nu precis som en riktig mobilapp!
+
+## TODO
+- [ ] Add Ko-fi / Buy Me a Coffee donation button (only if useful, revisit later)
+- [ ] Improve SEO further (structured data, sitemap.xml)
+- [ ] Add visitor counter / analytics (GoatCounter or similar)
+- [ ] Consider custom domain only if traffic grows
