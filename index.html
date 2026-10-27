@@ -18,7 +18,9 @@
   <meta name="twitter:description" content="Gratis interaktiv träning av svenska verb, substantiv, ordföljd och vardagsfraser.">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="favicon.svg">
-  <script type="application/ld+json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -33,8 +35,15 @@
     }
   }
   </script>
-  <script data-goatcounter="https://sagaryeole.goatcounter.com/count"
-          async src="//gc.zgo.at/count.js"></script>
+  <script>
+    if (window.location.protocol === "http:" || window.location.protocol === "https:") {
+      var goatCounterScript = document.createElement("script");
+      goatCounterScript.dataset.goatcounter = "https://sagaryeole.goatcounter.com/count";
+      goatCounterScript.async = true;
+      goatCounterScript.src = "https://gc.zgo.at/count.js";
+      document.head.appendChild(goatCounterScript);
+    }
+  </script>
 
   <!-- Design System CSS -->
   <link rel="stylesheet" href="css/style.css">
