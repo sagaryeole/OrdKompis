@@ -1,8 +1,20 @@
 # OrdKompis (Verbkompis & Svenska Lärkompis)
 
-En modern, mobilanpassad interaktiv webbapplikation för att lära sig svenska verb, substantiv, adjektiv, prepositioner, ordföljd och praktiskt vardagsordförråd.
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-brightgreen)](https://sagaryeole.github.io/OrdKompis/)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Made with](https://img.shields.io/badge/Made%20with-HTML%2FCSS%2FJS-orange)](.)
 
----
+**[Besök OrdKompis live →](https://sagaryeole.github.io/OrdKompis/)**
+
+En modern, mobilanpassad, gratis webbapp för att lära sig svenska. Träna verbböjning, substantiv med en/ett och plural, adjektiv, prepositioner, svensk ordföljd, idiom, "false friends" och praktiskt vardagsordförråd. Perfekt för SFI, nybörjare, självstudier och resor till Sverige.
+
+## Varför OrdKompis?
+
+- **Gratis & ad-free** - Ingen registrering, inga annonser
+- **Fungerar offline-vänligt** - Ren HTML/CSS/JS, kör direkt i webbläsaren
+- **Mobiloptimerad** - Lägg till på hemskärmen på iPhone/Android
+- **Interaktivt** - Sök, quiz, uttal och "nästa ord" för snabb övning
+- **Praktiskt** - Fokus på verkliga vardagssituationer
 
 ## Innehåll & Funktioner
 
@@ -12,46 +24,39 @@ En modern, mobilanpassad interaktiv webbapplikation för att lära sig svenska v
    - Anger verbgrupp samt exempel på svenska och engelska.
    - Exempelmeningar på svenska med engelsk översättning.
    - Hanterar partikelverb (*koppla av, hålla med, ge upp*) och reflexiva verb (*lära sig, känna sig*).
-   - **Ny:** Talerikon för uttal (Web Speech API) och "Nästa verb"-knapp för snabb övning.
+   - Talerikon för uttal (Web Speech API) och "Nästa verb"-knapp för snabb övning.
 
 2. **📦 Substantiv: En / Ett & Plural (139 vanliga substantiv)**:
    - Visar ordets kön (*en-ord* eller *ett-ord*).
-   - Presenterar alla 4 formerna:
-     1. *Singular Obestämd* (en bil / ett hus)
-     2. *Singular Bestämd* (bilen / huset)
-     3. *Plural Obestämd* (bilar / hus)
-     4. *Plural Bestämd* (bilarna / husen)
-   - Anger böjningsgrupp (Grupp 1-5) med grammatisk regel.
-   - **Ny:** Talerikon för alla former/exempel och "Nästa substantiv"-knapp.
+   - Presenterar alla 4 formerna: singular obestämd/bestämd, plural obestämd/bestämd.
+   - Anger böjningsgrupp (Grupp 1-5).
+   - Talerikon för alla former/exempel och "Nästa substantiv"-knapp.
 
 3. **☕ Vardagsteman (utökade)**:
-   - Praktiska ordlistor indelade i vardagssituationer:
-     - *Fika & Restaurang*
-     - *Jobb & Kontor*
-     - *Bostad & Vardag* (tvättstuga, källsortering m.m.)
-     - *Hälsa & Sjukvård* (1177, recept, apotek)
-     - *Myndigheter & Samhälle* (Skatteverket, BankID, Försäkringskassan)
-     - **Nytt:** *Transport & Resa*, *Shopping & Priser*, *Väder & Årstider*, *Familj & Relationer*
-   - **Ny:** Talerikon för ord och exempel i teman.
+   - Fika & Restaurang, Jobb & Kontor, Bostad & Vardag, Hälsa & Sjukvård, Myndigheter & Samhälle, Transport & Resa, Shopping & Priser, Väder & Årstider, Familj & Relationer
+   - Talerikon för ord och exempel i teman.
 
-4. **🎯 Träna & Öva (utökade quiz-lägen)**:
-   - **En / Ett** - gissa om ordet är *en* eller *ett* med direkt återkoppling och böjningsregler.
-   - **Svenska → Engelska** - välj rätt engelsk översättning.
-   - **Engelska → Svenska** - välj rätt svenskt ord med artikel.
-   - Snabba quiz-val direkt från fliken "Öva".
+4. **🎯 Träna & Öva (flera quiz-lägen)**:
+   - **En / Ett** - gissa rätt artikel
+   - **Svenska → Engelska** - översätt till engelska
+   - **Engelska → Svenska** - hitta rätt svenskt ord med artikel
 
 5. **📚 Grammatik & referens**:
-   - Adjektivböjning och komparation (med talerikoner).
-   - Prepositioner med vanliga uttryck och kontrasterande exempel.
-   - Svensk ordföljd, V2-regeln och BIFF.
-   - Pronomen, tal och tid samt vardagsfraser.
-   - **Nytt:** *Idiom & Uttryck* (vanliga svenska uttryck med bokstavlig betydelse, översättning och exempel) med talstöd.
+   - Adjektivböjning och komparation
+   - Prepositioner
+   - Svensk ordföljd, V2-regeln och BIFF
+   - Pronomen, tal och tid, vardagsfraser
+   - **Idiom & Uttryck** - vanliga svenska idiom med förklaring och exempel
+   - **Vanliga fällor (False Friends)** - ord som lurar engelsktalande
 
-6. **🎨 Stil & tillgänglighet (fas 2)**:
-   - Mörkt läge via `prefers-color-scheme` (automatisk).
-   - Förbättrade designtokens, skuggor och hover-effekter.
-   - Talerikon (Web Speech API, `sv-SE`) där det är relevant - fungerar på de flesta moderna webbläsare.
-   - Snabb "nästa"-knapp för verb och substantiv för effektiv övning.
+6. **🎨 Stil & tillgänglighet**:
+   - Mörkt läge (prefers-color-scheme)
+   - Talerikon för uttal där relevant
+   - Mobilanpassad design
+
+## SEO & Upptäckbarhet
+
+Denna app är optimerad för GitHub Pages med semantisk HTML, meta-taggar, beskrivande titel och nyckelord för sökfraser som "lära svenska", "svenska verb", "en eller ett", "svenska för nybörjare", "SFI".
 
 ---
 
