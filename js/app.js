@@ -14,12 +14,22 @@
   var pronouns = window.ORDKOMPIS_PRONOUNS || null;
   var numbers = window.ORDKOMPIS_NUMBERS || null;
   var phrases = window.ORDKOMPIS_PHRASES || null;
+  var collocations = window.ORDKOMPIS_COLLOCATIONS || [];
+  var prepositionalVerbs = window.ORDKOMPIS_PREPOSITIONAL_VERBS || [];
+  var commonMistakes = window.ORDKOMPIS_COMMON_MISTAKES || [];
 
   // State
   var currentTab = "verbs"; // "verbs", "nouns", "themes", "quiz"
   var currentThemeId = themes[0] ? themes[0].id : "";
   var activeSuggIndex = -1;
   var currentSuggList = [];
+  var browseExpanded = false;
+  var browseLimit = 24;
+  var browseFilter = "all";
+  var wordOrderPracticeIndex = 0;
+  var wordOrderTokenDeck = [];
+  var wordOrderAnswer = [];
+  var wordOrderPracticeComplete = false;
 
   // DOM Elements
   var tabBtns = document.querySelectorAll(".nav-tab");
@@ -34,6 +44,11 @@
   var resultBox = document.getElementById("resultBox");
   var quickChips = document.getElementById("quickChips");
   var sectionTitle = document.getElementById("sectionTitle");
+  var browsePanel = document.getElementById("browsePanel");
+  var browseCount = document.getElementById("browseCount");
+  var toggleBrowseBtn = document.getElementById("toggleBrowseBtn");
+  var browseFilters = document.getElementById("browseFilters");
+  var loadMoreWordsBtn = document.getElementById("loadMoreWordsBtn");
   var browseList = document.getElementById("browseList");
   var themeContainer = document.getElementById("themeContainer");
   var quizContainer = document.getElementById("quizContainer");
@@ -140,6 +155,96 @@
     });
     nouns.forEach(function (n) { if (norm(n[1]).indexOf(q) === 0 || norm(n[2]).indexOf(q) === 0) add(n); });
     return out.slice(0, limit || 6);
+  }
+
+  function suggestAdjectives(q, limit) {
+    q = norm(q);
+    if (!q) return [];
+    var out = [], seen = {};
+    function add(a) {
+      if (!seen[a[0]]) {
+        seen[a[0]] = 1;
+        out.push({ item: a, title: a[0], sub: a[7], type: "adjective" });
+      }
+    }
+    adjectives.forEach(function (a) {
+      if (a.slice(0, 7).some(function (form) { return norm(form).indexOf(q) === 0; })) add(a);
+    });
+    adjectives.forEach(function (a) {
+      var meanings = String(a[7] || "").toLocaleLowerCase("en").split(/[;,]\s*/);
+      if (meanings.some(function (meaning) { return meaning.indexOf(q) === 0; })) add(a);
+    });
+    adjectives.forEach(function (a) {
+      if (a.slice(0, 7).some(function (form) { return norm(form).indexOf(q) > 0; })) add(a);
+    });
+    adjectives.forEach(function (a) {
+      if (String(a[7] || "").toLocaleLowerCase("en").indexOf(q) >= 0) add(a);
+    });
+    return out.slice(0, limit || 6);
+  }
+
+  function browseRecords(tabId) {
+    if (tabId === "verbs") return verbs.map(function (item) {
+      return { item: item, word: item[0], meaning: item[1], filter: item[10] || "Oregelbunden" };
+    });
+    if (tabId === "nouns") return nouns.map(function (item) {
+      return { item: item, word: item[4] + " " + item[0], meaning: item[6], filter: item[4] };
+    });
+    if (tabId === "adjectives") return adjectives.map(function (item) {
+      return { item: item, word: item[0], meaning: item[7], filter: item[10] ? "irregular" : "regular" };
+    });
+    return [];
+  }
+
+  function browseFilterOptions() {
+    if (currentTab === "nouns") return [
+      { value: "all", label: "Alla" },
+      { value: "en", label: "En-ord" },
+      { value: "ett", label: "Ett-ord" }
+    ];
+    if (currentTab === "adjectives") return [
+      { value: "all", label: "Alla" },
+      { value: "regular", label: "Regelbundna" },
+      { value: "irregular", label: "Oregelbundna" }
+    ];
+    var groups = [];
+    verbs.forEach(function (verb) {
+      var group = verb[10] || "Oregelbunden";
+      if (groups.indexOf(group) === -1) groups.push(group);
+    });
+    return [{ value: "all", label: "Alla" }].concat(groups.map(function (group) {
+      return { value: group, label: group };
+    }));
+  }
+
+  function renderBrowseList() {
+    var records = browseRecords(currentTab);
+    var filtered = records.filter(function (record) {
+      return browseFilter === "all" || record.filter === browseFilter;
+    });
+    var shown = filtered.slice(0, browseLimit);
+    browseCount.textContent = browseExpanded
+      ? "Visar " + shown.length + " av " + filtered.length + " ord"
+      : records.length + " ord att utforska";
+    toggleBrowseBtn.textContent = browseExpanded ? "Dölj lista" : "Visa alla " + records.length;
+    toggleBrowseBtn.setAttribute("aria-expanded", browseExpanded ? "true" : "false");
+    browseFilters.hidden = !browseExpanded;
+    browseList.hidden = !browseExpanded;
+    loadMoreWordsBtn.hidden = !browseExpanded || shown.length >= filtered.length;
+    if (!browseExpanded) return;
+
+    browseFilters.innerHTML = browseFilterOptions().map(function (option) {
+      var selected = option.value === browseFilter;
+      return '<button type="button" class="browse-filter' + (selected ? ' active' : '') +
+        '" data-browse-filter="' + esc(option.value) + '" aria-pressed="' + selected + '">' +
+        esc(option.label) + '</button>';
+    }).join("");
+    browseList.innerHTML = shown.map(function (record) {
+      return '<button type="button" class="browse-word" data-browse-word="' + esc(record.word) + '">' +
+        '<span class="browse-word-name">' + esc(record.word) + '</span>' +
+        '<span class="browse-word-meaning">' + esc(record.meaning) + '</span></button>';
+    }).join("");
+    loadMoreWordsBtn.textContent = "Visa fler (" + (filtered.length - shown.length) + ")";
   }
 
   function closeSuggestions() {
@@ -270,7 +375,8 @@
     closeSuggestions();
 
     if (!q) {
-      var sampleWords = currentTab === "nouns" ? ["bil", "flicka", "hus", "äpple"] : ["skriva", "gå", "äta", "bo"];
+      var sampleWords = currentTab === "nouns" ? ["bil", "flicka", "hus", "äpple"] :
+        currentTab === "adjectives" ? ["stor", "bra", "fin", "liten"] : ["skriva", "gå", "äta", "bo"];
       resultBox.innerHTML =
         '<div class="empty-state"><b>Type a word first.</b><br>Try tapping one of these:' +
         '<div class="chips">' +
@@ -340,6 +446,31 @@
       }
       searchInput.value = n[0];
       renderNoun(n, nounNotice);
+    } else if (currentTab === "adjectives") {
+      var adjective = null, adjectiveNotice = "";
+      adjectives.some(function (item) {
+        var forms = item.slice(0, 7);
+        var meanings = String(item[7] || "").toLocaleLowerCase("en").split(/[;,]\s*/);
+        if (forms.some(function (form) { return norm(form) === q; }) || meanings.indexOf(q) >= 0) {
+          adjective = item;
+          return true;
+        }
+        return false;
+      });
+      if (!adjective) {
+        var adjectiveSuggestions = suggestAdjectives(q, 1);
+        if (adjectiveSuggestions.length) {
+          adjective = adjectiveSuggestions[0].item;
+          adjectiveNotice = 'Showing closest match for <b>' + esc(raw.trim()) + '</b>.';
+        }
+      }
+      if (!adjective) {
+        resultBox.innerHTML =
+          '<div class="empty-state"><b>“' + esc(raw.trim()) + '” hittades inte bland adjektiven.</b><br>Prova ett svenskt ord eller en engelsk betydelse.</div>';
+        return;
+      }
+      searchInput.value = adjective[0];
+      renderAdjective(adjective, adjectiveNotice);
     }
 
     if (fromTap && resultBox.scrollIntoView) {
@@ -396,17 +527,23 @@
       }).join("") + '</tbody></table></div>';
   }
 
-  function renderAdjectives() {
-    learningContainer.innerHTML = learningHeader("Adjektiv · böjning och jämförelse", "Adjektiv anpassas efter substantivets genus, numerus och bestämdhet. Jämför formerna och läs exempelmeningarna.") +
-      '<div class="learning-grid">' + adjectives.map(function (a) {
-        return '<article class="learning-card">' +
-          '<div class="learning-card-heading"><h3>' + esc(a[0]) + '</h3><span>' + esc(a[7]) + '</span></div>' +
-          '<dl class="forms-list">' +
-          '<div><dt>En-form</dt><dd>' + esc(a[1]) + '</dd></div><div><dt>Ett-form</dt><dd>' + esc(a[2]) + '</dd></div>' +
-          '<div><dt>Plural / bestämd</dt><dd>' + esc(a[3]) + '</dd></div><div><dt>Komparativ</dt><dd>' + esc(a[4]) + '</dd></div>' +
-          '<div><dt>Superlativ</dt><dd>' + esc(a[5]) + ' / ' + esc(a[6]) + '</dd></div></dl>' +
-          '<p class="learning-example"><b>' + esc(a[8]) + '</b><br>' + esc(a[9]) + '</p></article>';
-      }).join("") + '</div>';
+  function renderAdjective(a, notice) {
+    resultBox.innerHTML =
+      (notice ? '<div class="notice">' + notice + '</div>' : '') +
+      '<article class="adjective-result">' +
+      '<div class="result-card-header"><div><div class="eyebrow">Adjektiv</div>' +
+      '<h2 class="word-title">' + esc(a[0]) + ' ' + speakerButton(a[0], "Lyssna på adjektivet") + '</h2>' +
+      '<div class="word-meaning">' + esc(a[7]) + '</div></div>' +
+      '<button type="button" id="nextRandomAdjective" class="next-rand-btn">Nästa adjektiv →</button></div>' +
+      '<dl class="forms-list adjective-forms">' +
+      '<div><dt>En-form</dt><dd>' + esc(a[1]) + '</dd></div>' +
+      '<div><dt>Ett-form</dt><dd>' + esc(a[2]) + '</dd></div>' +
+      '<div><dt>Plural / bestämd</dt><dd>' + esc(a[3]) + '</dd></div>' +
+      '<div><dt>Komparativ</dt><dd>' + esc(a[4]) + '</dd></div>' +
+      '<div><dt>Superlativ</dt><dd>' + esc(a[5]) + ' / ' + esc(a[6]) + '</dd></div>' +
+      '</dl><div class="panels-grid"><section class="panel"><h3>Exempel på svenska</h3>' +
+      '<p class="sv-highlight">' + esc(a[8]) + ' ' + speakerButton(a[8], "Lyssna på exempel") + '</p></section>' +
+      '<section class="panel"><h3>In English</h3><p>' + esc(a[9]) + '</p></section></div></article>';
   }
 
   function renderPrepositions() {
@@ -425,6 +562,7 @@
   function renderWordOrder() {
     if (!wordorder) return;
     learningContainer.innerHTML = learningHeader(wordorder.title, wordorder.description) +
+      renderWordOrderPractice() +
       wordorder.sections.map(function (section) {
         var html = '<section class="learning-section"><h3>' + esc(section.icon + " " + section.title) + '</h3><p>' + section.explanation + '</p>';
         if (section.rules) html += '<ul class="learning-list">' + section.rules.map(function (rule) { return '<li>' + rule + '</li>'; }).join("") + '</ul>';
@@ -445,6 +583,67 @@
         }).join("") + '</ul>';
         return html + '</section>';
       }).join("");
+  }
+
+  function shuffleWordOrderTokens(tokens) {
+    var deck = tokens.map(function (_, index) { return index; });
+    for (var i = deck.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = deck[i];
+      deck[i] = deck[j];
+      deck[j] = temp;
+    }
+    if (deck.every(function (tokenIndex, index) { return tokenIndex === index; }) && deck.length > 1) {
+      deck.push(deck.shift());
+    }
+    return deck;
+  }
+
+  function renderWordOrderPractice() {
+    var exercises = wordorder.practice || [];
+    var exercise = exercises[wordOrderPracticeIndex];
+    if (!exercise) return "";
+    var sentence = wordOrderAnswer.map(function (tokenIndex) {
+      return '<button type="button" class="order-answer-token" data-remove-token="' + tokenIndex + '"' +
+        (wordOrderPracticeComplete ? ' disabled' : '') + '>' +
+        esc(exercise.tokens[tokenIndex]) + '</button>';
+    }).join("");
+    var availableTokens = wordOrderTokenDeck.filter(function (tokenIndex) {
+      return wordOrderAnswer.indexOf(tokenIndex) === -1;
+    }).map(function (tokenIndex) {
+      return '<button type="button" class="order-token" data-order-token="' + tokenIndex + '"' +
+        (wordOrderPracticeComplete ? ' disabled' : '') + '>' + esc(exercise.tokens[tokenIndex]) + '</button>';
+    }).join("");
+    var controls = wordOrderPracticeComplete
+      ? '<button type="button" class="go-btn" data-order-next>Nästa mening →</button>'
+      : '<button type="button" class="go-btn" data-order-check' + (wordOrderAnswer.length === exercise.tokens.length ? '' : ' disabled') + '>Kontrollera</button>' +
+        '<button type="button" class="link-btn" data-order-undo' + (wordOrderAnswer.length ? '' : ' disabled') + '>Ta bort senaste</button>' +
+        '<button type="button" class="link-btn" data-order-restart>Börja om</button>';
+    return '<section class="learning-section order-practice" aria-labelledby="orderPracticeTitle">' +
+      '<div class="order-practice-header"><div><p class="eyebrow">Öva aktivt</p><h3 id="orderPracticeTitle">Bygg meningen</h3>' +
+      '<p>Mening ' + (wordOrderPracticeIndex + 1) + ' av ' + exercises.length + ' · Tryck på orden i rätt ordning.</p></div>' +
+      '<span class="order-practice-focus">' + esc(exercise.prompt) + '</span></div>' +
+      '<div class="order-answer" aria-label="Ditt svar" aria-live="polite">' +
+      (sentence || '<span class="order-placeholder">Ditt svar visas här</span>') + '</div>' +
+      '<div class="order-token-list" aria-label="Ord att välja">' + availableTokens + '</div>' +
+      '<div class="order-practice-controls">' + controls + '</div>' +
+      '<p class="order-feedback" aria-live="polite">' + (wordOrderPracticeComplete ? 'Rätt mening. Bra jobbat!' : '') + '</p>' +
+      '</section>';
+  }
+
+  function renderCommonMistakes() {
+    learningContainer.innerHTML = learningHeader(
+      "Vanliga misstag",
+      "Jämför vanliga elevfel med naturlig svenska. Läs varför ändringen behövs och lyssna på den korrekta meningen."
+    ) + '<div class="learning-grid">' + commonMistakes.map(function (mistake) {
+      return '<article class="learning-card mistake-card">' +
+        '<p class="mistake-label">Vanligt misstag</p><p class="wrong-example">' + esc(mistake.wrong) + '</p>' +
+        '<p class="mistake-label">Naturlig svenska</p><p class="correct-example">' + esc(mistake.correct) + ' ' +
+        speakerButton(mistake.correct, "Lyssna på den korrekta meningen") + '</p>' +
+        '<p class="mistake-explanation">' + esc(mistake.explanation) + '</p>' +
+        '<p class="mistake-translation">' + esc(mistake.exampleEn) + '</p>' +
+        '</article>';
+    }).join("") + '</div>';
   }
 
   function renderPronouns() {
@@ -536,6 +735,39 @@
     learningContainer.innerHTML = html;
   }
 
+  function renderPhraseCards(title, description, entries, termLabel) {
+    learningContainer.innerHTML = learningHeader(title, description) +
+      '<div class="learning-grid">' + entries.map(function (entry) {
+        return '<article class="learning-card"><div class="learning-card-heading"><h3>' +
+          esc(entry.phrase) + ' ' + speakerButton(entry.phrase, "Lyssna på uttrycket") +
+          '</h3><span>' + esc(entry.meaning) + '</span></div>' +
+          (entry.pattern ? '<p class="phrase-pattern"><b>' + esc(termLabel) + ':</b> ' + esc(entry.pattern) + '</p>' : '') +
+          '<div class="phrase-example"><p class="sv-highlight">' + esc(entry.exampleSv) + ' ' +
+          speakerButton(entry.exampleSv, "Lyssna på exempel") + '</p>' +
+          '<p>' + esc(entry.exampleEn) + '</p></div>' +
+          (entry.note ? '<p class="phrase-note">' + esc(entry.note) + '</p>' : '') +
+          '</article>';
+      }).join("") + '</div>';
+  }
+
+  function renderCollocations() {
+    renderPhraseCards(
+      "Kollokationer",
+      "Ord som ofta förekommer tillsammans. Lär dig hela uttrycket för att låta mer naturlig på svenska.",
+      collocations,
+      "Mönster"
+    );
+  }
+
+  function renderPrepositionalVerbs() {
+    renderPhraseCards(
+      "Verb + preposition",
+      "Prepositionen hör ihop med verbet och påverkar uttryckets betydelse. Lär dig kombinationen tillsammans med exemplet.",
+      prepositionalVerbs,
+      "Användning"
+    );
+  }
+
   function renderPhrases() {
     if (!phrases) return;
     learningContainer.innerHTML = learningHeader(phrases.title, phrases.description) +
@@ -550,14 +782,16 @@
 
   function renderLearningTab(tabId) {
     var renderers = {
-      adjectives: renderAdjectives,
       prepositions: renderPrepositions,
       wordorder: renderWordOrder,
       pronouns: renderPronouns,
       numbers: renderNumbers,
       phrases: renderPhrases,
       idioms: renderIdioms,
-      falsefriends: renderFalseFriends
+      falsefriends: renderFalseFriends,
+      collocations: renderCollocations,
+      prepositionalVerbs: renderPrepositionalVerbs,
+      commonMistakes: renderCommonMistakes
     };
     if (renderers[tabId]) renderers[tabId]();
   }
@@ -732,14 +966,22 @@
     closeSuggestions();
     searchInput.value = "";
 
-    var isSearchTab = tabId === "verbs" || tabId === "nouns";
+    var isSearchTab = tabId === "verbs" || tabId === "nouns" || tabId === "adjectives";
     searchCard.style.display = isSearchTab ? "block" : "none";
     resultBox.style.display = isSearchTab ? "block" : "none";
-    browseList.style.display = isSearchTab ? "flex" : "none";
-    sectionTitle.style.display = isSearchTab ? "block" : "none";
+    browsePanel.hidden = !isSearchTab;
+    browseExpanded = false;
+    browseLimit = 24;
+    browseFilter = "all";
     themeContainer.style.display = tabId === "themes" ? "block" : "none";
     quizContainer.style.display = tabId === "quiz" ? "block" : "none";
-    learningContainer.style.display = ["adjectives", "prepositions", "wordorder", "pronouns", "numbers", "phrases", "idioms", "falsefriends"].indexOf(tabId) >= 0 ? "block" : "none";
+    learningContainer.style.display = ["prepositions", "wordorder", "pronouns", "numbers", "phrases", "idioms", "falsefriends", "collocations", "prepositionalVerbs", "commonMistakes"].indexOf(tabId) >= 0 ? "block" : "none";
+    if (tabId === "wordorder") {
+      wordOrderPracticeIndex = 0;
+      wordOrderAnswer = [];
+      wordOrderPracticeComplete = false;
+      wordOrderTokenDeck = shuffleWordOrderTokens(wordorder.practice[0].tokens);
+    }
 
     // Configure the searchable word lists.
     if (tabId === "verbs") {
@@ -748,7 +990,8 @@
       searchHint.innerHTML = "Sök på grundform (skriva), böjd form (skrev) eller engelska (write).";
       sectionTitle.textContent = "Vanliga verb att utforska";
       fillChips(["vara", "ha", "göra", "gå", "komma", "äta", "skriva", "läsa", "arbeta", "lära sig", "tycka om", "bli"]);
-      fillBrowse(["vara", "ha", "göra", "gå", "komma", "säga", "få", "ta", "se", "kunna", "vilja", "äta", "dricka", "skriva", "läsa", "prata", "bo", "arbeta", "köpa", "hjälpa", "förstå", "lära sig", "tycka om", "känna sig", "hinna", "koppla av", "ge upp"]);
+      searchInput.setAttribute("aria-label", "Sök verb på svenska eller engelska");
+      renderBrowseList();
       executeSearch("skriva");
     } else if (tabId === "nouns") {
       searchLabel.textContent = "Sök substantiv (En / Ett & Plural)";
@@ -756,8 +999,18 @@
       searchHint.innerHTML = "Sök singular, plural, bestämd form eller engelska för att se alla 4 formerna.";
       sectionTitle.textContent = "Vanliga substantiv & böjningsgrupper";
       fillChips(["bil", "flicka", "äpple", "hus", "katt", "barn", "bok", "stad", "tid", "jobb"]);
-      fillBrowse(["flicka", "pojke", "bil", "katt", "äpple", "hus", "barn", "bok", "stad", "bord", "hund", "blomma", "vecka", "skola", "lägenhet", "kaffe", "möte", "språk", "fika", "kollega"]);
+      searchInput.setAttribute("aria-label", "Sök substantiv på svenska eller engelska");
+      renderBrowseList();
       executeSearch("bil");
+    } else if (tabId === "adjectives") {
+      searchLabel.textContent = "Sök adjektiv";
+      searchInput.placeholder = "stor, större, beautiful…";
+      searchHint.textContent = "Sök grundform, böjd form eller engelsk betydelse.";
+      sectionTitle.textContent = "Adjektiv att utforska";
+      fillChips(["stor", "bra", "fin", "liten", "glad", "snabb", "gammal", "viktig"]);
+      searchInput.setAttribute("aria-label", "Sök adjektiv på svenska eller engelska");
+      renderBrowseList();
+      executeSearch("stor");
     } else if (tabId === "themes") {
       renderThemes();
     } else if (tabId === "quiz") {
@@ -785,11 +1038,17 @@
     }).join("");
   }
 
-  function fillBrowse(list) {
-    browseList.innerHTML = list.map(function (w) {
-      return '<button type="button" class="chip" data-search="' + esc(w) + '">' + esc(w) + '</button>';
-    }).join("");
-  }
+  toggleBrowseBtn.addEventListener("click", function () {
+    browseExpanded = !browseExpanded;
+    browseLimit = 24;
+    browseFilter = "all";
+    renderBrowseList();
+  });
+
+  loadMoreWordsBtn.addEventListener("click", function () {
+    browseLimit += 24;
+    renderBrowseList();
+  });
 
   moreTopicsBtn.addEventListener("click", function () {
     var isOpen = moreTopicsBtn.getAttribute("aria-expanded") === "true";
@@ -833,6 +1092,8 @@
       openSuggestions(suggestVerbs(val, 6));
     } else if (currentTab === "nouns") {
       openSuggestions(suggestNouns(val, 6));
+    } else if (currentTab === "adjectives") {
+      openSuggestions(suggestAdjectives(val, 6));
     }
   });
 
@@ -840,6 +1101,7 @@
     if (searchInput.value.trim()) {
       if (currentTab === "verbs") openSuggestions(suggestVerbs(searchInput.value, 6));
       else if (currentTab === "nouns") openSuggestions(suggestNouns(searchInput.value, 6));
+      else if (currentTab === "adjectives") openSuggestions(suggestAdjectives(searchInput.value, 6));
     }
   });
 
@@ -848,7 +1110,8 @@
       e.preventDefault();
       if (suggBox.hidden) {
         if (currentTab === "verbs") openSuggestions(suggestVerbs(searchInput.value, 6));
-        else openSuggestions(suggestNouns(searchInput.value, 6));
+        else if (currentTab === "nouns") openSuggestions(suggestNouns(searchInput.value, 6));
+        else if (currentTab === "adjectives") openSuggestions(suggestAdjectives(searchInput.value, 6));
       }
       setActiveSuggestion(activeSuggIndex + 1);
     } else if (e.key === "ArrowUp") {
@@ -908,6 +1171,15 @@
       return;
     }
 
+    var nextAdjective = e.target.closest("#nextRandomAdjective");
+    if (nextAdjective && adjectives.length) {
+      e.preventDefault();
+      var randomAdjective = adjectives[Math.floor(Math.random() * adjectives.length)];
+      searchInput.value = randomAdjective[0];
+      renderAdjective(randomAdjective);
+      return;
+    }
+
     if (!e.target.closest(".topic-navigation") && !moreTopicsMenu.hidden) {
       moreTopicsMenu.hidden = true;
       moreTopicsBtn.setAttribute("aria-expanded", "false");
@@ -917,6 +1189,77 @@
     var searchChip = e.target.closest("[data-search]");
     if (searchChip) {
       executeSearch(searchChip.getAttribute("data-search"), true);
+      return;
+    }
+
+    var browseWord = e.target.closest("[data-browse-word]");
+    if (browseWord) {
+      var selectedWord = browseWord.getAttribute("data-browse-word");
+      searchInput.value = selectedWord;
+      executeSearch(selectedWord, true);
+      return;
+    }
+
+    var orderToken = e.target.closest("[data-order-token]");
+    if (orderToken && currentTab === "wordorder") {
+      wordOrderAnswer.push(Number(orderToken.getAttribute("data-order-token")));
+      renderWordOrder();
+      return;
+    }
+
+    var answerToken = e.target.closest("[data-remove-token]");
+    if (answerToken && currentTab === "wordorder" && !wordOrderPracticeComplete) {
+      var answerTokenIndex = wordOrderAnswer.indexOf(Number(answerToken.getAttribute("data-remove-token")));
+      if (answerTokenIndex >= 0) wordOrderAnswer.splice(answerTokenIndex, 1);
+      renderWordOrder();
+      return;
+    }
+
+    if (e.target.closest("[data-order-undo]") && currentTab === "wordorder") {
+      wordOrderAnswer.pop();
+      renderWordOrder();
+      return;
+    }
+
+    if (e.target.closest("[data-order-restart]") && currentTab === "wordorder") {
+      wordOrderAnswer = [];
+      wordOrderTokenDeck = shuffleWordOrderTokens(wordorder.practice[wordOrderPracticeIndex].tokens);
+      renderWordOrder();
+      return;
+    }
+
+    if (e.target.closest("[data-order-check]") && currentTab === "wordorder") {
+      var expectedTokens = wordorder.practice[wordOrderPracticeIndex].tokens;
+      var isCorrectOrder = wordOrderAnswer.length === expectedTokens.length &&
+        wordOrderAnswer.every(function (tokenIndex, index) { return tokenIndex === index; });
+      if (isCorrectOrder) {
+        wordOrderPracticeComplete = true;
+      } else {
+        var feedback = learningContainer.querySelector(".order-feedback");
+        if (feedback) feedback.textContent = "Inte riktigt ännu. Flytta ett ord genom att trycka på det i ditt svar, eller börja om.";
+      }
+      renderWordOrder();
+      if (!isCorrectOrder) {
+        var retryFeedback = learningContainer.querySelector(".order-feedback");
+        if (retryFeedback) retryFeedback.textContent = "Inte riktigt ännu. Flytta ett ord genom att trycka på det i ditt svar, eller börja om.";
+      }
+      return;
+    }
+
+    if (e.target.closest("[data-order-next]") && currentTab === "wordorder") {
+      wordOrderPracticeIndex = (wordOrderPracticeIndex + 1) % wordorder.practice.length;
+      wordOrderAnswer = [];
+      wordOrderPracticeComplete = false;
+      wordOrderTokenDeck = shuffleWordOrderTokens(wordorder.practice[wordOrderPracticeIndex].tokens);
+      renderWordOrder();
+      return;
+    }
+
+    var filterButton = e.target.closest("[data-browse-filter]");
+    if (filterButton) {
+      browseFilter = filterButton.getAttribute("data-browse-filter");
+      browseLimit = 24;
+      renderBrowseList();
       return;
     }
 

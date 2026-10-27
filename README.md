@@ -20,6 +20,7 @@ En modern, mobilanpassad, gratis webbapp för att lära sig svenska. Träna verb
 
 1. **🏃 Verbkompis (478 verb)**:
    - Direkt sökning med autokomplettering på svenska och engelska.
+   - "Visa alla" bläddrar igenom ordlistan i hanterbara sidor och kan filtrera på verbgrupp.
    - Visar infinitiv, presens, preteritum, supinum, perfekt och imperativ.
    - Anger verbgrupp samt exempel på svenska och engelska.
    - Exempelmeningar på svenska med engelsk översättning.
@@ -27,6 +28,7 @@ En modern, mobilanpassad, gratis webbapp för att lära sig svenska. Träna verb
    - Talerikon för uttal (Web Speech API) och "Nästa verb"-knapp för snabb övning.
 
 2. **📦 Substantiv: En / Ett & Plural (139 vanliga substantiv)**:
+   - Sök på svensk eller engelsk betydelse, eller bläddra bland alla ord och filtrera på en/ett.
    - Visar ordets kön (*en-ord* eller *ett-ord*).
    - Presenterar alla 4 formerna: singular obestämd/bestämd, plural obestämd/bestämd.
    - Anger böjningsgrupp (Grupp 1-5).
@@ -42,12 +44,17 @@ En modern, mobilanpassad, gratis webbapp för att lära sig svenska. Träna verb
    - **Engelska → Svenska** - hitta rätt svenskt ord med artikel
 
 5. **📚 Grammatik & referens**:
+   - Sök bland adjektiv på svenska, engelska eller böjd form; bläddra bland alla och filtrera på regelbundna/oregelbundna
    - Adjektivböjning och komparation
    - Prepositioner
    - Svensk ordföljd, V2-regeln och BIFF
+   - Interaktiv övning där du bygger meningar med rätt ordföljd
+   - **Vanliga misstag** - vanliga fel med rättning, förklaring och uttalsstöd
    - Pronomen, tal och tid, vardagsfraser
    - **Idiom & Uttryck** - vanliga svenska idiom med förklaring och exempel
    - **Vanliga fällor (False Friends)** - ord som lurar engelsktalande
+   - **Kollokationer** - vanliga ordkombinationer med mönster och exempel
+   - **Verb + preposition** - vanliga verbkombinationer med betydelser och uttalsstöd
 
 6. **🎨 Stil & tillgänglighet**:
    - Mörkt läge (prefers-color-scheme)

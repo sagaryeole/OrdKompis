@@ -21,6 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -107,6 +108,15 @@
           <button type="button" class="nav-tab" data-tab="phrases" role="tab" aria-selected="false">
             <span class="tab-icon">💬</span><span class="nav-label">Vardagsfraser</span>
           </button>
+          <button type="button" class="nav-tab" data-tab="collocations" role="tab" aria-selected="false">
+            <span class="tab-icon">🧩</span><span class="nav-label">Kollokationer</span>
+          </button>
+          <button type="button" class="nav-tab" data-tab="prepositionalVerbs" role="tab" aria-selected="false">
+            <span class="tab-icon">🔗</span><span class="nav-label">Verb + preposition</span>
+          </button>
+          <button type="button" class="nav-tab" data-tab="commonMistakes" role="tab" aria-selected="false">
+            <span class="tab-icon">🧭</span><span class="nav-label">Vanliga misstag</span>
+          </button>
         </div>
       </nav>
 
@@ -151,11 +161,19 @@
       <!-- Reference and grammar lessons -->
       <div id="learningContainer" style="display: none;"></div>
 
-      <!-- Quick Browse Section for Verbs / Nouns -->
-      <div id="sectionTitle" class="section-title" style="font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 28px 2px 10px;">
-        Vanliga ord att utforska
-      </div>
-      <div class="chips" id="browseList"></div>
+      <!-- Search and progressive word discovery for verbs, adjectives, and nouns. -->
+      <section id="browsePanel" class="browse-panel" hidden aria-label="Bläddra bland ord">
+        <div class="browse-heading">
+          <div>
+            <h2 id="sectionTitle">Utforska ord</h2>
+            <p id="browseCount" class="browse-count"></p>
+          </div>
+          <button type="button" class="browse-toggle" id="toggleBrowseBtn" aria-expanded="false" aria-controls="browseList">Visa alla</button>
+        </div>
+        <div id="browseFilters" class="browse-filters" hidden aria-label="Filtrera ord"></div>
+        <div id="browseList" class="browse-list" hidden></div>
+        <button type="button" class="browse-more" id="loadMoreWordsBtn" hidden>Visa fler</button>
+      </section>
 
     </div>
   </main>
@@ -184,6 +202,9 @@
   <script src="data/phrases.js"></script>
   <script src="data/idioms.js"></script>
   <script src="data/falsefriends.js"></script>
+  <script src="data/collocations.js"></script>
+  <script src="data/prepositional-verbs.js"></script>
+  <script src="data/common-mistakes.js"></script>
 
   <!-- Application Controller Script -->
   <script src="js/app.js"></script>

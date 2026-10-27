@@ -3,6 +3,41 @@ window.ORDKOMPIS_WORDORDER = {
   title: "Ordföljd — Svensk Meningsbyggnad",
   description: "Swedish word order follows strict rules. The most important is the V2 rule: the verb is ALWAYS in second position in main clauses.",
 
+  practice: [
+    {
+      prompt: "Tidsuttryck först: använd V2-regeln.",
+      tokens: ["I dag", "arbetar", "jag", "hemifrån."]
+    },
+    {
+      prompt: "Sätt negationen rätt i huvudsatsen.",
+      tokens: ["I morse", "hann", "jag", "inte", "äta frukost."]
+    },
+    {
+      prompt: "Bygg en bisats med BIFF-regeln.",
+      tokens: ["Vi stannade hemma", "eftersom", "det", "regnade", "hela dagen."]
+    },
+    {
+      prompt: "Gör en indirekt fråga: subjektet kommer före verbet.",
+      tokens: ["Vet du", "var", "stationen", "ligger?"]
+    },
+    {
+      prompt: "Bisats först: kom ihåg inversionen i huvudsatsen.",
+      tokens: ["Fastän", "jag var trött,", "gick", "jag", "till jobbet."]
+    },
+    {
+      prompt: "Placera inte före verbet i bisatsen.",
+      tokens: ["Hon sa", "att", "hon", "inte", "hinner", "i dag."]
+    },
+    {
+      prompt: "Börja med platsen och följ V2-regeln.",
+      tokens: ["På sommaren", "träffas", "vi", "ofta", "vid sjön."]
+    },
+    {
+      prompt: "Bygg en mening med en bisats som förklaring.",
+      tokens: ["Jag tog en jacka", "eftersom", "det", "var", "kallt ute."]
+    }
+  ],
+
   sections: [
     {
       id: "v2",
