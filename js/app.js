@@ -385,7 +385,7 @@
       '<div>' +
       '<div class="eyebrow">Verbkompis</div>' +
       '<h2 class="word-title">' + esc(name) + ' ' + speakerButton(name, t('listenVerb') || "Lyssna på verbet") + '</h2>' +
-      '<div class="word-meaning">' + esc(meaning) + '</div>' +
+      '<div class="word-meaning">' + esc(gloss("verbs", name, meaning)) + '</div>' +
       '</div>' +
       '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">' +
       '<span class="pill">' + esc(group) + '</span>' +
@@ -422,10 +422,10 @@
       '<div>' +
       '<div class="eyebrow">Substantiv & Plural</div>' +
       '<h2 class="word-title">' + esc(gender + " " + singIndef) + ' ' + speakerButton(singIndef, t('listenNoun') || "Lyssna på substantiv") + '</h2>' +
-      '<div class="word-meaning">' + esc(english) + '</div>' +
+      '<div class="word-meaning">' + esc(gloss("nouns", singIndef, english)) + '</div>' +
       '</div>' +
       '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">' +
-      '<span class="pill ' + esc(gender) + '">' + esc(gender.toUpperCase()) + (gender === 'ett' ? '-ORD' : '-ORD') + '</span>' +
+      '<span class="pill ' + esc(gender) + '">' + esc(gender.toUpperCase()) + '-ORD</span>' +
       '<button type="button" id="nextRandomNoun" class="next-rand-btn">' + t('nextNoun') + '</button>' +
       '</div>' +
       '</div>' +
