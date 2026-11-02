@@ -698,6 +698,7 @@ window.ORDKOMPIS_GLOSSES = Object.assign(window.ORDKOMPIS_GLOSSES || {}, {
       "stor": "grande",
       "liten": "pequeno",
       "bra": "bom; bem",
+      "ta en paus": "fazer uma pausa",
       "dålig": "ruim",
       "gammal": "velho",
       "mycket": "muito",

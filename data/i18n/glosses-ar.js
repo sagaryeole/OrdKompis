@@ -697,13 +697,15 @@ window.ORDKOMPIS_GLOSSES = Object.assign(window.ORDKOMPIS_GLOSSES || {}, {
       "bekväm": "مريح",
       "stor": "كبير",
       "liten": "صغير",
-      "bra": "جيد",
+      "ta en paus": "أخذ استراحة",
       "dålig": "سيئ",
       "gammal": "قديم؛ مسنّ",
       "mycket": "كثير؛ كثيرًا",
       "många": "كثير من",
       "få": "قليل من",
-      "nära": "قريب"
+      "nära": "قريب",
+      "ta en paus": "أخذ استراحة",
+      "paus": "استراحة"
     }
   }
 });
