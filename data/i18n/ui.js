@@ -61,6 +61,9 @@ window.ORDKOMPIS_I18N = {
     englishTranslation: {
       en: "In English", ar: "الترجمة الإنجليزية", pt: "Tradução para o inglês", ru: "Перевод на английский", uk: "Переклад англійською"
     },
+    translationLabel: {
+      en: "Translation", ar: "الترجمة", pt: "Tradução", ru: "Перевод", uk: "Переклад"
+    },
     nounDeclensionGroup: {
       en: "Declension group", ar: "مجموعة التصريف", pt: "Grupo de declinação", ru: "Группа склонения", uk: "Група відмінювання"
     },

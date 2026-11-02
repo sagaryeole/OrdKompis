@@ -403,7 +403,7 @@
       '</div>' +
       '<div class="panels-grid">' +
       '<section class="panel"><h3>' + t('exampleSwedish') + '</h3><p class="sv-highlight">' + esc(v[6]) + ' ' + speakerButton(v[6], t('listenExample') || "Lyssna på exempel") + '</p></section>' +
-      '<section class="panel"><h3>' + t('englishTranslation') + '</h3><p>' + esc(v[7]) + '</p></section>' +
+      '<section class="panel"><h3>' + t('translationLabel') + '</h3><p>' + esc(gloss("verbs", name, v[7])) + '</p></section>' +
       '</div>';
   }
 
@@ -437,8 +437,8 @@
       '<article class="form-box"><div class="label">' + t('nounPluralDef') + '</div><div class="value">' + esc(plurDef) + ' ' + speakerButton(plurDef) + '</div><div class="desc">' + t('nounPluralDefDesc') + '</div></article>' +
       '</div>' +
       '<div class="panels-grid">' +
-      '<section class="panel"><h3>' + t('exampleSwedish') + '</h3><p class="sv-highlight">' + esc(exSv) + ' ' + speakerButton(exSv, t('listenExample') || "Lyssna på exempel") + '</p></section>' +
-      '<section class="panel"><h3>' + t('englishTranslation') + '</h3><p>' + esc(exEn) + '</p></section>' +
+      '<section class="panel"><h3>' + t('exampleSwedish') + '</h3><p class="sv-highlight">' + esc(exSv) + ' ' + speakerButton(exSv, t('listenExample') || "Lyssна на приклад") + '</p></section>' +
+      '<section class="panel"><h3>' + t('translationLabel') + '</h3><p>' + esc(gloss("nouns", singIndef, exEn)) + '</p></section>' +
       '</div>';
   }
 
