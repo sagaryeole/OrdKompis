@@ -17,6 +17,7 @@
   var collocations = window.ORDKOMPIS_COLLOCATIONS || [];
   var prepositionalVerbs = window.ORDKOMPIS_PREPOSITIONAL_VERBS || [];
   var commonMistakes = window.ORDKOMPIS_COMMON_MISTAKES || [];
+  var subordinators = window.ORDKOMPIS_SUBORDINATORS || null;
 
   // State
   var currentTab = "verbs"; // "verbs", "nouns", "themes", "quiz"
@@ -646,6 +647,25 @@
     }).join("") + '</div>';
   }
 
+  function renderSubordinators() {
+    if (!subordinators) return;
+    learningContainer.innerHTML = learningHeader(subordinators.title, subordinators.description) +
+      '<section class="learning-section"><h3>Regler</h3>' +
+      '<ul class="learning-list">' + subordinators.rules.map(function (rule) {
+        return '<li>' + rule.rule + ' <span>' + esc(rule.example) + '</span></li>';
+      }).join("") + '</ul></section>' +
+      '<section class="learning-section"><h3>Bisatsledare med exempel</h3><div class="learning-grid">' +
+      subordinators.items.map(function (item) {
+        return '<article class="learning-card">' +
+          '<div class="learning-card-heading"><h4>' + esc(item.word) + '</h4><span>' + esc(item.en) + '</span></div>' +
+          '<p>' + esc(item.usage) + '</p>' +
+          '<ul class="learning-list">' + item.examples.map(function (ex) {
+            return '<li><b>' + esc(ex.sv) + '</b> ' + speakerButton(ex.sv, "Lyssna på exemplet") +
+              '<br><span>' + esc(ex.en) + '</span></li>';
+          }).join("") + '</ul></article>';
+      }).join("") + '</div></section>';
+  }
+
   function renderPronouns() {
     if (!pronouns) return;
     var ref = pronouns.sinSittSina;
@@ -791,7 +811,8 @@
       falsefriends: renderFalseFriends,
       collocations: renderCollocations,
       prepositionalVerbs: renderPrepositionalVerbs,
-      commonMistakes: renderCommonMistakes
+      commonMistakes: renderCommonMistakes,
+      subordinators: renderSubordinators
     };
     if (renderers[tabId]) renderers[tabId]();
   }
@@ -975,7 +996,7 @@
     browseFilter = "all";
     themeContainer.style.display = tabId === "themes" ? "block" : "none";
     quizContainer.style.display = tabId === "quiz" ? "block" : "none";
-    learningContainer.style.display = ["prepositions", "wordorder", "pronouns", "numbers", "phrases", "idioms", "falsefriends", "collocations", "prepositionalVerbs", "commonMistakes"].indexOf(tabId) >= 0 ? "block" : "none";
+    learningContainer.style.display = ["prepositions", "wordorder", "pronouns", "numbers", "phrases", "idioms", "falsefriends", "collocations", "prepositionalVerbs", "commonMistakes", "subordinators"].indexOf(tabId) >= 0 ? "block" : "none";
     if (tabId === "wordorder") {
       wordOrderPracticeIndex = 0;
       wordOrderAnswer = [];
