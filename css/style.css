@@ -174,7 +174,7 @@
   --radius-xl: 20px;
   --radius-full: 9999px;
   
-  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans Arabic", sans-serif;
   --font-display: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   
   color-scheme: light;
@@ -1560,4 +1560,56 @@ footer.band {
   .forms-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* Learner-language switcher (flag + native language name) */
+.lang-switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.lang-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-full);
+  background: var(--surface-2);
+  color: var(--fg);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.lang-btn:hover {
+  border-color: var(--accent-text);
+}
+
+.lang-btn:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.lang-btn.active {
+  border-color: var(--accent-text);
+  color: var(--accent-text);
+  box-shadow: inset 0 0 0 1px var(--accent-text);
+}
+
+.lang-flag {
+  font-size: 15px;
+  line-height: 1;
+}
+
+/* Arabic (right-to-left) layout tweaks */
+[dir="rtl"] .search-label,
+[dir="rtl"] .hint,
+[dir="rtl"] .word-meaning {
+  text-align: right;
 }
