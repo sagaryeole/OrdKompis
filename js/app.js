@@ -373,37 +373,37 @@
   // --- RENDERING ---
   function renderVerb(v, notice) {
     currentShown = { render: renderVerb, item: v, notice: notice };
-    var name = v[0], meaning = gloss("verbs", v[0], v[1]), inf = v[2], pres = v[3], pret = v[4], perf = v[5];
+    var name = v[0], meaning = v[1], inf = v[2], pres = v[3], pret = v[4], perf = v[5];
     var imperative = v[8] || "—", supine = v[9] || perf.replace(/^har\s+/, ""), group = v[10] || "—";
     var perfHtml = perf === "—"
-      ? '<div class="value" style="color:var(--muted);font-weight:500;">rarely used</div><div class="desc">No common supine form for this modal verb.</div>'
-      : '<div class="value">' + esc(perf) + ' ' + speakerButton(perf, "Lyssna på perfekt") + '</div><div class="desc">har + supine form</div>';
+      ? '<div class="value" style="color:var(--muted);font-weight:500;">' + t('verbRarelyUsed') + '</div><div class="desc">' + t('verbNoSupinum') + '</div>'
+      : '<div class="value">' + esc(perf) + ' ' + speakerButton(perf, t('listen') || "Lyssna") + '</div><div class="desc">' + t('verbDescPerfekt') + '</div>';
 
     resultBox.innerHTML =
       (notice ? '<div class="notice">' + notice + '</div>' : '') +
       '<div class="result-card-header">' +
       '<div>' +
       '<div class="eyebrow">Verbkompis</div>' +
-      '<h2 class="word-title">' + esc(name) + ' ' + speakerButton(name, "Lyssna på verbet") + '</h2>' +
+      '<h2 class="word-title">' + esc(name) + ' ' + speakerButton(name, t('listenVerb') || "Lyssna på verbet") + '</h2>' +
       '<div class="word-meaning">' + esc(meaning) + '</div>' +
       '</div>' +
       '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">' +
       '<span class="pill">' + esc(group) + '</span>' +
-      '<button type="button" id="nextRandomVerb" class="next-rand-btn">' + t("nextVerb") + '</button>' +
+      '<button type="button" id="nextRandomVerb" class="next-rand-btn">' + t('nextVerb') + '</button>' +
       '</div>' +
       '</div>' +
       '<div class="forms-grid">' +
-      '<article class="form-box"><div class="label">1. Infinitiv · to…</div><div class="value">' + esc(inf) + ' ' + speakerButton(inf, "Lyssna på infinitiv") + '</div><div class="desc">' + (perf === "—" ? "Modal verb (before other verbs)" : "Used after <em>att</em>") + '</div></article>' +
-      '<article class="form-box"><div class="label">2. Presens · now</div><div class="value">' + esc(pres) + ' ' + speakerButton(pres, "Lyssna på presens") + '</div><div class="desc">Same for I, you, we, they</div></article>' +
-      '<article class="form-box"><div class="label">3. Preteritum · past</div><div class="value">' + esc(pret) + ' ' + speakerButton(pret, "Lyssna på preteritum") + '</div><div class="desc">Finished action in past</div></article>' +
-      '<article class="form-box"><div class="label">4. Supinum</div><div class="value">' + esc(supine) + ' ' + speakerButton(supine, "Lyssna på supinum") + '</div><div class="desc">Used with <em>har</em> or <em>hade</em></div></article>' +
-      '<article class="form-box"><div class="label">5. Perfekt · has / have</div>' + perfHtml + '</article>' +
-      '<article class="form-box"><div class="label">6. Imperativ · command</div><div class="value">' + esc(imperative) + ' ' + (imperative !== "—" ? speakerButton(imperative, "Lyssna på imperativ") : "") + '</div><div class="desc">A command or instruction</div></article>' +
-      '<div class="grammar-note"><b>Verbgrupp:</b> ' + esc(group) + '</div>' +
+      '<article class="form-box"><div class="label">' + t('verbFormInfinitiv') + '</div><div class="value">' + esc(inf) + ' ' + speakerButton(inf, t('listenInfinitiv') || "Lyssna på infinitiv") + '</div><div class="desc">' + (perf === "—" ? t('verbDescModal') : t('verbDescUsedAfterAtt')) + '</div></article>' +
+      '<article class="form-box"><div class="label">' + t('verbFormPresens') + '</div><div class="value">' + esc(pres) + ' ' + speakerButton(pres, t('listenPresens') || "Lyssna på presens") + '</div><div class="desc">' + t('verbDescPresens') + '</div></article>' +
+      '<article class="form-box"><div class="label">' + t('verbFormPreteritum') + '</div><div class="value">' + esc(pret) + ' ' + speakerButton(pret, t('listenPreteritum') || "Lyssna på preteritum") + '</div><div class="desc">' + t('verbDescPreteritum') + '</div></article>' +
+      '<article class="form-box"><div class="label">' + t('verbFormSupinum') + '</div><div class="value">' + esc(supine) + ' ' + speakerButton(supine, t('listenSupinum') || "Lyssna på supinum") + '</div><div class="desc">' + t('verbDescSupinum') + '</div></article>' +
+      '<article class="form-box"><div class="label">' + t('verbFormPerfekt') + '</div>' + perfHtml + '</article>' +
+      '<article class="form-box"><div class="label">' + t('verbFormImperativ') + '</div><div class="value">' + esc(imperative) + ' ' + (imperative !== "—" ? speakerButton(imperative, t('listenImperativ') || "Lyssna på imperativ") : "") + '</div><div class="desc">' + t('verbDescImperativ') + '</div></article>' +
+      '<div class="grammar-note"><b>' + t('verbGroup') + '</b> ' + esc(group) + '</div>' +
       '</div>' +
       '<div class="panels-grid">' +
-      '<section class="panel"><h3>Exempel på svenska</h3><p class="sv-highlight">' + esc(v[6]) + ' ' + speakerButton(v[6], "Lyssna på exempel") + '</p></section>' +
-      '<section class="panel"><h3>' + t("englishTranslation") + '</h3><p>' + esc(v[7]) + '</p></section>' +
+      '<section class="panel"><h3>' + t('exampleSwedish') + '</h3><p class="sv-highlight">' + esc(v[6]) + ' ' + speakerButton(v[6], t('listenExample') || "Lyssna på exempel") + '</p></section>' +
+      '<section class="panel"><h3>' + t('englishTranslation') + '</h3><p>' + esc(v[7]) + '</p></section>' +
       '</div>';
   }
 
@@ -412,7 +412,7 @@
     var singIndef = n[0], singDef = n[1], plurIndef = n[2], plurDef = n[3];
     var gender = n[4]; // "en" or "ett"
     var group = n[5];
-    var english = gloss("nouns", singIndef, n[6]);
+    var english = n[6];
     var exSv = n[7];
     var exEn = n[8];
 
@@ -421,24 +421,24 @@
       '<div class="result-card-header">' +
       '<div>' +
       '<div class="eyebrow">Substantiv & Plural</div>' +
-      '<h2 class="word-title">' + esc(gender + " " + singIndef) + ' ' + speakerButton(singIndef, "Lyssna på substantiv") + '</h2>' +
+      '<h2 class="word-title">' + esc(gender + " " + singIndef) + ' ' + speakerButton(singIndef, t('listenNoun') || "Lyssna på substantiv") + '</h2>' +
       '<div class="word-meaning">' + esc(english) + '</div>' +
       '</div>' +
       '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">' +
-      '<span class="pill ' + esc(gender) + '">' + esc(gender.toUpperCase()) + '-ORD</span>' +
-      '<button type="button" id="nextRandomNoun" class="next-rand-btn">' + t("nextNoun") + '</button>' +
+      '<span class="pill ' + esc(gender) + '">' + esc(gender.toUpperCase()) + (gender === 'ett' ? '-ORD' : '-ORD') + '</span>' +
+      '<button type="button" id="nextRandomNoun" class="next-rand-btn">' + t('nextNoun') + '</button>' +
       '</div>' +
       '</div>' +
-      '<div class="notice" style="margin-bottom:14px;"><b>Böjningsgrupp:</b> ' + esc(group) + '</div>' +
+      '<div class="notice" style="margin-bottom:14px;"><b>' + t('nounDeclensionGroup') + ':</b> ' + esc(group) + '</div>' +
       '<div class="forms-grid">' +
-      '<article class="form-box"><div class="label">1. Singular Obestämd (a / an)</div><div class="value">' + esc(gender + " " + singIndef) + ' ' + speakerButton(singIndef) + '</div><div class="desc">One item (general)</div></article>' +
-      '<article class="form-box"><div class="label">2. Singular Bestämd (the)</div><div class="value">' + esc(singDef) + ' ' + speakerButton(singDef) + '</div><div class="desc">A specific item</div></article>' +
-      '<article class="form-box"><div class="label">3. Plural Obestämd</div><div class="value">' + esc(plurIndef) + ' ' + speakerButton(plurIndef) + '</div><div class="desc">Several items (general)</div></article>' +
-      '<article class="form-box"><div class="label">4. Plural Bestämd (the)</div><div class="value">' + esc(plurDef) + ' ' + speakerButton(plurDef) + '</div><div class="desc">Specific items</div></article>' +
+      '<article class="form-box"><div class="label">' + t('nounSingularIndef') + '</div><div class="value">' + esc(gender + " " + singIndef) + ' ' + speakerButton(singIndef) + '</div><div class="desc">' + t('nounSingularIndefDesc') + '</div></article>' +
+      '<article class="form-box"><div class="label">' + t('nounSingularDef') + '</div><div class="value">' + esc(singDef) + ' ' + speakerButton(singDef) + '</div><div class="desc">' + t('nounSingularDefDesc') + '</div></article>' +
+      '<article class="form-box"><div class="label">' + t('nounPluralIndef') + '</div><div class="value">' + esc(plurIndef) + ' ' + speakerButton(plurIndef) + '</div><div class="desc">' + t('nounPluralIndefDesc') + '</div></article>' +
+      '<article class="form-box"><div class="label">' + t('nounPluralDef') + '</div><div class="value">' + esc(plurDef) + ' ' + speakerButton(plurDef) + '</div><div class="desc">' + t('nounPluralDefDesc') + '</div></article>' +
       '</div>' +
       '<div class="panels-grid">' +
-      '<section class="panel"><h3>Exempel på svenska</h3><p class="sv-highlight">' + esc(exSv) + ' ' + speakerButton(exSv, "Lyssna på exempel") + '</p></section>' +
-      '<section class="panel"><h3>' + t("englishTranslation") + '</h3><p>' + esc(exEn) + '</p></section>' +
+      '<section class="panel"><h3>' + t('exampleSwedish') + '</h3><p class="sv-highlight">' + esc(exSv) + ' ' + speakerButton(exSv, t('listenExample') || "Lyssna på exempel") + '</p></section>' +
+      '<section class="panel"><h3>' + t('englishTranslation') + '</h3><p>' + esc(exEn) + '</p></section>' +
       '</div>';
   }
 
