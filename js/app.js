@@ -332,7 +332,11 @@
   // Meaning of a Swedish headword in the learner's language; the English gloss is the fallback.
   function gloss(kind, headword, englishFallback) {
     var dict = glossaries[currentLang] && glossaries[currentLang][kind];
-    return (dict && dict[headword]) || englishFallback;
+    if (dict && dict[headword]) return dict[headword];
+    // try without diacritics for some cases
+    var normHw = headword ? headword.replace(/[åäöÅÄÖ]/g, function(m){ return {å:'a',ä:'a',ö:'o',Å:'A',Ä:'A',Ö:'O'}[m]||m; }).toLowerCase() : headword;
+    if (dict && normHw && dict[normHw]) return dict[normHw];
+    return englishFallback;
   }
 
   function applyLanguageDirection() {
@@ -830,15 +834,15 @@
   }
 
   function renderPhraseCards(title, description, entries, termLabel) {
-    learningContainer.innerHTML = learningHeader(title, description) +
+    learningContainer.innerHTML = learningHeader(t(title) || title, t(description) || description) +
       '<div class="learning-grid">' + entries.map(function (entry) {
         return '<article class="learning-card"><div class="learning-card-heading"><h3>' +
-          esc(entry.phrase) + ' ' + speakerButton(entry.phrase, "Lyssna på uttrycket") +
-          '</h3><span>' + esc(entry.meaning) + '</span></div>' +
+          esc(entry.phrase) + ' ' + speakerButton(entry.phrase, t('listenPhrase') || "Lyssna på uttrycket") +
+          '</h3><span>' + esc(gloss("collocations", entry.phrase, entry.meaning)) + '</span></div>' +
           (entry.pattern ? '<p class="phrase-pattern"><b>' + esc(termLabel) + ':</b> ' + esc(entry.pattern) + '</p>' : '') +
           '<div class="phrase-example"><p class="sv-highlight">' + esc(entry.exampleSv) + ' ' +
-          speakerButton(entry.exampleSv, "Lyssna på exempel") + '</p>' +
-          '<p>' + esc(entry.exampleEn) + '</p></div>' +
+          speakerButton(entry.exampleSv, t('listenExample') || "Lyssna på exempel") + '</p>' +
+          '<p>' + esc(gloss("collocations", entry.phrase + "_ex", entry.exampleEn)) + '</p></div>' +
           (entry.note ? '<p class="phrase-note">' + esc(entry.note) + '</p>' : '') +
           '</article>';
       }).join("") + '</div>';
