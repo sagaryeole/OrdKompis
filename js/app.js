@@ -19,6 +19,13 @@
   var commonMistakes = window.ORDKOMPIS_COMMON_MISTAKES || [];
   var subordinators = window.ORDKOMPIS_SUBORDINATORS || null;
 
+  // --- LANGUAGE: learner's language for meanings and helper text (Swedish learning labels stay Swedish) ---
+  var i18n = window.ORDKOMPIS_I18N || { defaultLang: "en", languages: [], strings: {} };
+  var glossaries = window.ORDKOMPIS_GLOSSES || {};
+  var LANG_STORAGE_KEY = "ordkompis-lang";
+  var currentLang = readSavedLanguage();
+  var currentShown = null; // last verb/noun/adjective card, so it can be redrawn on language change
+
   // State
   var currentTab = "verbs"; // "verbs", "nouns", "themes", "quiz"
   var currentThemeId = themes[0] ? themes[0].id : "";
@@ -126,7 +133,7 @@
     function add(v) {
       if (!seen[v[0]]) {
         seen[v[0]] = 1;
-        out.push({ item: v, title: v[0], sub: v[1], type: "verb" });
+        out.push({ item: v, title: v[0], sub: gloss("verbs", v[0], v[1]), type: "verb" });
       }
     }
     verbs.forEach(function (v) { if (norm(v[0]).indexOf(q) === 0) add(v); });
@@ -146,7 +153,7 @@
     function add(n) {
       if (!seen[n[0]]) {
         seen[n[0]] = 1;
-        out.push({ item: n, title: (n[4] + " " + n[0]), sub: n[6], type: "noun" });
+        out.push({ item: n, title: (n[4] + " " + n[0]), sub: gloss("nouns", n[0], n[6]), type: "noun" });
       }
     }
     nouns.forEach(function (n) { if (norm(n[0]).indexOf(q) === 0) add(n); });
@@ -165,7 +172,7 @@
     function add(a) {
       if (!seen[a[0]]) {
         seen[a[0]] = 1;
-        out.push({ item: a, title: a[0], sub: a[7], type: "adjective" });
+        out.push({ item: a, title: a[0], sub: gloss("adjectives", a[0], a[7]), type: "adjective" });
       }
     }
     adjectives.forEach(function (a) {
@@ -186,34 +193,34 @@
 
   function browseRecords(tabId) {
     if (tabId === "verbs") return verbs.map(function (item) {
-      return { item: item, word: item[0], meaning: item[1], filter: item[10] || "Oregelbunden" };
+      return { item: item, word: item[0], meaning: gloss("verbs", item[0], item[1]), filter: item[10] || "Oregelbunden" };
     });
     if (tabId === "nouns") return nouns.map(function (item) {
-      return { item: item, word: item[4] + " " + item[0], meaning: item[6], filter: item[4] };
+      return { item: item, word: item[4] + " " + item[0], meaning: gloss("nouns", item[0], item[6]), filter: item[4] };
     });
     if (tabId === "adjectives") return adjectives.map(function (item) {
-      return { item: item, word: item[0], meaning: item[7], filter: item[10] ? "irregular" : "regular" };
+      return { item: item, word: item[0], meaning: gloss("adjectives", item[0], item[7]), filter: item[10] ? "irregular" : "regular" };
     });
     return [];
   }
 
   function browseFilterOptions() {
     if (currentTab === "nouns") return [
-      { value: "all", label: "Alla" },
+      { value: "all", label: t("filterAll") },
       { value: "en", label: "En-ord" },
       { value: "ett", label: "Ett-ord" }
     ];
     if (currentTab === "adjectives") return [
-      { value: "all", label: "Alla" },
-      { value: "regular", label: "Regelbundna" },
-      { value: "irregular", label: "Oregelbundna" }
+      { value: "all", label: t("filterAll") },
+      { value: "regular", label: t("filterRegular") },
+      { value: "irregular", label: t("filterIrregular") }
     ];
     var groups = [];
     verbs.forEach(function (verb) {
       var group = verb[10] || "Oregelbunden";
       if (groups.indexOf(group) === -1) groups.push(group);
     });
-    return [{ value: "all", label: "Alla" }].concat(groups.map(function (group) {
+    return [{ value: "all", label: t("filterAll") }].concat(groups.map(function (group) {
       return { value: group, label: group };
     }));
   }
@@ -225,9 +232,9 @@
     });
     var shown = filtered.slice(0, browseLimit);
     browseCount.textContent = browseExpanded
-      ? "Visar " + shown.length + " av " + filtered.length + " ord"
-      : records.length + " ord att utforska";
-    toggleBrowseBtn.textContent = browseExpanded ? "Dölj lista" : "Visa alla " + records.length;
+      ? t("showingOf", { a: shown.length, b: filtered.length })
+      : t("wordsToExplore", { n: records.length });
+    toggleBrowseBtn.textContent = browseExpanded ? t("hideList") : t("showAll", { n: records.length });
     toggleBrowseBtn.setAttribute("aria-expanded", browseExpanded ? "true" : "false");
     browseFilters.hidden = !browseExpanded;
     browseList.hidden = !browseExpanded;
@@ -245,7 +252,7 @@
         '<span class="browse-word-name">' + esc(record.word) + '</span>' +
         '<span class="browse-word-meaning">' + esc(record.meaning) + '</span></button>';
     }).join("");
-    loadMoreWordsBtn.textContent = "Visa fler (" + (filtered.length - shown.length) + ")";
+    loadMoreWordsBtn.textContent = t("showMore", { n: filtered.length - shown.length });
   }
 
   function closeSuggestions() {
@@ -295,48 +302,143 @@
     if (!text || typeof window === "undefined" || !("speechSynthesis" in window)) {
       return "";
     }
-    var label = ariaLabel || "Lyssna på uttal";
+    var label = ariaLabel || t("speakPronunciation");
     var safe = esc(text).replace(/"/g, "&quot;");
     return '<button type="button" class="speak-btn" data-speak="' + safe + '" aria-label="' + esc(label) + '" title="' + esc(label) + '"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg></button>';
   }
 
+  function readSavedLanguage() {
+    try {
+      var saved = window.localStorage.getItem(LANG_STORAGE_KEY);
+      if (saved && languageInfo(saved)) return saved;
+    } catch (err) { /* storage blocked: use the default language */ }
+    return i18n.defaultLang || "en";
+  }
+
+  function languageInfo(code) {
+    return (i18n.languages || []).filter(function (lang) { return lang.code === code; })[0] || null;
+  }
+
+  // Interface string in the current language; falls back to the default-language entry.
+  function t(key, vars) {
+    var entry = (i18n.strings && i18n.strings[key]) || {};
+    var text = entry[currentLang] || entry[i18n.defaultLang] || key;
+    if (vars) Object.keys(vars).forEach(function (name) {
+      text = text.split("{" + name + "}").join(String(vars[name]));
+    });
+    return text;
+  }
+
+  // Meaning of a Swedish headword in the learner's language; the English gloss is the fallback.
+  function gloss(kind, headword, englishFallback) {
+    var dict = glossaries[currentLang] && glossaries[currentLang][kind];
+    if (dict && dict[headword]) return dict[headword];
+    // try without diacritics for some cases
+    var normHw = headword ? headword.replace(/[åäöÅÄÖ]/g, function(m){ return {å:'a',ä:'a',ö:'o',Å:'A',Ä:'A',Ö:'O'}[m]||m; }).toLowerCase() : headword;
+    if (dict && normHw && dict[normHw]) return dict[normHw];
+    return englishFallback;
+  }
+
+  // English lesson text (prepositions, phrases, idioms, ...) in the learner's language; the source text is the fallback.
+  var pageTexts = window.ORDKOMPIS_PAGE_TEXT || {};
+  function tx(src) {
+    var dict = pageTexts[currentLang];
+    return (dict && dict[src]) || src;
+  }
+
+  function applyLanguageDirection() {
+    var info = languageInfo(currentLang);
+    document.documentElement.setAttribute("dir", info ? info.dir : "ltr");
+  }
+
+  function renderLanguageSwitch() {
+    var box = document.getElementById("langSwitch");
+    if (!box) return;
+    box.setAttribute("aria-label", t("languageLabel"));
+    box.innerHTML = (i18n.languages || []).map(function (lang) {
+      var active = lang.code === currentLang;
+      return '<button type="button" class="lang-btn' + (active ? ' active' : '') + '" data-lang="' + esc(lang.code) +
+        '" aria-pressed="' + active + '" lang="' + esc(lang.code) + '">' +
+        '<span class="lang-flag" aria-hidden="true">' + lang.flag + '</span>' +
+        '<span class="lang-name">' + esc(lang.name) + '</span></button>';
+    }).join("");
+  }
+
+  function updateSearchHint() {
+    if (currentTab === "verbs") searchHint.textContent = t("hintVerb");
+    else if (currentTab === "nouns") searchHint.textContent = t("hintNoun");
+    else if (currentTab === "adjectives") searchHint.textContent = t("hintAdj");
+  }
+
+  // Static page text marked up in index.html: data-i18n (text), data-i18n-html (markup), data-i18n-aria (aria-label).
+  function applyStaticTexts() {
+    var counts = { verbs: verbs.length, nouns: nouns.length };
+    document.querySelectorAll("[data-i18n]").forEach(function (el) {
+      el.textContent = t(el.getAttribute("data-i18n"), counts);
+    });
+    document.querySelectorAll("[data-i18n-html]").forEach(function (el) {
+      el.innerHTML = t(el.getAttribute("data-i18n-html"), counts);
+    });
+    document.querySelectorAll("[data-i18n-aria]").forEach(function (el) {
+      el.setAttribute("aria-label", t(el.getAttribute("data-i18n-aria"), counts));
+    });
+    document.documentElement.setAttribute("data-lang", currentLang);
+  }
+
+  function setLanguage(code) {
+    if (!languageInfo(code) || code === currentLang) return;
+    currentLang = code;
+    try { window.localStorage.setItem(LANG_STORAGE_KEY, code); } catch (err) { /* storage blocked: keep for this page only */ }
+    applyLanguageDirection();
+    renderLanguageSwitch();
+    applyStaticTexts();
+    // Re-open the current tab so every view (lessons, themes, quiz, search labels) is redrawn in the new language.
+    var typed = searchInput.value;
+    switchTab(currentTab);
+    if ((currentTab === "verbs" || currentTab === "nouns" || currentTab === "adjectives") && typed.trim()) {
+      executeSearch(typed);
+    }
+  }
+
   // --- RENDERING ---
   function renderVerb(v, notice) {
+    currentShown = { render: renderVerb, item: v, notice: notice };
     var name = v[0], meaning = v[1], inf = v[2], pres = v[3], pret = v[4], perf = v[5];
     var imperative = v[8] || "—", supine = v[9] || perf.replace(/^har\s+/, ""), group = v[10] || "—";
     var perfHtml = perf === "—"
-      ? '<div class="value" style="color:var(--muted);font-weight:500;">rarely used</div><div class="desc">No common supine form for this modal verb.</div>'
-      : '<div class="value">' + esc(perf) + ' ' + speakerButton(perf, "Lyssna på perfekt") + '</div><div class="desc">har + supine form</div>';
+      ? '<div class="value" style="color:var(--muted);font-weight:500;">' + t('verbRarelyUsed') + '</div><div class="desc">' + t('verbNoSupinum') + '</div>'
+      : '<div class="value">' + esc(perf) + ' ' + speakerButton(perf, t('listen') || "Lyssna") + '</div><div class="desc">' + t('verbDescPerfekt') + '</div>';
 
     resultBox.innerHTML =
       (notice ? '<div class="notice">' + notice + '</div>' : '') +
       '<div class="result-card-header">' +
       '<div>' +
       '<div class="eyebrow">Verbkompis</div>' +
-      '<h2 class="word-title">' + esc(name) + ' ' + speakerButton(name, "Lyssna på verbet") + '</h2>' +
-      '<div class="word-meaning">' + esc(meaning) + '</div>' +
+      '<h2 class="word-title">' + esc(name) + ' ' + speakerButton(name, t('listenVerb') || "Lyssna på verbet") + '</h2>' +
+      '<div class="word-meaning">' + esc(gloss("verbs", name, meaning)) + '</div>' +
       '</div>' +
       '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">' +
       '<span class="pill">' + esc(group) + '</span>' +
-      '<button type="button" id="nextRandomVerb" class="next-rand-btn">Nästa verb →</button>' +
+      '<button type="button" id="nextRandomVerb" class="next-rand-btn">' + t('nextVerb') + '</button>' +
       '</div>' +
       '</div>' +
       '<div class="forms-grid">' +
-      '<article class="form-box"><div class="label">1. Infinitiv · to…</div><div class="value">' + esc(inf) + ' ' + speakerButton(inf, "Lyssna på infinitiv") + '</div><div class="desc">' + (perf === "—" ? "Modal verb (before other verbs)" : "Used after <em>att</em>") + '</div></article>' +
-      '<article class="form-box"><div class="label">2. Presens · now</div><div class="value">' + esc(pres) + ' ' + speakerButton(pres, "Lyssna på presens") + '</div><div class="desc">Same for I, you, we, they</div></article>' +
-      '<article class="form-box"><div class="label">3. Preteritum · past</div><div class="value">' + esc(pret) + ' ' + speakerButton(pret, "Lyssna på preteritum") + '</div><div class="desc">Finished action in past</div></article>' +
-      '<article class="form-box"><div class="label">4. Supinum</div><div class="value">' + esc(supine) + ' ' + speakerButton(supine, "Lyssna på supinum") + '</div><div class="desc">Used with <em>har</em> or <em>hade</em></div></article>' +
-      '<article class="form-box"><div class="label">5. Perfekt · has / have</div>' + perfHtml + '</article>' +
-      '<article class="form-box"><div class="label">6. Imperativ · command</div><div class="value">' + esc(imperative) + ' ' + (imperative !== "—" ? speakerButton(imperative, "Lyssna på imperativ") : "") + '</div><div class="desc">A command or instruction</div></article>' +
-      '<div class="grammar-note"><b>Verbgrupp:</b> ' + esc(group) + '</div>' +
+      '<article class="form-box"><div class="label">' + t('verbFormInfinitiv') + '</div><div class="value">' + esc(inf) + ' ' + speakerButton(inf, t('listenInfinitiv') || "Lyssna på infinitiv") + '</div><div class="desc">' + (perf === "—" ? t('verbDescModal') : t('verbDescUsedAfterAtt')) + '</div></article>' +
+      '<article class="form-box"><div class="label">' + t('verbFormPresens') + '</div><div class="value">' + esc(pres) + ' ' + speakerButton(pres, t('listenPresens') || "Lyssna på presens") + '</div><div class="desc">' + t('verbDescPresens') + '</div></article>' +
+      '<article class="form-box"><div class="label">' + t('verbFormPreteritum') + '</div><div class="value">' + esc(pret) + ' ' + speakerButton(pret, t('listenPreteritum') || "Lyssna på preteritum") + '</div><div class="desc">' + t('verbDescPreteritum') + '</div></article>' +
+      '<article class="form-box"><div class="label">' + t('verbFormSupinum') + '</div><div class="value">' + esc(supine) + ' ' + speakerButton(supine, t('listenSupinum') || "Lyssna på supinum") + '</div><div class="desc">' + t('verbDescSupinum') + '</div></article>' +
+      '<article class="form-box"><div class="label">' + t('verbFormPerfekt') + '</div>' + perfHtml + '</article>' +
+      '<article class="form-box"><div class="label">' + t('verbFormImperativ') + '</div><div class="value">' + esc(imperative) + ' ' + (imperative !== "—" ? speakerButton(imperative, t('listenImperativ') || "Lyssna på imperativ") : "") + '</div><div class="desc">' + t('verbDescImperativ') + '</div></article>' +
+      '<div class="grammar-note"><b>' + t('verbGroup') + '</b> ' + esc(group) + '</div>' +
       '</div>' +
       '<div class="panels-grid">' +
-      '<section class="panel"><h3>Exempel på svenska</h3><p class="sv-highlight">' + esc(v[6]) + ' ' + speakerButton(v[6], "Lyssna på exempel") + '</p></section>' +
-      '<section class="panel"><h3>In English</h3><p>' + esc(v[7]) + '</p></section>' +
+      '<section class="panel"><h3>' + t('exampleSwedish') + '</h3><p class="sv-highlight">' + esc(v[6]) + ' ' + speakerButton(v[6], t('listenExample')) + '</p></section>' +
+      '<section class="panel"><h3>' + t('translationLabel') + '</h3><p>' + esc(tx(v[7])) + '</p></section>' +
       '</div>';
   }
 
   function renderNoun(n, notice) {
+    currentShown = { render: renderNoun, item: n, notice: notice };
     var singIndef = n[0], singDef = n[1], plurIndef = n[2], plurDef = n[3];
     var gender = n[4]; // "en" or "ett"
     var group = n[5];
@@ -349,29 +451,30 @@
       '<div class="result-card-header">' +
       '<div>' +
       '<div class="eyebrow">Substantiv & Plural</div>' +
-      '<h2 class="word-title">' + esc(gender + " " + singIndef) + ' ' + speakerButton(singIndef, "Lyssna på substantiv") + '</h2>' +
-      '<div class="word-meaning">' + esc(english) + '</div>' +
+      '<h2 class="word-title">' + esc(gender + " " + singIndef) + ' ' + speakerButton(singIndef, t('listenNoun') || "Lyssna på substantiv") + '</h2>' +
+      '<div class="word-meaning">' + esc(gloss("nouns", singIndef, english)) + '</div>' +
       '</div>' +
       '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">' +
       '<span class="pill ' + esc(gender) + '">' + esc(gender.toUpperCase()) + '-ORD</span>' +
-      '<button type="button" id="nextRandomNoun" class="next-rand-btn">Nästa substantiv →</button>' +
+      '<button type="button" id="nextRandomNoun" class="next-rand-btn">' + t('nextNoun') + '</button>' +
       '</div>' +
       '</div>' +
-      '<div class="notice" style="margin-bottom:14px;"><b>Böjningsgrupp:</b> ' + esc(group) + '</div>' +
+      '<div class="notice" style="margin-bottom:14px;"><b>' + t('nounDeclensionGroup') + ':</b> ' + esc(group) + '</div>' +
       '<div class="forms-grid">' +
-      '<article class="form-box"><div class="label">1. Singular Obestämd (a / an)</div><div class="value">' + esc(gender + " " + singIndef) + ' ' + speakerButton(singIndef) + '</div><div class="desc">One item (general)</div></article>' +
-      '<article class="form-box"><div class="label">2. Singular Bestämd (the)</div><div class="value">' + esc(singDef) + ' ' + speakerButton(singDef) + '</div><div class="desc">A specific item</div></article>' +
-      '<article class="form-box"><div class="label">3. Plural Obestämd</div><div class="value">' + esc(plurIndef) + ' ' + speakerButton(plurIndef) + '</div><div class="desc">Several items (general)</div></article>' +
-      '<article class="form-box"><div class="label">4. Plural Bestämd (the)</div><div class="value">' + esc(plurDef) + ' ' + speakerButton(plurDef) + '</div><div class="desc">Specific items</div></article>' +
+      '<article class="form-box"><div class="label">' + t('nounSingularIndef') + '</div><div class="value">' + esc(gender + " " + singIndef) + ' ' + speakerButton(singIndef) + '</div><div class="desc">' + t('nounSingularIndefDesc') + '</div></article>' +
+      '<article class="form-box"><div class="label">' + t('nounSingularDef') + '</div><div class="value">' + esc(singDef) + ' ' + speakerButton(singDef) + '</div><div class="desc">' + t('nounSingularDefDesc') + '</div></article>' +
+      '<article class="form-box"><div class="label">' + t('nounPluralIndef') + '</div><div class="value">' + esc(plurIndef) + ' ' + speakerButton(plurIndef) + '</div><div class="desc">' + t('nounPluralIndefDesc') + '</div></article>' +
+      '<article class="form-box"><div class="label">' + t('nounPluralDef') + '</div><div class="value">' + esc(plurDef) + ' ' + speakerButton(plurDef) + '</div><div class="desc">' + t('nounPluralDefDesc') + '</div></article>' +
       '</div>' +
       '<div class="panels-grid">' +
-      '<section class="panel"><h3>Exempel på svenska</h3><p class="sv-highlight">' + esc(exSv) + ' ' + speakerButton(exSv, "Lyssna på exempel") + '</p></section>' +
-      '<section class="panel"><h3>Engelsk översättning</h3><p>' + esc(exEn) + '</p></section>' +
+      '<section class="panel"><h3>' + t('exampleSwedish') + '</h3><p class="sv-highlight">' + esc(exSv) + ' ' + speakerButton(exSv, t('listenExample')) + '</p></section>' +
+      '<section class="panel"><h3>' + t('translationLabel') + '</h3><p>' + esc(tx(exEn)) + '</p></section>' +
       '</div>';
   }
 
   // --- SEARCH EXECUTION ---
   function executeSearch(raw, fromTap) {
+    currentShown = null;
     var q = norm(raw);
     closeSuggestions();
 
@@ -379,7 +482,7 @@
       var sampleWords = currentTab === "nouns" ? ["bil", "flicka", "hus", "äpple"] :
         currentTab === "adjectives" ? ["stor", "bra", "fin", "liten"] : ["skriva", "gå", "äta", "bo"];
       resultBox.innerHTML =
-        '<div class="empty-state"><b>Type a word first.</b><br>Try tapping one of these:' +
+        '<div class="empty-state"><b>' + t('emptyTypeFirst') + '</b><br>' + t('emptyTryTapping') +
         '<div class="chips">' +
         sampleWords.map(function (w) { return '<button type="button" class="chip" data-search="' + esc(w) + '">' + esc(w) + '</button>'; }).join("") +
         '</div></div>';
@@ -391,13 +494,13 @@
       if (!v && verbsByForm[q]) {
         var hit = verbsByForm[q][0];
         v = hit.verb;
-        notice = '<b>' + esc(raw.trim()) + '</b> is the ' + hit.label + ' form of <b>' + esc(v[0]) + '</b>.';
+        notice = '<b>' + esc(raw.trim()) + '</b> ' + t('isTheFormOf', { label: hit.label }) + ' <b>' + esc(v[0]) + '</b>.';
       }
       if (!v) {
         var s = suggestVerbs(q, 1);
         if (s.length) {
           v = s[0].item;
-          notice = 'Showing closest match for <b>' + esc(raw.trim()) + '</b>.';
+          notice = t('closestMatch') + ' <b>' + esc(raw.trim()) + '</b>.';
         }
       }
       if (!v && q.length >= 3) {
@@ -409,7 +512,7 @@
 
         if (near.length) {
           resultBox.innerHTML =
-            '<div class="empty-state"><b>No verb called “' + esc(raw.trim()) + '” found.</b><br>Did you mean:' +
+            '<div class="empty-state"><b>' + t('noVerbFound', { w: esc(raw.trim()) }) + '</b><br>' + t('didYouMean') +
             '<div class="chips">' +
             near.map(function (o) { return '<button type="button" class="chip" data-search="' + esc(o.v[0]) + '">' + esc(o.v[0]) + '</button>'; }).join("") +
             '</div></div>';
@@ -418,7 +521,7 @@
       }
       if (!v) {
         resultBox.innerHTML =
-          '<div class="empty-state"><b>“' + esc(raw.trim()) + '” is not in the curated verb list yet.</b><br>Try an infinitive (like <em>skriva</em>) or an English word.<div class="chips"><button type="button" class="chip" data-search="skriva">skriva</button><button type="button" class="chip" data-search="äta">äta</button><button type="button" class="chip" data-search="komma">komma</button></div></div>';
+          '<div class="empty-state"><b>' + t('verbNotCurated', { w: esc(raw.trim()) }) + '</b><br>' + t('verbTryHint') + '<div class="chips"><button type="button" class="chip" data-search="skriva">skriva</button><button type="button" class="chip" data-search="äta">äta</button><button type="button" class="chip" data-search="komma">komma</button></div></div>';
         return;
       }
       searchInput.value = v[0];
@@ -431,18 +534,18 @@
       if (!n && nounsByForm[cleanQ]) {
         var nHit = nounsByForm[cleanQ][0];
         n = nHit.noun;
-        nounNotice = '<b>' + esc(raw.trim()) + '</b> is the ' + nHit.label + ' of <b>' + esc(n[4] + " " + n[0]) + '</b>.';
+        nounNotice = '<b>' + esc(raw.trim()) + '</b> ' + t('isTheNounForm', { label: nHit.label }) + ' <b>' + esc(n[4] + " " + n[0]) + '</b>.';
       }
       if (!n) {
         var ns = suggestNouns(cleanQ, 1);
         if (ns.length) {
           n = ns[0].item;
-          nounNotice = 'Showing closest match for <b>' + esc(raw.trim()) + '</b>.';
+          nounNotice = t('closestMatch') + ' <b>' + esc(raw.trim()) + '</b>.';
         }
       }
       if (!n) {
         resultBox.innerHTML =
-          '<div class="empty-state"><b>“' + esc(raw.trim()) + '” was not found in the noun list yet.</b><br>Try searching <em>bil</em>, <em>flicka</em>, <em>äpple</em>, or <em>hus</em>.<div class="chips"><button type="button" class="chip" data-search="bil">bil</button><button type="button" class="chip" data-search="katt">katt</button><button type="button" class="chip" data-search="hus">hus</button><button type="button" class="chip" data-search="äpple">äpple</button></div></div>';
+          '<div class="empty-state"><b>' + t('nounNotFound', { w: esc(raw.trim()) }) + '</b><br>' + t('nounTryHint') + '<div class="chips"><button type="button" class="chip" data-search="bil">bil</button><button type="button" class="chip" data-search="katt">katt</button><button type="button" class="chip" data-search="hus">hus</button><button type="button" class="chip" data-search="äpple">äpple</button></div></div>';
         return;
       }
       searchInput.value = n[0];
@@ -462,12 +565,12 @@
         var adjectiveSuggestions = suggestAdjectives(q, 1);
         if (adjectiveSuggestions.length) {
           adjective = adjectiveSuggestions[0].item;
-          adjectiveNotice = 'Showing closest match for <b>' + esc(raw.trim()) + '</b>.';
+          adjectiveNotice = t('closestMatch') + ' <b>' + esc(raw.trim()) + '</b>.';
         }
       }
       if (!adjective) {
         resultBox.innerHTML =
-          '<div class="empty-state"><b>“' + esc(raw.trim()) + '” hittades inte bland adjektiven.</b><br>Prova ett svenskt ord eller en engelsk betydelse.</div>';
+          '<div class="empty-state"><b>' + t('adjNotFound', { w: esc(raw.trim()) }) + '</b><br>' + t('adjTryHint') + '</div>';
         return;
       }
       searchInput.value = adjective[0];
@@ -496,10 +599,10 @@
       return (
         '<div class="vocab-card">' +
         '<div>' +
-        '<div class="vocab-sv">' + esc(w.sv) + ' ' + speakerButton(w.sv, "Lyssna") + '</div>' +
-        '<div class="vocab-en">' + esc(w.en) + '</div>' +
+        '<div class="vocab-sv">' + esc(w.sv) + ' ' + speakerButton(w.sv, t("listenWord")) + '</div>' +
+        '<div class="vocab-en">' + esc(tx(w.en)) + '</div>' +
         '</div>' +
-        '<div class="vocab-ex">“' + esc(w.example) + '” ' + (w.example ? speakerButton(w.example, "Lyssna på exempel") : '') + '</div>' +
+        '<div class="vocab-ex">“' + esc(w.example) + '” ' + (w.example ? speakerButton(w.example, t("listenExample")) : '') + '</div>' +
         '</div>'
       );
     }).join("");
@@ -521,7 +624,7 @@
         return '<tr>' + row.map(function (cell, ci) {
           var c = esc(cell);
           if (ci === 0 && row.length > 0) {
-            return '<td>' + c + ' ' + speakerButton(cell, "Lyssna") + '</td>';
+            return '<td>' + c + ' ' + speakerButton(cell, t("listen")) + '</td>';
           }
           return '<td>' + c + '</td>';
         }).join("") + '</tr>';
@@ -529,58 +632,59 @@
   }
 
   function renderAdjective(a, notice) {
+    currentShown = { render: renderAdjective, item: a, notice: notice };
     resultBox.innerHTML =
       (notice ? '<div class="notice">' + notice + '</div>' : '') +
       '<article class="adjective-result">' +
-      '<div class="result-card-header"><div><div class="eyebrow">Adjektiv</div>' +
-      '<h2 class="word-title">' + esc(a[0]) + ' ' + speakerButton(a[0], "Lyssna på adjektivet") + '</h2>' +
-      '<div class="word-meaning">' + esc(a[7]) + '</div></div>' +
-      '<button type="button" id="nextRandomAdjective" class="next-rand-btn">Nästa adjektiv →</button></div>' +
+      '<div class="result-card-header"><div><div class="eyebrow">' + t("tabAdjectives") + '</div>' +
+      '<h2 class="word-title">' + esc(a[0]) + ' ' + speakerButton(a[0], t("listenAdjective") || "Lyssna på adjektivet") + '</h2>' +
+      '<div class="word-meaning">' + esc(gloss("adjectives", a[0], a[7])) + '</div></div>' +
+      '<button type="button" id="nextRandomAdjective" class="next-rand-btn">' + t("nextAdjectiveBtn") + '</button></div>' +
       '<dl class="forms-list adjective-forms">' +
-      '<div><dt>En-form</dt><dd>' + esc(a[1]) + '</dd></div>' +
-      '<div><dt>Ett-form</dt><dd>' + esc(a[2]) + '</dd></div>' +
-      '<div><dt>Plural / bestämd</dt><dd>' + esc(a[3]) + '</dd></div>' +
-      '<div><dt>Komparativ</dt><dd>' + esc(a[4]) + '</dd></div>' +
-      '<div><dt>Superlativ</dt><dd>' + esc(a[5]) + ' / ' + esc(a[6]) + '</dd></div>' +
-      '</dl><div class="panels-grid"><section class="panel"><h3>Exempel på svenska</h3>' +
-      '<p class="sv-highlight">' + esc(a[8]) + ' ' + speakerButton(a[8], "Lyssna på exempel") + '</p></section>' +
-      '<section class="panel"><h3>In English</h3><p>' + esc(a[9]) + '</p></section></div></article>';
+      '<div><dt>' + t("enForm") + '</dt><dd>' + esc(a[1]) + '</dd></div>' +
+      '<div><dt>' + t("ettForm") + '</dt><dd>' + esc(a[2]) + '</dd></div>' +
+      '<div><dt>' + t("pluralDefinite") + '</dt><dd>' + esc(a[3]) + '</dd></div>' +
+      '<div><dt>' + t("comparative") + '</dt><dd>' + esc(a[4]) + '</dd></div>' +
+      '<div><dt>' + t("superlative") + '</dt><dd>' + esc(a[5]) + ' / ' + esc(a[6]) + '</dd></div>' +
+      '</dl><div class="panels-grid"><section class="panel"><h3>' + t("exampleSwedish") + '</h3>' +
+      '<p class="sv-highlight">' + esc(a[8]) + ' ' + speakerButton(a[8], t("listenExample") || "Lyssna på exempel") + '</p></section>' +
+      '<section class="panel"><h3>' + t("translationLabel") + '</h3><p>' + esc(tx(a[9])) + '</p></section></div></article>';
   }
 
   function renderPrepositions() {
-    learningContainer.innerHTML = learningHeader("Prepositioner", "Lär dig vanliga betydelser, uttryck och skillnader mellan svenska och engelska.") +
+    learningContainer.innerHTML = learningHeader(t("prepositionsTitle") || "Prepositioner", t("prepositionsDesc") || "Lär dig vanliga betydelser, uttryck och skillnader mellan svenska och engelska.") +
       '<div class="learning-grid">' + prepositions.map(function (p) {
-        return '<article class="learning-card"><div class="learning-card-heading"><h3>' + esc(p.prep) + '</h3><span>' + esc(p.english) + '</span></div>' +
+        return '<article class="learning-card"><div class="learning-card-heading"><h3>' + esc(p.prep) + '</h3><span>' + esc(tx(p.english)) + '</span></div>' +
           '<ul class="learning-list">' + p.rules.map(function (rule) { return '<li>' + rule + '</li>'; }).join("") + '</ul>' +
-          '<h4>Exempel</h4><ul class="example-list">' + p.examples.map(function (e) {
-            return '<li><b>' + esc(e.sv) + '</b><span>' + esc(e.en) + '</span></li>';
+          '<h4>' + t("exampleSwedish") + '</h4><ul class="example-list">' + p.examples.map(function (e) {
+            return '<li><b>' + esc(e.sv) + '</b><span>' + esc(tx(e.en)) + '</span></li>';
           }).join("") + '</ul>' +
-          (p.verbCombinations.length ? '<h4>Vanliga kombinationer</h4><p class="combination-list">' + p.verbCombinations.map(esc).join(" · ") + '</p>' : '') +
+          (p.verbCombinations.length ? '<h4>' + t("commonCombinations") + '</h4><p class="combination-list">' + p.verbCombinations.map(function (c) { return esc(tx(c)); }).join(" · ") + '</p>' : '') +
           '</article>';
       }).join("") + '</div>';
   }
 
   function renderWordOrder() {
     if (!wordorder) return;
-    learningContainer.innerHTML = learningHeader(wordorder.title, wordorder.description) +
+    learningContainer.innerHTML = learningHeader(t("tabWordOrder") || "Ordföljd", t("wordOrderDesc") || "Huvudsatser, bisatser, V2-regeln och BIFF med exempel.") +
       renderWordOrderPractice() +
       wordorder.sections.map(function (section) {
-        var html = '<section class="learning-section"><h3>' + esc(section.icon + " " + section.title) + '</h3><p>' + section.explanation + '</p>';
-        if (section.rules) html += '<ul class="learning-list">' + section.rules.map(function (rule) { return '<li>' + rule + '</li>'; }).join("") + '</ul>';
+        var html = '<section class="learning-section"><h3>' + esc(section.icon + " " + section.title) + '</h3><p>' + tx(section.explanation) + '</p>';
+        if (section.rules) html += '<ul class="learning-list">' + section.rules.map(function (rule) { return '<li>' + tx(rule) + '</li>'; }).join("") + '</ul>';
         if (section.wrongExamples) html += '<div class="example-grid">' + section.wrongExamples.map(function (e) {
-          return '<article class="example-card"><p class="wrong-example">' + esc(e.wrong) + '</p><p class="correct-example">' + esc(e.correct) + '</p><span>' + esc(e.why) + '</span></article>';
+          return '<article class="example-card"><p class="wrong-example">' + esc(e.wrong) + '</p><p class="correct-example">' + esc(e.correct) + '</p><span>' + esc(tx(e.why)) + '</span></article>';
         }).join("") + '</div>';
         if (section.slots) html += '<div class="learning-grid">' + section.slots.map(function (slot) {
-          return '<article class="learning-card"><h4>' + esc(slot.name) + '</h4><p>' + esc(slot.desc) + '</p><b>' + esc(slot.example) + '</b></article>';
+          return '<article class="learning-card"><h4>' + esc(slot.name) + '</h4><p>' + esc(tx(slot.desc)) + '</p><b>' + esc(slot.example) + '</b></article>';
         }).join("") + '</div>';
         if (section.mainClauseExample) html += '<div class="example-grid">' +
           [section.mainClauseExample, section.subClauseExample].map(function (example) {
-            return '<article class="learning-card"><h4>' + esc(example.label) + '</h4><div class="slot-row">' +
-              example.slots.map(function (slot, i) { return '<div><span>' + esc(example.names[i]) + '</span><b>' + esc(slot) + '</b></div>'; }).join("") +
+            return '<article class="learning-card"><h4>' + esc(tx(example.label)) + '</h4><div class="slot-row">' +
+              example.slots.map(function (slot, i) { return '<div><span>' + esc(tx(example.names[i])) + '</span><b>' + esc(slot) + '</b></div>'; }).join("") +
               '</div></article>';
           }).join("") + '</div>';
         if (section.words) html += '<ul class="conjunction-list">' + section.words.map(function (w) {
-          return '<li><b>' + esc(w.word) + '</b><span>' + esc(w.en) + '</span><em>' + esc(w.example) + '</em></li>';
+          return '<li><b>' + esc(w.word) + '</b><span>' + esc(tx(w.en)) + '</span><em>' + esc(w.example) + '</em></li>';
         }).join("") + '</ul>';
         return html + '</section>';
       }).join("");
@@ -616,52 +720,52 @@
         (wordOrderPracticeComplete ? ' disabled' : '') + '>' + esc(exercise.tokens[tokenIndex]) + '</button>';
     }).join("");
     var controls = wordOrderPracticeComplete
-      ? '<button type="button" class="go-btn" data-order-next>Nästa mening →</button>'
-      : '<button type="button" class="go-btn" data-order-check' + (wordOrderAnswer.length === exercise.tokens.length ? '' : ' disabled') + '>Kontrollera</button>' +
-        '<button type="button" class="link-btn" data-order-undo' + (wordOrderAnswer.length ? '' : ' disabled') + '>Ta bort senaste</button>' +
-        '<button type="button" class="link-btn" data-order-restart>Börja om</button>';
+      ? '<button type="button" class="go-btn" data-order-next>' + t('nextSentence') + '</button>'
+      : '<button type="button" class="go-btn" data-order-check' + (wordOrderAnswer.length === exercise.tokens.length ? '' : ' disabled') + '>' + t('checkBtn') + '</button>' +
+        '<button type="button" class="link-btn" data-order-undo' + (wordOrderAnswer.length ? '' : ' disabled') + '>' + t('undoBtn') + '</button>' +
+        '<button type="button" class="link-btn" data-order-restart>' + t('restartBtn') + '</button>';
     return '<section class="learning-section order-practice" aria-labelledby="orderPracticeTitle">' +
-      '<div class="order-practice-header"><div><p class="eyebrow">Öva aktivt</p><h3 id="orderPracticeTitle">Bygg meningen</h3>' +
-      '<p>Mening ' + (wordOrderPracticeIndex + 1) + ' av ' + exercises.length + ' · Tryck på orden i rätt ordning.</p></div>' +
+      '<div class="order-practice-header"><div><p class="eyebrow">' + t('practiceEyebrow') + '</p><h3 id="orderPracticeTitle">' + t('buildSentence') + '</h3>' +
+      '<p>' + t('sentenceOf', { n: wordOrderPracticeIndex + 1, total: exercises.length }) + '</p></div>' +
       '<span class="order-practice-focus">' + esc(exercise.prompt) + '</span></div>' +
-      '<div class="order-answer" aria-label="Ditt svar" aria-live="polite">' +
-      (sentence || '<span class="order-placeholder">Ditt svar visas här</span>') + '</div>' +
-      '<div class="order-token-list" aria-label="Ord att välja">' + availableTokens + '</div>' +
+      '<div class="order-answer" aria-label="' + t('yourAnswer') + '" aria-live="polite">' +
+      (sentence || '<span class="order-placeholder">' + t('answerPlaceholder') + '</span>') + '</div>' +
+      '<div class="order-token-list" aria-label="' + t('wordChoices') + '">' + availableTokens + '</div>' +
       '<div class="order-practice-controls">' + controls + '</div>' +
-      '<p class="order-feedback" aria-live="polite">' + (wordOrderPracticeComplete ? 'Rätt mening. Bra jobbat!' : '') + '</p>' +
+      '<p class="order-feedback" aria-live="polite">' + (wordOrderPracticeComplete ? t('correctSentence') : '') + '</p>' +
       '</section>';
   }
 
   function renderCommonMistakes() {
     learningContainer.innerHTML = learningHeader(
-      "Vanliga misstag",
-      "Jämför vanliga elevfel med naturlig svenska. Läs varför ändringen behövs och lyssna på den korrekta meningen."
+      t("tabCommonMistakes"),
+      t("commonMistakesDesc")
     ) + '<div class="learning-grid">' + commonMistakes.map(function (mistake) {
       return '<article class="learning-card mistake-card">' +
-        '<p class="mistake-label">Vanligt misstag</p><p class="wrong-example">' + esc(mistake.wrong) + '</p>' +
-        '<p class="mistake-label">Naturlig svenska</p><p class="correct-example">' + esc(mistake.correct) + ' ' +
-        speakerButton(mistake.correct, "Lyssna på den korrekta meningen") + '</p>' +
+        '<p class="mistake-label">' + t("mistakeLabel") + '</p><p class="wrong-example">' + esc(mistake.wrong) + '</p>' +
+        '<p class="mistake-label">' + t("naturalSwedish") + '</p><p class="correct-example">' + esc(mistake.correct) + ' ' +
+        speakerButton(mistake.correct, t("listenCorrectSentence")) + '</p>' +
         '<p class="mistake-explanation">' + esc(mistake.explanation) + '</p>' +
-        '<p class="mistake-translation">' + esc(mistake.exampleEn) + '</p>' +
+        '<p class="mistake-translation">' + esc(tx(mistake.exampleEn)) + '</p>' +
         '</article>';
     }).join("") + '</div>';
   }
 
   function renderSubordinators() {
     if (!subordinators) return;
-    learningContainer.innerHTML = learningHeader(subordinators.title, subordinators.description) +
-      '<section class="learning-section"><h3>Regler</h3>' +
+    learningContainer.innerHTML = learningHeader(t("tabSubordinators"), t("subordinatorsDesc")) +
+      '<section class="learning-section"><h3>' + t("rules") + '</h3>' +
       '<ul class="learning-list">' + subordinators.rules.map(function (rule) {
-        return '<li>' + rule.rule + ' <span>' + esc(rule.example) + '</span></li>';
+        return '<li>' + tx(rule.rule) + ' <span>' + esc(rule.example) + '</span></li>';
       }).join("") + '</ul></section>' +
-      '<section class="learning-section"><h3>Bisatsledare med exempel</h3><div class="learning-grid">' +
+      '<section class="learning-section"><h3>' + t("subordinatorsExamples") + '</h3><div class="learning-grid">' +
       subordinators.items.map(function (item) {
         return '<article class="learning-card">' +
-          '<div class="learning-card-heading"><h4>' + esc(item.word) + '</h4><span>' + esc(item.en) + '</span></div>' +
-          '<p>' + esc(item.usage) + '</p>' +
+          '<div class="learning-card-heading"><h4>' + esc(item.word) + '</h4><span>' + esc(tx(item.en)) + '</span></div>' +
+          '<p>' + esc(tx(item.usage)) + '</p>' +
           '<ul class="learning-list">' + item.examples.map(function (ex) {
-            return '<li><b>' + esc(ex.sv) + '</b> ' + speakerButton(ex.sv, "Lyssna på exemplet") +
-              '<br><span>' + esc(ex.en) + '</span></li>';
+            return '<li><b>' + esc(ex.sv) + '</b> ' + speakerButton(ex.sv, t("listenExample")) +
+              '<br><span>' + esc(tx(ex.en)) + '</span></li>';
           }).join("") + '</ul></article>';
       }).join("") + '</div></section>';
   }
@@ -669,20 +773,20 @@
   function renderPronouns() {
     if (!pronouns) return;
     var ref = pronouns.sinSittSina;
-    learningContainer.innerHTML = learningHeader(pronouns.title, pronouns.description) +
+    learningContainer.innerHTML = learningHeader(pronouns.title, tx(pronouns.description)) +
       '<section class="learning-section"><h3>' + esc(pronouns.personal.title) + '</h3>' +
-      renderLearningTable(pronouns.personal.headers, pronouns.personal.rows) + '</section>' +
-      '<section class="learning-section"><h3>' + esc(ref.title) + '</h3><p>' + esc(ref.description) + '</p>' +
-      '<ul class="learning-list">' + ref.rules.map(function (rule) { return '<li>' + rule.rule + ' <span>' + esc(rule.example) + '</span></li>'; }).join("") + '</ul>' +
+      renderLearningTable(pronouns.personal.headers, pronouns.personal.rows.map(function (r) { return [tx(r[0])].concat(r.slice(1)); })) + '</section>' +
+      '<section class="learning-section"><h3>' + esc(ref.title) + '</h3><p>' + esc(tx(ref.description)) + '</p>' +
+      '<ul class="learning-list">' + ref.rules.map(function (rule) { return '<li>' + tx(rule.rule) + ' <span>' + esc(tx(rule.example)) + '</span></li>'; }).join("") + '</ul>' +
       '<div class="example-grid">' + ref.contrastExamples.map(function (e) {
-        return '<article class="example-card"><b>' + esc(e.sv) + '</b><span>' + esc(e.en) + '</span><em>' + esc(e.note) + '</em></article>';
+        return '<article class="example-card"><b>' + esc(e.sv) + '</b><span>' + esc(tx(e.en)) + '</span><em>' + esc(tx(e.note)) + '</em></article>';
       }).join("") + '</div></section>' +
       ['demonstrative', 'interrogative', 'indefinite'].map(function (key) {
         var section = pronouns[key];
-        return '<section class="learning-section"><h3>' + esc(section.title) + '</h3><div class="learning-grid">' +
+        return '<section class="learning-section"><h3>' + esc(tx(section.title)) + '</h3><div class="learning-grid">' +
           section.rows.map(function (row) {
             var sv = row.sv || row[0], en = row.en || row[1], example = row.example || row[2];
-            return '<article class="learning-card"><h4>' + esc(sv) + '</h4><p>' + esc(en) + '</p><span>' + esc(example) + '</span></article>';
+            return '<article class="learning-card"><h4>' + esc(sv) + '</h4><p>' + esc(tx(en)) + '</p><span>' + esc(example) + '</span></article>';
           }).join("") + '</div></section>';
       }).join("");
   }
@@ -695,37 +799,37 @@
       }).join("") + '</div>';
     }
     function renderNotes(notes) {
-      return notes && notes.length ? '<ul class="learning-list">' + notes.map(function (note) { return '<li>' + note + '</li>'; }).join("") + '</ul>' : '';
+      return notes && notes.length ? '<ul class="learning-list">' + notes.map(function (note) { return '<li>' + tx(note) + '</li>'; }).join("") + '</ul>' : '';
     }
-    learningContainer.innerHTML = learningHeader(numbers.title, numbers.description) +
-      '<section class="learning-section"><h3>' + esc(numbers.cardinals.title) + '</h3>' + renderPairs(numbers.cardinals.numbers) + renderNotes(numbers.cardinals.notes) + '</section>' +
-      '<section class="learning-section"><h3>' + esc(numbers.ordinals.title) + '</h3>' + renderPairs(numbers.ordinals.numbers) + renderNotes(numbers.ordinals.notes) + '</section>' +
-      '<section class="learning-section"><h3>' + esc(numbers.time.title) + '</h3><p>' + esc(numbers.time.description) + '</p>' +
-      renderLearningTable(["Tid", "Svenska", "English"], numbers.time.examples.map(function (e) { return [e.time, e.sv, e.en]; })) + renderNotes(numbers.time.warnings) + '</section>' +
+    learningContainer.innerHTML = learningHeader(t("tabNumbers"), tx(numbers.description)) +
+      '<section class="learning-section"><h3>' + t("cardinals") + '</h3>' + renderPairs(numbers.cardinals.numbers) + renderNotes(numbers.cardinals.notes) + '</section>' +
+      '<section class="learning-section"><h3>' + t("ordinals") + '</h3>' + renderPairs(numbers.ordinals.numbers) + renderNotes(numbers.ordinals.notes) + '</section>' +
+      '<section class="learning-section"><h3>' + t("time") + '</h3><p>' + esc(tx(numbers.time.description)) + '</p>' +
+      renderLearningTable([t("timeLabel"), "Svenska", t("englishLabel")], numbers.time.examples.map(function (e) { return [e.time, e.sv, tx(e.en)]; })) + renderNotes(numbers.time.warnings) + '</section>' +
       ['days', 'months', 'seasons'].map(function (key) {
         var section = numbers[key];
-        return '<section class="learning-section"><h3>' + esc(section.title) + '</h3>' + renderPairs(section.items.map(function (item) {
-          return [item.sv, item.en + (item.period ? " · " + item.period : "")];
+        return '<section class="learning-section"><h3>' + esc(tx(section.title)) + '</h3>' + renderPairs(section.items.map(function (item) {
+          return [item.sv, tx(item.en) + (item.period ? " · " + tx(item.period) : "")];
         })) + renderNotes(section.notes) + '</section>';
       }).join("") +
-      '<section class="learning-section"><h3>' + esc(numbers.dateFormat.title) + '</h3>' + renderNotes(numbers.dateFormat.rules) + '</section>';
+      '<section class="learning-section"><h3>' + esc(tx(numbers.dateFormat.title)) + '</h3>' + renderNotes(numbers.dateFormat.rules) + '</section>';
   }
 
   function renderFalseFriends() {
     var list = window.ORDKOMPIS_FALSEFRIENDS || [];
     if (!learningContainer) return;
-    var html = '<div class="section-header"><h2>Vanliga fällor (False Friends)</h2><p>Ord som ser engelska ut men betyder något annat på svenska.</p></div>';
+    var html = '<div class="section-header"><h2>' + t("tabFalseFriends") + '</h2><p>' + t("falseFriendsDesc") + '</p></div>';
     if (list.length === 0) {
-      html += '<div class="notice">Inga fällor tillagda ännu.</div>';
+      html += '<div class="notice">' + t("noItemsYet") + '</div>';
     } else {
       html += '<div class="lesson-grid">';
       list.forEach(function (item) {
         html += '<article class="lesson-card">' +
-          '<h3>' + esc(item.sv) + ' ' + speakerButton(item.sv, "Lyssna på ordet") + '</h3>' +
-          '<p style="margin:6px 0"><b>Betydelse:</b> ' + esc(item.actualSv) + '</p>' +
-          '<p style="margin:6px 0;color:var(--muted)"><b>Förklaring:</b> ' + esc(item.explanation) + '</p>' +
-          (item.exampleSv ? '<p style="margin:10px 0 4px"><b>Exempel:</b> ' + esc(item.exampleSv) + ' ' + speakerButton(item.exampleSv) + '</p>' : '') +
-          (item.exampleEn ? '<p style="margin:4px 0;color:var(--muted)">' + esc(item.exampleEn) + '</p>' : '') +
+          '<h3>' + esc(item.sv) + ' ' + speakerButton(item.sv, t("listenWord")) + '</h3>' +
+          '<p style="margin:6px 0"><b>' + t("actuallyMeans") + ':</b> ' + esc(tx(item.actualSv)) + '</p>' +
+          '<p style="margin:6px 0;color:var(--muted)"><b>' + t("explanation") + ':</b> ' + esc(tx(item.explanation)) + '</p>' +
+          (item.exampleSv ? '<p style="margin:10px 0 4px"><b>' + t("exampleSwedish") + ':</b> ' + esc(item.exampleSv) + ' ' + speakerButton(item.exampleSv) + '</p>' : '') +
+          (item.exampleEn ? '<p style="margin:4px 0;color:var(--muted)">' + esc(tx(item.exampleEn)) + '</p>' : '') +
           '</article>';
       });
       html += '</div>';
@@ -736,18 +840,18 @@
   function renderIdioms() {
     var list = window.ORDKOMPIS_IDIOMS || [];
     if (!learningContainer) return;
-    var html = '<div class="section-header"><h2>Idiom & Uttryck</h2><p>Vanliga svenska uttryck med betydelse och exempel.</p></div>';
+    var html = '<div class="section-header"><h2>' + t("tabIdioms") + '</h2><p>' + t("idiomsDesc") + '</p></div>';
     if (list.length === 0) {
-      html += '<div class="notice">Inga uttryck tillagda ännu.</div>';
+      html += '<div class="notice">' + t("noItemsYet") + '</div>';
     } else {
       html += '<div class="lesson-grid">';
       list.forEach(function (item) {
         html += '<article class="lesson-card">' +
-          '<h3>' + esc(item.sv) + ' ' + speakerButton(item.sv, "Lyssna på uttrycket") + '</h3>' +
-          '<p style="margin:6px 0;color:var(--muted)"><b>Bokstavligt:</b> ' + esc(item.literal) + '</p>' +
-          '<p style="margin:6px 0"><b>Betydelse på engelska:</b> ' + esc(item.en) + '</p>' +
-          (item.exampleSv ? '<p style="margin:10px 0 4px"><b>Exempel:</b> ' + esc(item.exampleSv) + ' ' + speakerButton(item.exampleSv) + '</p>' : '') +
-          (item.exampleEn ? '<p style="margin:4px 0;color:var(--muted)">' + esc(item.exampleEn) + '</p>' : '') +
+          '<h3>' + esc(item.sv) + ' ' + speakerButton(item.sv, t("listenWord")) + '</h3>' +
+          '<p style="margin:6px 0;color:var(--muted)"><b>' + t("literal") + ':</b> ' + esc(tx(item.literal)) + '</p>' +
+          '<p style="margin:6px 0"><b>' + t("translationLabel") + ':</b> ' + esc(tx(item.en)) + '</p>' +
+          (item.exampleSv ? '<p style="margin:10px 0 4px"><b>' + t("exampleSwedish") + ':</b> ' + esc(item.exampleSv) + ' ' + speakerButton(item.exampleSv) + '</p>' : '') +
+          (item.exampleEn ? '<p style="margin:4px 0;color:var(--muted)">' + esc(tx(item.exampleEn)) + '</p>' : '') +
           '</article>';
       });
       html += '</div>';
@@ -756,46 +860,46 @@
   }
 
   function renderPhraseCards(title, description, entries, termLabel) {
-    learningContainer.innerHTML = learningHeader(title, description) +
+    learningContainer.innerHTML = learningHeader(t(title) || title, t(description) || description) +
       '<div class="learning-grid">' + entries.map(function (entry) {
         return '<article class="learning-card"><div class="learning-card-heading"><h3>' +
-          esc(entry.phrase) + ' ' + speakerButton(entry.phrase, "Lyssna på uttrycket") +
-          '</h3><span>' + esc(entry.meaning) + '</span></div>' +
+          esc(entry.phrase) + ' ' + speakerButton(entry.phrase, t('listenPhrase') || "Lyssna på uttrycket") +
+          '</h3><span>' + esc(tx(entry.meaning)) + '</span></div>' +
           (entry.pattern ? '<p class="phrase-pattern"><b>' + esc(termLabel) + ':</b> ' + esc(entry.pattern) + '</p>' : '') +
           '<div class="phrase-example"><p class="sv-highlight">' + esc(entry.exampleSv) + ' ' +
-          speakerButton(entry.exampleSv, "Lyssna på exempel") + '</p>' +
-          '<p>' + esc(entry.exampleEn) + '</p></div>' +
-          (entry.note ? '<p class="phrase-note">' + esc(entry.note) + '</p>' : '') +
+          speakerButton(entry.exampleSv, t('listenExample')) + '</p>' +
+          '<p>' + esc(tx(entry.exampleEn)) + '</p></div>' +
+          (entry.note ? '<p class="phrase-note">' + esc(tx(entry.note)) + '</p>' : '') +
           '</article>';
       }).join("") + '</div>';
   }
 
   function renderCollocations() {
     renderPhraseCards(
-      "Kollokationer",
-      "Ord som ofta förekommer tillsammans. Lär dig hela uttrycket för att låta mer naturlig på svenska.",
+      "tabCollocations",
+      "collocationsDesc",
       collocations,
-      "Mönster"
+      t("pattern") || "Mönster"
     );
   }
 
   function renderPrepositionalVerbs() {
     renderPhraseCards(
-      "Verb + preposition",
-      "Prepositionen hör ihop med verbet och påverkar uttryckets betydelse. Lär dig kombinationen tillsammans med exemplet.",
+      "tabPrepositionalVerbs",
+      "prepositionalVerbsDesc",
       prepositionalVerbs,
-      "Användning"
+      t("usage") || "Användning"
     );
   }
 
   function renderPhrases() {
     if (!phrases) return;
-    learningContainer.innerHTML = learningHeader(phrases.title, phrases.description) +
+    learningContainer.innerHTML = learningHeader(t("tabPhrases"), t("phrasesDesc") || "") +
       phrases.categories.map(function (category) {
-        return '<section class="learning-section"><h3>' + esc((category.icon || "") + " " + category.title) + '</h3><div class="learning-grid">' +
+        return '<section class="learning-section"><h3>' + esc(gloss("phrases", (category.title || ""), (category.icon || "") + " " + category.title)) + '</h3><div class="learning-grid">' +
           category.phrases.map(function (phrase) {
-            return '<article class="learning-card"><h4>' + esc(phrase.sv) + ' ' + speakerButton(phrase.sv, "Lyssna på fras") + '</h4><p>' + esc(phrase.en) + '</p>' +
-              (phrase.note ? '<span>' + esc(phrase.note) + '</span>' : '') + '</article>';
+            return '<article class="learning-card"><h4>' + esc(phrase.sv) + ' ' + speakerButton(phrase.sv, t("listenPhrase")) + '</h4><p>' + esc(tx(phrase.en)) + '</p>' +
+              (phrase.note ? '<span>' + esc(tx(phrase.note)) + '</span>' : '') + '</article>';
           }).join("") + '</div></section>';
       }).join("");
   }
@@ -814,7 +918,19 @@
       commonMistakes: renderCommonMistakes,
       subordinators: renderSubordinators
     };
-    if (renderers[tabId]) renderers[tabId]();
+    if (renderers[tabId]) {
+      if (tabId === "prepositions") renderPrepositions();
+      else if (tabId === "wordorder") renderWordOrder();
+      else if (tabId === "pronouns") renderPronouns();
+      else if (tabId === "numbers") renderNumbers();
+      else if (tabId === "phrases") renderPhrases();
+      else if (tabId === "idioms") renderIdioms();
+      else if (tabId === "falsefriends") renderFalseFriends();
+      else if (tabId === "collocations") renderCollocations();
+      else if (tabId === "prepositionalVerbs") renderPrepositionalVerbs();
+      else if (tabId === "commonMistakes") renderCommonMistakes();
+      else if (tabId === "subordinators") renderSubordinators();
+    }
   }
 
   // --- QUIZ FEATURE ---
@@ -836,19 +952,19 @@
     currentQuizNoun = nouns[randomIdx];
 
     quizContainer.innerHTML =
-      '<div class="section-header"><h2>Quiz: En eller Ett?</h2><p>Gissa rätt artikel för substantivet.</p></div>' +
+      '<div class="section-header"><h2>' + t("quizModeEnEtt") + '</h2><p>' + t("quizModeEnEttDesc") + '</p></div>' +
       '<div class="quiz-card">' +
-      '<div class="quiz-question">En eller ett? · Välj rätt artikel:</div>' +
+      '<div class="quiz-question">' + t("quizEnEttQuestion") + '</div>' +
       '<div class="quiz-word">' + esc(currentQuizNoun[0]) + ' ' + speakerButton(currentQuizNoun[0]) + '</div>' +
-      '<div style="color:var(--muted); font-size:15px; margin-bottom:12px;">Betydelse: ' + esc(currentQuizNoun[6]) + '</div>' +
+      '<div style="color:var(--muted); font-size:15px; margin-bottom:12px;">' + t("meaning") + ': ' + esc(gloss("nouns", currentQuizNoun[0], currentQuizNoun[6])) + '</div>' +
       '<div class="quiz-options">' +
       '<button type="button" class="quiz-btn en-opt" data-choice="en">en ' + esc(currentQuizNoun[0]) + '</button>' +
       '<button type="button" class="quiz-btn ett-opt" data-choice="ett">ett ' + esc(currentQuizNoun[0]) + '</button>' +
       '</div>' +
       '<div id="quizFeedback" class="quiz-feedback"></div>' +
-      '<div class="quiz-stats" style="margin-top:10px;color:var(--muted);font-size:13px;">Rätt: ' + quizStats.correct + ' / ' + quizStats.total + '</div>' +
-      '<button type="button" id="nextQuizBtn" class="go-btn" style="margin-top:14px; display:none;">Nästa ord →</button>' +
-      '<button type="button" id="backToQuizMenuFromGame" class="link-btn" style="margin-top:10px; display:block;">Tillbaka till quizval</button>' +
+      '<div class="quiz-stats" style="margin-top:10px;color:var(--muted);font-size:13px;">' + t("quizStats") + ' ' + quizStats.correct + ' / ' + quizStats.total + '</div>' +
+      '<button type="button" id="nextQuizBtn" class="go-btn" style="margin-top:14px; display:none;">' + t("nextQuiz") + '</button>' +
+      '<button type="button" id="backToQuizMenuFromGame" class="link-btn" style="margin-top:10px; display:block;">' + t("backToMenu") + '</button>' +
       '</div>';
   }
 
@@ -870,7 +986,7 @@
       var tmp = choices[j]; choices[j] = choices[k]; choices[k] = tmp;
     }
     quizContainer.innerHTML =
-      '<div class="section-header"><h2>Quiz: Svenska → Engelska</h2><p>Välj rätt engelsk översättning.</p></div>' +
+      '<div class="section-header"><h2>' + t("quizModeSvEn") + '</h2><p>' + t("quizModeSvEnDesc") + '</p></div>' +
       '<div class="quiz-card">' +
       '<div class="quiz-word">' + esc(noun[4] + " " + noun[0]) + ' ' + speakerButton(noun[0]) + '</div>' +
       '<div class="quiz-options column">' +
@@ -879,9 +995,9 @@
       }).join('') +
       '</div>' +
       '<div id="quizFeedback" class="quiz-feedback"></div>' +
-      '<div class="quiz-stats" style="margin-top:10px;color:var(--muted);font-size:13px;">Rätt: ' + quizStats.correct + ' / ' + quizStats.total + '</div>' +
-      '<button type="button" id="nextQuizBtn" class="go-btn" style="margin-top:14px; display:none;">Nästa →</button>' +
-      '<button type="button" id="backToQuizMenuFromGame" class="link-btn" style="margin-top:10px; display:block;">Tillbaka till quizval</button>' +
+      '<div class="quiz-stats" style="margin-top:10px;color:var(--muted);font-size:13px;">' + t("quizStats") + ' ' + quizStats.correct + ' / ' + quizStats.total + '</div>' +
+      '<button type="button" id="nextQuizBtn" class="go-btn" style="margin-top:14px; display:none;">' + t("nextQuiz") + '</button>' +
+      '<button type="button" id="backToQuizMenuFromGame" class="link-btn" style="margin-top:10px; display:block;">' + t("backToMenu") + '</button>' +
       '</div>';
     quizContainer._quiz = { type: "sv-en", answer: correct, noun: noun };
   }
@@ -905,7 +1021,7 @@
       var tmp = choices[j]; choices[j] = choices[k]; choices[k] = tmp;
     }
     quizContainer.innerHTML =
-      '<div class="section-header"><h2>Quiz: Engelska → Svenska</h2><p>Välj rätt svenskt ord med artikel.</p></div>' +
+      '<div class="section-header"><h2>' + t("quizModeEnSv") + '</h2><p>' + t("quizModeEnSvDesc") + '</p></div>' +
       '<div class="quiz-card">' +
       '<div class="quiz-word">' + esc(en) + '</div>' +
       '<div class="quiz-options column">' +
@@ -914,9 +1030,9 @@
       }).join('') +
       '</div>' +
       '<div id="quizFeedback" class="quiz-feedback"></div>' +
-      '<div class="quiz-stats" style="margin-top:10px;color:var(--muted);font-size:13px;">Rätt: ' + quizStats.correct + ' / ' + quizStats.total + '</div>' +
-      '<button type="button" id="nextQuizBtn" class="go-btn" style="margin-top:14px; display:none;">Nästa →</button>' +
-      '<button type="button" id="backToQuizMenuFromGame" class="link-btn" style="margin-top:10px; display:block;">Tillbaka till quizval</button>' +
+      '<div class="quiz-stats" style="margin-top:10px;color:var(--muted);font-size:13px;">' + t("quizStats") + ' ' + quizStats.correct + ' / ' + quizStats.total + '</div>' +
+      '<button type="button" id="nextQuizBtn" class="go-btn" style="margin-top:14px; display:none;">' + t("nextQuiz") + '</button>' +
+      '<button type="button" id="backToQuizMenuFromGame" class="link-btn" style="margin-top:10px; display:block;">' + t("backToMenu") + '</button>' +
       '</div>';
     quizContainer._quiz = { type: "en-sv", answer: correct };
   }
@@ -933,11 +1049,11 @@
           quizStats.correct++;
           feedbackEl.style.background = "var(--surface-2)";
           feedbackEl.style.color = "var(--primary)";
-          feedbackEl.innerHTML = '🎉 <b>Rätt!</b>';
+          feedbackEl.innerHTML = '🎉 <b>' + t("quizCorrect") + '</b>';
         } else {
           feedbackEl.style.background = "var(--warn-bg)";
           feedbackEl.style.color = "var(--warn-fg)";
-          feedbackEl.innerHTML = '❌ <b>Fel.</b> Rätt svar: <b>' + esc(quizContainer._quiz.answer) + '</b>';
+          feedbackEl.innerHTML = '❌ <b>' + t("quizWrong") + '.</b> ' + t("quizCorrectAnswer") + ': <b>' + esc(quizContainer._quiz.answer) + '</b>';
         }
       }
       var qbtns = quizContainer.querySelectorAll(".quiz-btn");
@@ -954,11 +1070,11 @@
         quizStats.correct++;
         feedbackEl.style.background = "var(--surface-2)";
         feedbackEl.style.color = "var(--primary)";
-        feedbackEl.innerHTML = '🎉 <b>Rätt!</b> Det heter <b>' + esc(currentQuizNoun[4] + " " + currentQuizNoun[0]) + '</b> (' + esc(currentQuizNoun[5]) + '). Plural: <em>' + esc(currentQuizNoun[2]) + '</em>.';
+        feedbackEl.innerHTML = '🎉 <b>' + t("quizCorrect") + '!</b> ' + t("quizWordIs") + ' <b>' + esc(currentQuizNoun[4] + " " + currentQuizNoun[0]) + '</b> (' + esc(currentQuizNoun[5]) + '). ' + t("quizPluralIs") + ' <em>' + esc(currentQuizNoun[2]) + '</em>.';
       } else {
         feedbackEl.style.background = "var(--warn-bg)";
         feedbackEl.style.color = "var(--warn-fg)";
-        feedbackEl.innerHTML = '❌ <b>Inte riktigt!</b> Det heter <b>' + esc(currentQuizNoun[4] + " " + currentQuizNoun[0]) + '</b>. Pluralformen är <em>' + esc(currentQuizNoun[2]) + '</em>.';
+        feedbackEl.innerHTML = '❌ <b>' + t("quizNotQuite") + '!</b> ' + t("quizWordIs") + ' <b>' + esc(currentQuizNoun[4] + " " + currentQuizNoun[0]) + '</b>. ' + t("quizPluralFormIs") + ' <em>' + esc(currentQuizNoun[2]) + '</em>.';
       }
     }
 
@@ -1006,30 +1122,30 @@
 
     // Configure the searchable word lists.
     if (tabId === "verbs") {
-      searchLabel.textContent = "Sök svenskt verb";
-      searchInput.placeholder = "skriva, gå, arbeta, write…";
-      searchHint.innerHTML = "Sök på grundform (skriva), böjd form (skrev) eller engelska (write).";
-      sectionTitle.textContent = "Vanliga verb att utforska";
+      searchLabel.textContent = t("searchLabelVerbs");
+      searchInput.placeholder = t("searchPlaceholderVerbs");
+      updateSearchHint();
+      sectionTitle.textContent = t("sectionTitleVerbs");
       fillChips(["vara", "ha", "göra", "gå", "komma", "äta", "skriva", "läsa", "arbeta", "lära sig", "tycka om", "bli"]);
-      searchInput.setAttribute("aria-label", "Sök verb på svenska eller engelska");
+      searchInput.setAttribute("aria-label", t("ariaLabelVerbs"));
       renderBrowseList();
       executeSearch("skriva");
     } else if (tabId === "nouns") {
-      searchLabel.textContent = "Sök substantiv (En / Ett & Plural)";
-      searchInput.placeholder = "bil, flicka, äpple, hus, book…";
-      searchHint.innerHTML = "Sök singular, plural, bestämd form eller engelska för att se alla 4 formerna.";
-      sectionTitle.textContent = "Vanliga substantiv & böjningsgrupper";
+      searchLabel.textContent = t("searchLabelNouns");
+      searchInput.placeholder = t("searchPlaceholderNouns");
+      updateSearchHint();
+      sectionTitle.textContent = t("sectionTitleNouns");
       fillChips(["bil", "flicka", "äpple", "hus", "katt", "barn", "bok", "stad", "tid", "jobb"]);
-      searchInput.setAttribute("aria-label", "Sök substantiv på svenska eller engelska");
+      searchInput.setAttribute("aria-label", t("ariaLabelNouns"));
       renderBrowseList();
       executeSearch("bil");
     } else if (tabId === "adjectives") {
-      searchLabel.textContent = "Sök adjektiv";
-      searchInput.placeholder = "stor, större, beautiful…";
-      searchHint.textContent = "Sök grundform, böjd form eller engelsk betydelse.";
-      sectionTitle.textContent = "Adjektiv att utforska";
+      searchLabel.textContent = t("searchLabelAdjectives");
+      searchInput.placeholder = t("searchPlaceholderAdjectives");
+      updateSearchHint();
+      sectionTitle.textContent = t("sectionTitleAdjectives");
       fillChips(["stor", "bra", "fin", "liten", "glad", "snabb", "gammal", "viktig"]);
-      searchInput.setAttribute("aria-label", "Sök adjektiv på svenska eller engelska");
+      searchInput.setAttribute("aria-label", t("ariaLabelAdjectives"));
       renderBrowseList();
       executeSearch("stor");
     } else if (tabId === "themes") {
@@ -1041,11 +1157,11 @@
       quizStats = { correct: 0, total: 0 };
       if (quizContainer) {
         quizContainer.innerHTML =
-          '<div class="section-header"><h2>Öva</h2><p>Välj quizläge för att träna.</p></div>' +
+          '<div class="section-header"><h2>' + t("quizTitle") + '</h2><p>' + t("quizSubtitle") + '</p></div>' +
           '<div class="quiz-mode-grid">' +
-          '<button type="button" class="quiz-mode-btn" data-quiz-mode="en-ett"><strong>En / Ett</strong><span>Gissa rätt artikel</span></button>' +
-          '<button type="button" class="quiz-mode-btn" data-quiz-mode="sv-en"><strong>Svenska → Engelska</strong><span>Översätt till engelska</span></button>' +
-          '<button type="button" class="quiz-mode-btn" data-quiz-mode="en-sv"><strong>Engelska → Svenska</strong><span>Hitta svenskt ord</span></button>' +
+          '<button type="button" class="quiz-mode-btn" data-quiz-mode="en-ett"><strong>' + t("quizModeEnEtt") + '</strong><span>' + t("quizModeEnEttDesc") + '</span></button>' +
+          '<button type="button" class="quiz-mode-btn" data-quiz-mode="sv-en"><strong>' + t("quizModeSvEn") + '</strong><span>' + t("quizModeSvEnDesc") + '</span></button>' +
+          '<button type="button" class="quiz-mode-btn" data-quiz-mode="en-sv"><strong>' + t("quizModeEnSv") + '</strong><span>' + t("quizModeEnSvDesc") + '</span></button>' +
           '</div>';
       }
     } else {
@@ -1257,7 +1373,7 @@
         wordOrderPracticeComplete = true;
       } else {
         var feedback = learningContainer.querySelector(".order-feedback");
-        if (feedback) feedback.textContent = "Inte riktigt ännu. Flytta ett ord genom att trycka på det i ditt svar, eller börja om.";
+        if (feedback) feedback.textContent = t('notYetRight');
       }
       renderWordOrder();
       if (!isCorrectOrder) {
@@ -1325,11 +1441,11 @@
     // Back to quiz menu
     if (e.target.closest("#backToQuizMenuFromGame")) {
       quizContainer.innerHTML =
-        '<div class="section-header"><h2>Öva</h2><p>Välj quizläge för att träna.</p></div>' +
+        '<div class="section-header"><h2>Öva</h2><p>' + t('quizMenuDesc') + '</p></div>' +
         '<div class="quiz-mode-grid">' +
-        '<button type="button" class="quiz-mode-btn" data-quiz-mode="en-ett"><strong>En / Ett</strong><span>Gissa rätt artikel</span></button>' +
-        '<button type="button" class="quiz-mode-btn" data-quiz-mode="sv-en"><strong>Svenska → Engelska</strong><span>Översätt till engelska</span></button>' +
-        '<button type="button" class="quiz-mode-btn" data-quiz-mode="en-sv"><strong>Engelska → Svenska</strong><span>Hitta svenskt ord</span></button>' +
+        '<button type="button" class="quiz-mode-btn" data-quiz-mode="en-ett"><strong>' + t('quizModeEnEtt') + '</strong><span>' + t('quizModeEnEttDesc') + '</span></button>' +
+        '<button type="button" class="quiz-mode-btn" data-quiz-mode="sv-en"><strong>' + t('quizModeSvEn') + '</strong><span>' + t('quizModeSvEnDesc') + '</span></button>' +
+        '<button type="button" class="quiz-mode-btn" data-quiz-mode="en-sv"><strong>' + t('quizModeEnSv') + '</strong><span>' + t('quizModeEnSvDesc') + '</span></button>' +
         '</div>';
       return;
     }
@@ -1371,6 +1487,15 @@
     ffBtn.innerHTML = '<span class="tab-icon">⚠️</span><span class="nav-label">Vanliga fällor</span>';
     moreMenuEl.appendChild(ffBtn);
   }
+
+  var langSwitch = document.getElementById("langSwitch");
+  if (langSwitch) langSwitch.addEventListener("click", function (e) {
+    var langBtn = e.target.closest ? e.target.closest("[data-lang]") : null;
+    if (langBtn) setLanguage(langBtn.getAttribute("data-lang"));
+  });
+  applyLanguageDirection();
+  renderLanguageSwitch();
+  applyStaticTexts();
 
   switchTab("verbs");
 
