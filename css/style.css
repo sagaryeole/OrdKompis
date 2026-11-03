@@ -1562,7 +1562,28 @@ footer.band {
   }
 }
 
-/* Learner-language switcher (flag + native language name) */
+/* Learner-language dropdown (flag + native language name) */
+.lang-select {
+  appearance: auto;
+  min-height: 40px;
+  max-width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-full);
+  background: var(--surface-2);
+  color: var(--fg);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.lang-select:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* Learner-language switcher (flag + native language name, pill version) */
 .lang-switch {
   display: flex;
   flex-wrap: wrap;

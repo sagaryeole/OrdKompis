@@ -355,13 +355,11 @@
     var box = document.getElementById("langSwitch");
     if (!box) return;
     box.setAttribute("aria-label", t("languageLabel"));
-    box.innerHTML = (i18n.languages || []).map(function (lang) {
-      var active = lang.code === currentLang;
-      return '<button type="button" class="lang-btn' + (active ? ' active' : '') + '" data-lang="' + esc(lang.code) +
-        '" aria-pressed="' + active + '" lang="' + esc(lang.code) + '">' +
-        '<span class="lang-flag" aria-hidden="true">' + lang.flag + '</span>' +
-        '<span class="lang-name">' + esc(lang.name) + '</span></button>';
-    }).join("");
+    box.innerHTML = '<select id="langSelect" class="lang-select" aria-label="' + esc(t("languageLabel")) + '">' +
+      (i18n.languages || []).map(function (lang) {
+        return '<option value="' + esc(lang.code) + '"' + (lang.code === currentLang ? ' selected' : '') + ' lang="' + esc(lang.code) + '">' +
+          lang.flag + ' ' + esc(lang.name) + '</option>';
+      }).join("") + '</select>';
   }
 
   function updateSearchHint() {
@@ -777,7 +775,7 @@
       '<section class="learning-section"><h3>' + esc(pronouns.personal.title) + '</h3>' +
       renderLearningTable(pronouns.personal.headers, pronouns.personal.rows.map(function (r) { return [tx(r[0])].concat(r.slice(1)); })) + '</section>' +
       '<section class="learning-section"><h3>' + esc(ref.title) + '</h3><p>' + esc(tx(ref.description)) + '</p>' +
-      '<ul class="learning-list">' + ref.rules.map(function (rule) { return '<li>' + tx(rule.rule) + ' <span>' + esc(tx(rule.example)) + '</span></li>'; }).join("") + '</ul>' +
+      '<ul class="learning-list">' + ref.rules.map(function (rule) { return '<li>' + tx(rule.rule) + ' <span>' + tx(rule.example) + '</span></li>'; }).join("") + '</ul>' +
       '<div class="example-grid">' + ref.contrastExamples.map(function (e) {
         return '<article class="example-card"><b>' + esc(e.sv) + '</b><span>' + esc(tx(e.en)) + '</span><em>' + esc(tx(e.note)) + '</em></article>';
       }).join("") + '</div></section>' +
@@ -1489,9 +1487,8 @@
   }
 
   var langSwitch = document.getElementById("langSwitch");
-  if (langSwitch) langSwitch.addEventListener("click", function (e) {
-    var langBtn = e.target.closest ? e.target.closest("[data-lang]") : null;
-    if (langBtn) setLanguage(langBtn.getAttribute("data-lang"));
+  if (langSwitch) langSwitch.addEventListener("change", function (e) {
+    if (e.target && e.target.id === "langSelect") setLanguage(e.target.value);
   });
   applyLanguageDirection();
   renderLanguageSwitch();
