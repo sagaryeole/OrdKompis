@@ -80,6 +80,39 @@ window.ORDKOMPIS_I18N = {
       en: "Word Order", ar: "ترتيب الكلمات", pt: "Ordem das palavras", ru: "Порядок слов", uk: "Порядок слів"
     },
     tabPronouns: {
+      en: "Pronouns", ar: "الضمائر", pt: "Pronomes", ru: "Местоимения", uk: "Займенники"
+    },
+    tabNumbers: {
+      en: "Numbers & Time", ar: "الأرقام والوقت", pt: "Números e tempo", ru: "Числа и время", uk: "Числа та час"
+    },
+    tabPhrases: {
+      en: "Everyday Phrases", ar: "عبارات يومية", pt: "Frases do dia a dia", ru: "Повседневные фразы", uk: "Щоденні фрази"
+    },
+    tabIdioms: {
+      en: "Idioms & Expressions", ar: "الأمثال والتعبيرات", pt: "Expressões idiomáticas", ru: "Идиомы и выражения", uk: "Ідіоми та вирази"
+    },
+    tabFalseFriends: {
+      en: "False Friends", ar: "أصدقاء زائفون", pt: "Falsos cognatos", ru: "Ложные друзья переводчика", uk: "Хибні друзі перекладача"
+    },
+    tabCollocations: {
+      en: "Collocations", ar: "متلازمات لفظية", pt: "Colocações", ru: "Словосочетания", uk: "Сполучуваність слів"
+    },
+    tabPrepositionalVerbs: {
+      en: "Verb + Preposition", ar: "فعل + حرف جر", pt: "Verbo + preposição", ru: "Глагол + предлог", uk: "Дієслово + прийменник"
+    },
+    tabCommonMistakes: {
+      en: "Common Mistakes", ar: "أخطاء شائعة", pt: "Erros comuns", ru: "Типичные ошибки", uk: "Поширені помилки"
+    },
+    tabSubordinators: {
+      en: "Subordinators", ar: "أدوات الربط الفرعية", pt: "Conjunções subordinativas", ru: "Подчинительные союзы", uk: "Підрядні сполучники"
+    },
+    prepositionsTitle: {
+      en: "Prepositions", ar: "حروف الجر", pt: "Preposições", ru: "Предлоги", uk: "Прийменники"
+    },
+    prepositionsDesc: {
+      en: "Learn common meanings, expressions and differences between Swedish and English.", ar: "تعلم المعاني الشائعة والتعبيرات والاختلافات بين السويدية والإنجليزية.", pt: "Aprenda significados comuns, expressões e diferenças entre sueco e inglês.", ru: "Изучите распространённые значения, выражения и отличия от английского.", uk: "Вивчіть поширені значення, вирази та відмінності від англійської."
+    },
+    tabPronouns: {
       en: "Pronouns", ar: "ضمائر", pt: "Pronomes", ru: "Местоимения", uk: "Займенники"
     },
     tabNumbers: {
@@ -289,8 +322,26 @@ window.ORDKOMPIS_I18N = {
     actuallyMeans: {
       en: "Actually means", ar: "تعني بالفعل", pt: "Na verdade significa", ru: "На самом деле означает", uk: "Насправді означає"
     },
+    explanation: {
+      en: "Explanation", ar: "توضيح", pt: "Explicação", ru: "Пояснение", uk: "Пояснення"
+    },
     literal: {
       en: "Literally", ar: "حرفيًا", pt: "Literalmente", ru: "Буквально", uk: "Буквально"
+    },
+    pattern: {
+      en: "Pattern", ar: "نمط", pt: "Padrão", ru: "Шаблон", uk: "Шаблон"
+    },
+    usage: {
+      en: "Usage", ar: "الاستخدام", pt: "Uso", ru: "Употребление", uk: "Вживання"
+    },
+    collocationsDesc: {
+      en: "Words that often go together. Learn the whole expression to sound more natural in Swedish.", ar: "كلمات غالبًا ما تأتي معًا. تعلم التعبير كاملًا لتبدو أكثر طبيعية بالسويدية.", pt: "Palavras que costumam aparecer juntas. Aprenda a expressão inteira para soar mais natural em sueco.", ru: "Слова, которые часто употребляются вместе. Изучите выражение целиком, чтобы говорить естественнее.", uk: "Слова, що часто вживаються разом. Вивчіть вираз цілком, щоб говорити природніше."
+    },
+    prepositionalVerbsDesc: {
+      en: "The preposition belongs with the verb and affects meaning. Learn the combination with the example.", ar: "حرف الجر مرتبط بالفعل ويؤثر على المعنى. تعلم التركيبة مع المثال.", pt: "A preposição pertence ao verbo e afeta o significado. Aprenda a combinação com o exemplo.", ru: "Предлог связан с глаголом и влияет на значение. Изучите сочетание вместе с примером.", uk: "Прийменник пов'язаний із дієсловом і впливає на значення. Вивчіть поєднання разом із прикладом."
+    },
+    noItemsYet: {
+      en: "No items added yet.", ar: "لم تتم إضافة أي عناصر بعد.", pt: "Nenhum item adicionado ainda.", ru: "Элементы ещё не добавлены.", uk: "Елементи ще не додано."
     },
     falseFriendsDesc: {
       en: "Words that look English but mean something different in Swedish.", ar: "كلمات تبدو إنجليزية ولكن معناها مختلف في السويدية.", pt: "Palavras que parecem inglesas, mas significam algo diferente em sueco.", ru: "Слова, которые выглядят как английские, но означают что-то другое на шведском.", uk: "Слова, що виглядають як англійські, але мають інше значення на шведській."
@@ -336,7 +387,7 @@ window.ORDKOMPIS_I18N = {
     },
     quizPluralFormIs: {
       en: "The plural form is", ar: "صيغة الجمع هي", pt: "A forma plural é", ru: "Форма множественного числа:", uk: "Форма множини:"
-    }
+    },
     nounDeclensionGroup: {
       en: "Declension group", ar: "مجموعة التصريف", pt: "Grupo de declinação", ru: "Группа склонения", uk: "Група відмінювання"
     },

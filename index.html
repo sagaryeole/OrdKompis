@@ -62,10 +62,10 @@
           <span class="brand-dot"></span>
           OrdKompis · Svenska
         </div>
-        <span class="badge-tag">GitHub Pages Ready</span>
+        <span class="badge-tag" data-i18n="siteBadge">GitHub Pages Ready</span>
       </div>
-      <h1>Lär dig svenska.<br><span>Enkelt & interaktivt.</span></h1>
-      <p class="subtitle">Din personliga språkkompis för svensk grammatik, ord och uttryck i vardagen.</p>
+      <h1 data-i18n-html="heroTitle">Learn Swedish.<br><span>Simple &amp; interactive.</span></h1>
+      <p class="subtitle" data-i18n="heroSubtitle">Your personal language buddy for Swedish grammar, words and everyday expressions.</p>
       <!-- Learner language: meanings and helper text are shown in the selected language. -->
       <div class="lang-switch" id="langSwitch" role="group" aria-label="Language"></div>
     </div>
@@ -92,7 +92,7 @@
           </button>
         </div>
         <button type="button" class="nav-more" id="moreTopicsBtn" aria-expanded="false" aria-controls="moreTopicsMenu">
-          <span class="tab-icon" aria-hidden="true">•••</span><span class="nav-label">Mer</span>
+          <span class="tab-icon" aria-hidden="true">•••</span><span class="nav-label" data-i18n="navMore">Mer</span>
         </button>
         <div class="nav-more-menu" id="moreTopicsMenu" role="tablist" aria-label="Fler lärämnen" hidden>
           <button type="button" class="nav-tab" data-tab="themes" role="tab" aria-selected="false">
@@ -117,7 +117,7 @@
             <span class="tab-icon">🧩</span><span class="nav-label">Kollokationer</span>
           </button>
           <button type="button" class="nav-tab" data-tab="prepositionalVerbs" role="tab" aria-selected="false">
-            <span class="tab-icon">🔗</span><span class="nav-label">Verb + preposition</span>
+            <span class="tab-icon">🔗</span><span class="nav-label" data-i18n="navPrepVerbs">Verb + preposition</span>
           </button>
           <button type="button" class="nav-tab" data-tab="commonMistakes" role="tab" aria-selected="false">
             <span class="tab-icon">🧭</span><span class="nav-label">Vanliga misstag</span>
@@ -150,7 +150,7 @@
               >
               <ul class="sugg" id="suggBox" role="listbox" hidden></ul>
             </div>
-            <button class="go-btn" id="goBtn" type="button">Utforska</button>
+            <button class="go-btn" id="goBtn" type="button" data-i18n="explore">Utforska</button>
           </div>
           <p class="hint" id="searchHint">Sök på grundform (skriva), böjd form (skrev) eller engelska (write).</p>
           <div class="chips" id="quickChips"></div>
@@ -189,10 +189,10 @@
   <!-- Footer -->
   <footer class="band">
     <div class="inner">
-      <p style="margin: 0 0 8px;">
-        <b>OrdKompis</b> innehåller <span id="totalVerbCount">478</span> svenska verb, <span id="totalNounCount">139</span> substantiv och lektioner om adjektiv, prepositioner, ordföljd, pronomen, tal och vardagsfraser.
+      <p style="margin: 0 0 8px;" data-i18n-html="footerStats">
+        <b>OrdKompis</b> contains <span id="totalVerbCount">478</span> Swedish verbs, <span id="totalNounCount">139</span> nouns and lessons on adjectives, prepositions, word order, pronouns, numbers and everyday phrases.
       </p>
-      <p style="margin: 0; font-size: 12px; color: var(--muted);">
+      <p style="margin: 0; font-size: 12px; color: var(--muted);" data-i18n="footerBuilt">
         Byggd med ren HTML, modern CSS och Vanilla JavaScript utan externa beroenden — 100% kompatibel med GitHub Pages och mobil Safari på iPhone.
       </p>
     </div>
@@ -217,10 +217,19 @@
 
   <!-- Interface languages and learner-language meanings -->
   <script src="data/i18n/ui.js"></script>
+  <script src="data/i18n/ui-more.js"></script>
   <script src="data/i18n/glosses-ar.js"></script>
   <script src="data/i18n/glosses-pt.js"></script>
   <script src="data/i18n/glosses-ru.js"></script>
   <script src="data/i18n/glosses-uk.js"></script>
+  <script src="data/i18n/pages-ar.js"></script>
+  <script src="data/i18n/pages-pt.js"></script>
+  <script src="data/i18n/pages-ru.js"></script>
+  <script src="data/i18n/pages-uk.js"></script>
+  <script src="data/i18n/examples-ar.js"></script>
+  <script src="data/i18n/examples-pt.js"></script>
+  <script src="data/i18n/examples-ru.js"></script>
+  <script src="data/i18n/examples-uk.js"></script>
 
   <!-- Application Controller Script -->
   <script src="js/app.js"></script>
